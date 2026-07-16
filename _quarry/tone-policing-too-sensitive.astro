@@ -1,0 +1,160 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { articlePageSchema, breadcrumbSchema, faqPageSchema, webPageSchema } from "../../utils/schema";
+
+const title = "You're Too Sensitive: Stop the Tone Trial";
+const description =
+  "Tone-policing and too-sensitive scripts for returning to the comment, behavior, or boundary without defending your whole reaction.";
+const canonical = "/guides/tone-policing-too-sensitive/";
+const faqs = [
+  {
+    question: "What is tone policing?",
+    answer:
+      "Tone policing is when the conversation moves from the issue you raised to the way you raised it, especially when tone becomes the reason the original behavior disappears."
+  },
+  {
+    question: "What should I say when someone says I am too sensitive?",
+    answer:
+      "Try: 'My sensitivity is not the issue. The comment is the issue.'"
+  },
+  {
+    question: "Can my tone matter and still not be the main issue?",
+    answer:
+      "Yes. You can repair tone without surrendering the original point: 'I can say it more calmly. The issue still needs to be addressed.'"
+  }
+];
+const jsonLd = [
+  webPageSchema({ title, description, path: canonical }),
+  articlePageSchema({ title, description, path: canonical, section: "Pillar Guide" }),
+  breadcrumbSchema([{ name: "Guides", path: "/guides/" }, { name: title, path: canonical }]),
+  ...(faqs.length ? [faqPageSchema(faqs, canonical)] : [])
+];
+const contentHtml = `
+<section class="manual-entry-section related-guide-links"><p class="section-label">Related Conflict Protocol pages</p><ul><li><a href="/situations/youre-too-sensitive-everyone-laughed/">You're too sensitive. Everyone laughed.</a></li><li><a href="/situations/they-make-your-tone-the-issue/">Your tone is the problem.</a></li><li><a href="/situations/tone-main-issue/">I can't listen when you use that tone.</a></li><li><a href="/articles/someone-says-youre-too-sensitive/">Too sensitive article</a></li><li><a href="/patterns-and-techniques/darvo/">DARVO</a></li></ul></section>
+<h2>Quick answer</h2>
+<p>When someone says you are too sensitive, the trap is defending the size of your reaction while the comment disappears.</p>
+<div class="copy-script-box"><p>"My sensitivity is not the issue. The comment is the issue."</p><button type="button" class="copy-line" data-copy="My sensitivity is not the issue. The comment is the issue.">Copy</button></div>
+<p>If tone is genuinely worth adjusting, sequence it after substance:</p>
+<div class="copy-script-box"><p>"I can say it more calmly. The issue still needs to be addressed."</p><button type="button" class="copy-line" data-copy="I can say it more calmly. The issue still needs to be addressed.">Copy</button></div>
+<h2>The tone trial</h2>
+<p>The tone trial starts when your delivery becomes the defendant and the original behavior leaves the room.</p>
+<p>You raise a joke, comment, broken agreement, or boundary. They answer with "too sensitive," "dramatic," "calm down," "everyone laughed," or "I cannot talk to you when you use that tone."</p>
+<p>Now you may feel pulled to prove you are calm enough, fun enough, rational enough, gentle enough, or not easily offended. That is the trial. The way out is sequence: tone can be discussed after the issue stays visible.</p>
+<h2>What tone policing is and what it is not</h2>
+<p>Not every comment about tone is manipulative. Tone can matter. If you shouted, insulted, mocked, or threatened, repair that.</p>
+<p>Tone policing becomes a pressure move when tone is used to avoid the original point entirely.</p>
+<p>The clean distinction is:</p>
+<ul><li>Good-faith tone feedback says, "Let's talk about this in a way we can both hear."</li><li>Tone policing says, "Because I dislike your tone, the issue you raised does not count."</li></ul>
+<h2>What to say</h2>
+<h3>When they say you are too sensitive</h3>
+<div class="copy-script-box"><p>"I am not debating whether I am too sensitive. I am talking about the comment."</p><button type="button" class="copy-line" data-copy="I am not debating whether I am too sensitive. I am talking about the comment.">Copy</button></div>
+<h3>When they say everyone laughed</h3>
+<div class="copy-script-box"><p>"I am not asking everyone to vote. I am telling you it did not work for me."</p><button type="button" class="copy-line" data-copy="I am not asking everyone to vote. I am telling you it did not work for me.">Copy</button></div>
+<h3>When they make tone the whole issue</h3>
+<div class="copy-script-box"><p>"We can discuss my tone after we address what happened."</p><button type="button" class="copy-line" data-copy="We can discuss my tone after we address what happened.">Copy</button></div>
+<h3>When you did come in too hot</h3>
+<div class="copy-script-box"><p>"I could have said that more calmly. The original point still matters."</p><button type="button" class="copy-line" data-copy="I could have said that more calmly. The original point still matters.">Copy</button></div>
+<h2>What to text back</h2>
+<p class="section-label">Short:</p>
+<div class="copy-script-box"><p>"The issue is the comment, not whether I am too sensitive."</p><button type="button" class="copy-line" data-copy="The issue is the comment, not whether I am too sensitive.">Copy</button></div>
+<p class="section-label">Warmer:</p>
+<div class="copy-script-box"><p>"I know you may have meant it lightly. I still want that kind of comment to stop."</p><button type="button" class="copy-line" data-copy="I know you may have meant it lightly. I still want that kind of comment to stop.">Copy</button></div>
+<p class="section-label">Firmer:</p>
+<div class="copy-script-box"><p>"I am not debating my reaction. Do not joke about that again."</p><button type="button" class="copy-line" data-copy="I am not debating my reaction. Do not joke about that again.">Copy</button></div>
+<p class="section-label">Do not send:</p>
+<div class="copy-script-box"><p>"My tone is fine. You are just avoiding responsibility."</p><button type="button" class="copy-line" data-copy="My tone is fine. You are just avoiding responsibility.">Copy</button></div>
+<p>That may be understandable, but it keeps the conversation inside the tone trial.</p>
+<h2>Wrong vs better</h2>
+<p class="section-label">Wrong:</p>
+<div class="copy-script-box"><p>"I am not too sensitive. Anyone would be upset. You are the one being rude."</p><button type="button" class="copy-line" data-copy="I am not too sensitive. Anyone would be upset. You are the one being rude.">Copy</button></div>
+<p class="section-label">Why it feeds the pressure:</p>
+<p>You are now auditioning for the correct emotional size instead of addressing the comment.</p>
+<p class="section-label">Better:</p>
+<div class="copy-script-box"><p>"My reaction is not the main issue. I want that comment to stop."</p><button type="button" class="copy-line" data-copy="My reaction is not the main issue. I want that comment to stop.">Copy</button></div>
+<p class="section-label">Why it works:</p>
+<p>It returns the conversation to behavior and next step.</p>
+<h2>If they push back</h2>
+<p><strong>They say:</strong> "You ruin the mood." <strong>You say:</strong> "The mood is not more important than the boundary."</p>
+<p><strong>They say:</strong> "You cannot take a joke." <strong>You say:</strong> "I am saying that joke does not work for me."</p>
+<p><strong>They say:</strong> "I cannot talk when you are like this." <strong>You say:</strong> "We can pause. I still want to return to the issue."</p>
+<p><strong>They say:</strong> "Calm down." <strong>You say:</strong> "I can lower my voice. The point remains."</p>
+<h2>A realistic escalation</h2>
+<ol><li><strong>You:</strong> I did not like being joked about in front of everyone.</li><li><strong>Them:</strong> You are too sensitive. Everyone laughed.</li><li><strong>You:</strong> I am not asking everyone to vote. I am telling you it did not work for me.</li><li><strong>Them:</strong> You always make things serious.</li><li><strong>You:</strong> I am not debating my personality. I want that comment to stop.</li><li><strong>Them:</strong> I cannot talk to you with this tone.</li><li><strong>You:</strong> I can say it more calmly. The issue still needs to be addressed.</li><li><strong>Them:</strong> Fine, whatever.</li><li><strong>You:</strong> I am going to pause here. The request is still: do not joke about that again.</li></ol>
+<h2>Scripts by situation</h2>
+<h3>With friends</h3>
+<div class="copy-script-box"><p>"I want to stay in the group. I do not want that joke aimed at me again."</p><button type="button" class="copy-line" data-copy="I want to stay in the group. I do not want that joke aimed at me again.">Copy</button></div>
+<h3>With family</h3>
+<div class="copy-script-box"><p>"You may see it as harmless. I am saying I want it to stop."</p><button type="button" class="copy-line" data-copy="You may see it as harmless. I am saying I want it to stop.">Copy</button></div>
+<h3>At work</h3>
+<div class="copy-script-box"><p>"I can receive feedback. I need it about the work, not my personality."</p><button type="button" class="copy-line" data-copy="I can receive feedback. I need it about the work, not my personality.">Copy</button></div>
+<h2>When the script fails</h2>
+<p>If they keep rating your reaction:</p>
+<div class="copy-script-box"><p>"I am not debating the size of my reaction."</p><button type="button" class="copy-line" data-copy="I am not debating the size of my reaction.">Copy</button></div>
+<p>If they demand a softer tone before addressing anything:</p>
+<div class="copy-script-box"><p>"I can soften the delivery. I am not dropping the point."</p><button type="button" class="copy-line" data-copy="I can soften the delivery. I am not dropping the point.">Copy</button></div>
+<p>If they mock the boundary:</p>
+<div class="copy-script-box"><p>"This is no longer useful. I am stopping here."</p><button type="button" class="copy-line" data-copy="This is no longer useful. I am stopping here.">Copy</button></div>
+<p>If this pattern is part of fear, control, retaliation, or public humiliation, focus on safety, documentation, and support instead of winning the live exchange.</p>
+<h2>How to practice this</h2>
+<p>Practice the sequence line until it is available under stress:</p>
+<div class="copy-script-box"><p>"Tone after issue."</p><button type="button" class="copy-line" data-copy="Tone after issue.">Copy</button></div>
+<p>Then expand it:</p>
+<div class="copy-script-box"><p>"We can talk about tone after we address the issue."</p><button type="button" class="copy-line" data-copy="We can talk about tone after we address the issue.">Copy</button></div>
+<p>The rep is not denying tone. It is refusing to let tone become the only admissible topic.</p>
+<h2>Common mistakes</h2>
+<ul><li>Trying to prove you are not sensitive.</li><li>Denying tone when you actually do need to repair it.</li><li>Using "tone policing" as the first accusation.</li><li>Letting the group vote on whether your boundary counts.</li><li>Dropping the original issue to restore the mood.</li></ul>
+<h2>FAQ</h2>
+<h3>What is tone policing?</h3>
+<p>Tone policing is when the conversation moves from the issue you raised to the way you raised it, especially when tone becomes the reason the original behavior disappears.</p>
+<h3>What should I say when someone says I am too sensitive?</h3>
+<p>Try: "My sensitivity is not the issue. The comment is the issue."</p>
+<h3>Can my tone matter and still not be the main issue?</h3>
+<p>Yes. You can repair tone without surrendering the original point: "I can say it more calmly. The issue still needs to be addressed."</p>
+<h2>Before you respond</h2>
+<p>Ask: do I need to repair delivery, or are they using delivery to erase the issue?</p>
+<p>If you need to repair delivery, do it briefly. Then return to the behavior.</p>
+<h2>The smallest usable version</h2>
+<p>If your mind goes blank, use:</p>
+<div class="copy-script-box"><p>"The comment is the issue."</p><button type="button" class="copy-line" data-copy="The comment is the issue.">Copy</button></div>
+<p>If they say tone:</p>
+<div class="copy-script-box"><p>"Tone after issue."</p><button type="button" class="copy-line" data-copy="Tone after issue.">Copy</button></div>
+<p>If they keep pushing:</p>
+<div class="copy-script-box"><p>"I am stopping here."</p><button type="button" class="copy-line" data-copy="I am stopping here.">Copy</button></div>
+<p>That is enough to leave the tone trial without giving a closing argument.</p>
+<h2>How this should feel</h2>
+<p>It may feel unsatisfying because the tone trial invites you to finally prove you are reasonable. But the strongest outcome is often smaller: the behavior stays named.</p>
+<p>You do not need a jury to approve your reaction before you can ask for a comment to stop.</p>
+<h2>Sources and further reading</h2>
+<p>Verified links for context and safety boundaries:</p>
+<ul><li><a href="https://dynamic.uoregon.edu/jjf/defineDARVO.html">Jennifer J. Freyd: DARVO definition</a></li><li><a href="https://www.thehotline.org/resources/what-is-gaslighting/">The National Domestic Violence Hotline: What is gaslighting?</a></li><li><a href="/situations/they-make-your-tone-the-issue/">Conflict Protocol: Your tone is the problem.</a></li></ul>
+`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} image="/assets/situations/tone-main-issue.webp" bodyClass="editorial-page pillar-guide-page" jsonLd={jsonLd}>
+  <article class="answer-page pillar-guide">
+    <header class="page-header shell">
+      <p class="eyebrow">Pillar guide</p>
+      <h1>{title}</h1>
+      <div class="answer-lead">
+        <p>{description}</p>
+      </div>
+    </header>
+
+    <div class="shell-narrow article-body" set:html={contentHtml} />
+
+    <script>
+      document.addEventListener("click", async (event) => {
+        const button = event.target instanceof HTMLElement ? event.target.closest("[data-copy]") : null;
+        if (!(button instanceof HTMLButtonElement)) return;
+        const text = button.dataset.copy || "";
+        if (!text) return;
+        await navigator.clipboard?.writeText(text);
+        const original = button.textContent;
+        button.textContent = "Copied";
+        window.setTimeout(() => {
+          button.textContent = original || "Copy";
+        }, 1400);
+      });
+    </script>
+  </article>
+</BaseLayout>

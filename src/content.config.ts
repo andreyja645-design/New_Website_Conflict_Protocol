@@ -25,7 +25,7 @@ const techniques = defineCollection({
     job: z.string(),
     risk: z.string(),
     countersPatterns: slugArray,
-    heroImage: z.string(),
+    heroImage: z.string().optional(),
     gameHook: z.string()
   })
 });

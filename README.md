@@ -24,39 +24,39 @@ Cloudflare Pages:
 
 ## V1 Sitemap Checklist
 
-Content migration progress: 3 done, 36 to go. Phase 1 also scaffolds the shell routes and indexes so the templates can be reviewed. The spec names utility pages too; those are listed after the counted 39-page checklist.
+Content migration progress: 27 of 39 content pages done: 14 patterns + 12 techniques + 1 Phase-1 situation. Phase 1 also scaffolds the shell routes and indexes so the templates can be reviewed. The spec names utility pages too; those are listed after the counted 39-page checklist.
 
 - [ ] `/`
 - [ ] `/start-here`
 - [ ] `/patterns/`
 - [ ] `/techniques/`
 - [ ] `/situations/`
-- [ ] `/patterns/guilt-trip/`
-- [ ] `/patterns/martyrdom/`
-- [ ] `/patterns/darvo/`
+- [x] `/patterns/guilt-trip/`
+- [x] `/patterns/martyrdom/`
+- [x] `/patterns/darvo/`
 - [x] `/patterns/gaslighting/`
-- [ ] `/patterns/triangulation/`
-- [ ] `/patterns/moving-goalposts/`
-- [ ] `/patterns/scope-creep/`
-- [ ] `/patterns/public-shaming/`
-- [ ] `/patterns/credit-theft/`
-- [ ] `/patterns/minimizing/`
-- [ ] `/patterns/comparison/`
-- [ ] `/patterns/silent-treatment/`
-- [ ] `/patterns/loyalty-test/`
-- [ ] `/patterns/empathy-trap/`
+- [x] `/patterns/triangulation/`
+- [x] `/patterns/moving-goalposts/`
+- [x] `/patterns/scope-creep/`
+- [x] `/patterns/public-shaming/`
+- [x] `/patterns/credit-theft/`
+- [x] `/patterns/minimizing/`
+- [x] `/patterns/comparison/`
+- [x] `/patterns/silent-treatment/`
+- [x] `/patterns/loyalty-test/`
+- [x] `/patterns/empathy-trap/`
 - [x] `/techniques/grey-rock/`
-- [ ] `/techniques/fogging/`
-- [ ] `/techniques/i-statement/`
-- [ ] `/techniques/broken-record/`
-- [ ] `/techniques/aikido/`
-- [ ] `/techniques/validation/`
-- [ ] `/techniques/reframe/`
-- [ ] `/techniques/boundary/`
-- [ ] `/techniques/mirroring/`
-- [ ] `/techniques/labeling/`
-- [ ] `/techniques/tactic-naming/`
-- [ ] `/techniques/consequence-setting/`
+- [x] `/techniques/fogging/`
+- [x] `/techniques/i-statement/`
+- [x] `/techniques/broken-record/`
+- [x] `/techniques/aikido/`
+- [x] `/techniques/validation/`
+- [x] `/techniques/reframe/`
+- [x] `/techniques/boundary/`
+- [x] `/techniques/mirroring/`
+- [x] `/techniques/labeling/`
+- [x] `/techniques/tactic-naming/`
+- [x] `/techniques/consequence-setting/`
 - [ ] `/situations/scope-creep-at-work/`
 - [ ] `/situations/after-everything-ive-done/`
 - [ ] `/situations/darvo-gaslighting-apology-trap/`
@@ -81,7 +81,7 @@ Utility routes scaffolded in Phase 1:
 2. Use only the frontmatter fields in `src/content.config.ts`.
 3. Follow the fixed section order from `WEBSITE_V2_SPEC.md` section 4.
 4. Include 5 or more verbatim scripts using `ScriptBlock`.
-5. Use an honest image path from `public/`, or leave `heroImage` empty only where the schema allows it.
+5. Use an honest image path from `public/`, or leave `heroImage` empty only where the schema allows it. Technique `heroImage` is optional because `consequence-setting` has no matching card asset in the prepared drop.
 6. Open one PR with that one content file. The index pages and sitemap update from the collection automatically.
 
 ## Phase 1 Content
@@ -89,5 +89,11 @@ Utility routes scaffolded in Phase 1:
 - Pattern: Gaslighting
 - Technique: Grey Rock
 - Situation: Saying no without a paragraph of justification
+
+## Phase 2 Content
+
+- Patterns: Guilt Trip, Martyrdom, DARVO, Triangulation, Moving Goalposts, Scope Creep, Public Shaming, Credit Theft, Minimizing, Comparison, Silent Treatment, Loyalty Test, Empathy Trap
+- Techniques: Fogging, I-Statement, Broken Record, Aikido, Validation, Reframe, Boundary, Mirroring, Labeling, Tactic Naming, Consequence Setting
+- Image note: Consequence Setting intentionally ships without `heroImage`; no unrelated card is substituted.
 
 `_quarry/` is source material only. It does not ship and should not move into `src/` or `public/`.

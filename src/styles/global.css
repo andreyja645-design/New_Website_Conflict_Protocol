@@ -36,7 +36,8 @@ a:hover {
 
 .shell,
 .article-shell {
-  width: min(1120px, calc(100% - 32px));
+  width: calc(100% - 32px);
+  max-width: 1120px;
   margin-inline: auto;
 }
 
@@ -413,6 +414,16 @@ li {
   .nav-links,
   .footer nav {
     justify-content: flex-start;
+  }
+
+  .nav-links {
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .practice-link {
+    white-space: normal;
   }
 
   .hero,
