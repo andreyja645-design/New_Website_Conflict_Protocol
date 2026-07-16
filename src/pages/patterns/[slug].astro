@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import ContentPage from "../../layouts/ContentPage.astro";
+import { pickExisting, toCardLink } from "../../lib/contentLinks";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("patterns");
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const [techniques, situations] = await Promise.all([getCollection("techniques"), getCollection("situations")]);
+const counters = pickExisting(entry.data.counters, techniques).map((item) => toCardLink(item, "Technique"));
+const sceneLinks = pickExisting(entry.data.situations, situations).map((item) => toCardLink(item, "Situation"));
+---
+
+<ContentPage
+  entry={entry}
+  section="Pattern"
+  description={entry.data.oneLiner}
+  relatedGroups={[
+    { title: "Counters", links: counters },
+    { title: "Situations", links: sceneLinks }
+  ]}
+/>

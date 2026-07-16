@@ -1,0 +1,194 @@
+---
+import { site } from "../site";
+import PocketCardFixedLink from "../components/PocketCardFixedLink.astro";
+import { organizationSchema, softwareApplicationSchema, websiteSchema } from "../utils/schema";
+import "../styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  robots?: string;
+  bodyClass?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+};
+
+const {
+  title = site.name,
+  description = site.description,
+  canonical = Astro.url.pathname,
+  image = site.ogImage,
+  imageAlt = description,
+  robots = "index, follow",
+  bodyClass,
+  jsonLd = []
+} = Astro.props;
+const pageTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
+const canonicalUrl = new URL(canonical, site.url).toString();
+const imageUrl = new URL(image, site.url).toString();
+const pocketCardFixedLinkRoutes = [
+  /^\/articles\/[^/]+\/$/,
+  /^\/guides\/[^/]+\/$/,
+  /^\/situations\/[^/]+\/$/,
+  /^\/patterns-and-techniques\/[^/]+\/$/,
+  /^\/topics\/[^/]+\/$/,
+  /^\/(?:you-froze-today-start-here|communication-techniques|grey-rock-technique|no-jade-technique|broken-record-technique|how-to-deal-with-toxic-boss|how-to-respond-to-gaslighting|darvo-examples)\/$/
+];
+const showPocketCardFixedLink = pocketCardFixedLinkRoutes.some((route) => route.test(Astro.url.pathname));
+const currentPath = Astro.url.pathname;
+const navItems = [
+  { href: "/", label: "Home", exact: true },
+  { href: "/start-here/", label: "Start Here" },
+  { href: "/what-to-say/", label: "What to Say" },
+  { href: "/you-froze-today-start-here/", label: "You Froze Today" },
+  { href: "/situations/", label: "Situations" },
+  { href: "/patterns-and-techniques/", label: "Patterns & Techniques" },
+  { href: "/articles/", label: "Articles" },
+  { href: "/practice/", label: "Practice", className: "nav-practice-link" }
+].map((item) => ({
+  ...item,
+  isActive: item.exact ? currentPath === item.href : currentPath === item.href || currentPath.startsWith(item.href)
+}));
+const schemas = [
+  organizationSchema(),
+  websiteSchema(),
+  softwareApplicationSchema(),
+  ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd])
+].filter(Boolean);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content={robots} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <link rel="icon" href="/assets/cp-logo.webp" />
+    <link rel="alternate" type="application/rss+xml" title="Conflict Protocol RSS" href="/rss.xml" />
+    {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+  </head>
+  <body id="top" class={bodyClass}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Main navigation">
+        <a class="brand" href="/">
+          <img src="/assets/cp-logo.webp" alt="" width="40" height="40" />
+          <span>Conflict Protocol</span>
+        </a>
+        <button class="nav-menu-toggle" type="button" aria-controls="site-nav-links" aria-expanded="false">Menu</button>
+        <div class="nav-links" id="site-nav-links">
+          {navItems.map((item) => (
+            <a class={item.className} href={item.href} aria-current={item.isActive ? "page" : undefined}>{item.label}</a>
+          ))}
+        </div>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <div class="shell back-to-top-wrap">
+      <a class="back-to-top" href="#top" data-back-to-top aria-label="Back to top of page">
+        <span aria-hidden="true">↑</span>
+        <span>Back to top</span>
+      </a>
+    </div>
+    {showPocketCardFixedLink && <PocketCardFixedLink />}
+    <footer class="footer">
+      <div class="shell footer-grid">
+        <div>
+          <a class="brand" href="/">
+            <img src="/assets/cp-logo.webp" alt="" width="34" height="34" />
+            <span>Conflict Protocol</span>
+          </a>
+          <p>Practical scripts for conversations that try to knock you off center.</p>
+        </div>
+        <div class="footer-columns" aria-label="Footer navigation">
+          <nav class="footer-column" aria-label="Learn">
+            <h2>Learn</h2>
+            <a href="/start-here/">Start Here</a>
+            <a href="/situations/">Situations</a>
+            <a href="/guides/">Guides</a>
+            <a href="/articles/">Articles</a>
+            <a href="/topics/">Topics</a>
+            <a href="/about/">About</a>
+            <a href="/contact/">Contact</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+          </nav>
+          <nav class="footer-column" aria-label="Reference">
+            <h2>Reference</h2>
+            <a href="/what-to-say/">What to Say</a>
+            <a href="/pocket-card/">Pocket Card</a>
+            <a href="/patterns/">Patterns</a>
+            <a href="/techniques/">Techniques</a>
+            <a href="/patterns-and-techniques/">Patterns & Techniques</a>
+            <a href="/patterns-vs-techniques/">Pattern Matrix</a>
+            <a href="/glossary/">Glossary</a>
+            <a href="/drills/">Conversation Drills</a>
+          </nav>
+          <nav class="footer-column" aria-label="Product">
+            <h2>Product</h2>
+            <a href="/practice/">Practice</a>
+            <a href="/what-is-the-simulator/">What Is the Simulator?</a>
+            <a href="/practice/how-it-works/">How It Works</a>
+            <a href="/waitlist/">Simulator Early Access</a>
+            <a href="/faq/">FAQ</a>
+          </nav>
+        </div>
+      </div>
+      <div class="shell footer-utilities" aria-label="Utility links">
+        <a href="/rss.xml">RSS</a>
+        <a href="/sitemap.xml">Sitemap</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/contact/">Contact</a>
+        <a href="/editorial-standards/">Editorial Standards</a>
+        <a href="/llms.txt">LLMs</a>
+      </div>
+      <div class="shell footer-note">
+        <p>
+          Conflict Protocol is an educational communication resource and practice simulator. It is not therapy, legal advice,
+          emergency support, or a substitute for professional mental health care. If you are in immediate danger or crisis,
+          contact local emergency services or a qualified professional.
+        </p>
+      </div>
+    </footer>
+    <script>
+      const navToggle = document.querySelector(".nav-menu-toggle");
+      const navLinks = document.querySelector("#site-nav-links");
+
+      navToggle?.addEventListener("click", () => {
+        const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+        navToggle.setAttribute("aria-expanded", String(!isOpen));
+        navLinks?.classList.toggle("is-open", !isOpen);
+      });
+
+      navLinks?.addEventListener("click", (event) => {
+        if (!(event.target instanceof HTMLAnchorElement)) return;
+        navToggle?.setAttribute("aria-expanded", "false");
+        navLinks?.classList.remove("is-open");
+      });
+
+      document.querySelector("[data-back-to-top]")?.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      });
+    </script>
+  </body>
+</html>

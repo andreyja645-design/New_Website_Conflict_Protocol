@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import ContentPage from "../../layouts/ContentPage.astro";
+import { pickExisting, toCardLink } from "../../lib/contentLinks";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("techniques");
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const patterns = await getCollection("patterns");
+const counters = pickExisting(entry.data.countersPatterns, patterns).map((item) => toCardLink(item, "Pattern"));
+---
+
+<ContentPage
+  entry={entry}
+  section="Technique"
+  description={`${entry.data.job} Risk: ${entry.data.risk}`}
+  relatedGroups={[{ title: "Patterns this counters", links: counters }]}
+/>

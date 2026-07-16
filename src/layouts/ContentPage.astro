@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import GameCTA from "../components/GameCTA.astro";
+import SafetyNote from "../components/SafetyNote.astro";
+import RelatedLinks from "../components/RelatedLinks.astro";
+import type { CardLink } from "../lib/contentLinks";
+import { articleSchema, breadcrumbSchema } from "../lib/schema";
+
+type Entry = CollectionEntry<"patterns"> | CollectionEntry<"techniques"> | CollectionEntry<"situations">;
+
+type Props = {
+  entry: Entry;
+  section: string;
+  description: string;
+  relatedGroups?: { title: string; links: CardLink[] }[];
+};
+
+const { entry, section, description, relatedGroups = [] } = Astro.props;
+const path = `/${entry.collection}/${entry.data.slug}/`;
+const image = entry.data.heroImage;
+const jsonLd = [
+  articleSchema({ title: entry.data.title, description, path, image, section }),
+  breadcrumbSchema([
+    { name: section, path: `/${entry.collection}/` },
+    { name: entry.data.title, path }
+  ])
+];
+const { Content } = await render(entry);
+const ctaType = entry.collection.slice(0, -1) as "pattern" | "technique" | "situation";
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={description}
+  canonical={path}
+  image={image}
+  jsonLd={jsonLd}
+  bodyClass="content-page"
+>
+  <article class="article-shell">
+    <header class="content-hero">
+      <div>
+        <p class="eyebrow">{section}</p>
+        <h1>{entry.data.title}</h1>
+        <p class="lede">{entry.data.oneLiner}</p>
+      </div>
+      {image && <img src={image} alt="" />}
+    </header>
+    <div class="article-body">
+      <Content />
+    </div>
+    {relatedGroups.map((group) => <RelatedLinks title={group.title} links={group.links} />)}
+    {(entry.collection === "patterns" || entry.collection === "situations") && <SafetyNote />}
+    <GameCTA
+      type={ctaType}
+      hook={entry.data.gameHook}
+      level={entry.collection === "situations" ? entry.data.gameLevel : undefined}
+    />
+  </article>
+</BaseLayout>

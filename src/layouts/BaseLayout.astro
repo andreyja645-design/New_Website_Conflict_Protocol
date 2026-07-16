@@ -1,0 +1,102 @@
+---
+import { organizationSchema, websiteSchema } from "../lib/schema";
+import { absoluteUrl, site } from "../lib/site";
+import "../styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  bodyClass?: string;
+};
+
+const {
+  title = site.name,
+  description = site.description,
+  canonical = Astro.url.pathname,
+  image = site.ogImage,
+  imageAlt = description,
+  jsonLd = [],
+  bodyClass = ""
+} = Astro.props;
+
+const pageTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
+const canonicalUrl = absoluteUrl(canonical);
+const imageUrl = absoluteUrl(image);
+const schemas = [
+  organizationSchema(),
+  websiteSchema(),
+  ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd])
+].filter(Boolean);
+
+const navItems = [
+  { href: "/start-here/", label: "Start here" },
+  { href: "/patterns/", label: "Patterns" },
+  { href: "/techniques/", label: "Techniques" },
+  { href: "/situations/", label: "Situations" }
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <link rel="icon" href="/assets/cp-logo.webp" />
+    {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Main navigation">
+        <a class="brand" href="/" aria-label="Conflict Protocol home">
+          <img src="/assets/cp-logo.webp" alt="" width="40" height="40" />
+          <span>Conflict Protocol</span>
+        </a>
+        <div class="nav-links">
+          {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          <a class="practice-link" href={site.gameUrl}>Practice live -&gt;</a>
+        </div>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="footer">
+      <div class="shell footer-grid">
+        <div>
+          <a class="brand" href="/">
+            <img src="/assets/cp-logo.webp" alt="" width="34" height="34" />
+            <span>Conflict Protocol</span>
+          </a>
+          <p>You always think of the right answer three hours later. We are fixing that.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          <a href="/patterns/">Patterns</a>
+          <a href="/techniques/">Techniques</a>
+          <a href="/situations/">Situations</a>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/llms.txt">LLMs</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

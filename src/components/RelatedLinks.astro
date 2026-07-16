@@ -1,0 +1,25 @@
+---
+import type { CardLink } from "../lib/contentLinks";
+
+type Props = {
+  title: string;
+  links: CardLink[];
+};
+
+const { title, links } = Astro.props;
+---
+
+{links.length > 0 && (
+  <section class="related-links" aria-labelledby={`${title.toLowerCase().replaceAll(" ", "-")}-heading`}>
+    <h2 id={`${title.toLowerCase().replaceAll(" ", "-")}-heading`}>{title}</h2>
+    <div>
+      {links.map((link) => (
+        <a href={link.href}>
+          <span>{link.eyebrow}</span>
+          <strong>{link.title}</strong>
+          <small>{link.oneLiner}</small>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

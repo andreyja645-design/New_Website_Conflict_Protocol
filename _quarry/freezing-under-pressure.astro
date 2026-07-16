@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { articlePageSchema, breadcrumbSchema, faqPageSchema, webPageSchema } from "../../utils/schema";
+
+const title = "Freezing Under Pressure: Escape the Frozen Yes";
+const description =
+  "Scripts for the moment you freeze in a difficult conversation, buy time, and avoid turning pressure into an automatic yes.";
+const canonical = "/guides/freezing-under-pressure/";
+const faqs = [
+  {
+    question: "What should I say when I freeze under pressure?",
+    answer:
+      "Use a buy-time line: 'I need to check before I answer.' It protects you before your nervous system turns pressure into agreement."
+  },
+  {
+    question: "Is buying time a real boundary?",
+    answer:
+      "Yes. A pause is a boundary around speed. It stops the other person from making urgency do the deciding for you."
+  },
+  {
+    question: "What if I already said yes too fast?",
+    answer:
+      "Send a reset: 'I answered too quickly. I need to check capacity before I commit.'"
+  }
+];
+const jsonLd = [
+  webPageSchema({ title, description, path: canonical }),
+  articlePageSchema({ title, description, path: canonical, section: "Pillar Guide" }),
+  breadcrumbSchema([{ name: "Guides", path: "/guides/" }, { name: title, path: canonical }]),
+  ...(faqs.length ? [faqPageSchema(faqs, canonical)] : [])
+];
+const contentHtml = `
+<section class="manual-entry-section related-guide-links"><p class="section-label">Related Conflict Protocol pages</p><ul><li><a href="/situations/freeze-and-say-yes/">Can you decide right now?</a></li><li><a href="/situations/you-freeze-and-say-yes-too-fast/">Can you answer right now?</a></li><li><a href="/articles/buy-time-before-answering/">Buy time before answering</a></li><li><a href="/articles/boundary-scripts-for-people-who-freeze/">Boundary scripts for people who freeze</a></li><li><a href="/patterns-and-techniques/boundary/">Boundary</a></li></ul></section>
+<h2>Quick answer</h2>
+<p>When you freeze under pressure, do not try to find the perfect answer. Find a pause.</p>
+<div class="copy-script-box"><p>"I need to check before I answer."</p><button type="button" class="copy-line" data-copy="I need to check before I answer.">Copy</button></div>
+<p>That line is not avoidance. It is a speed limit. It gives your actual judgment time to catch up with the pressure in the room.</p>
+<h2>The frozen yes</h2>
+<p>The frozen yes happens when your body goes still, your mind blanks, and the fastest way out seems to be agreement.</p>
+<p>It can sound calm from the outside: "Sure." "Okay." "I can try." Inside, you may already know you do not have the capacity, desire, safety, or information to commit.</p>
+<p>The trap is speed. If the other person can make the moment fast enough, your answer may come from panic instead of consent.</p>
+<h2>What freezing is and what it is not</h2>
+<p>Freezing is not weakness. It is a pressure response. The practical question is not "Why am I like this?" It is "What line can I reach while my system is locked?"</p>
+<p>Buying time is the bridge between freeze and choice.</p>
+<p>Use it when:</p>
+<ul><li>a request arrives faster than you can think</li><li>authority, guilt, attraction, fear, or surprise makes you say yes too soon</li><li>you need to check time, money, energy, safety, or consequences</li><li>you cannot tell whether your answer is genuine yet</li></ul>
+<h2>What to say</h2>
+<h3>When they ask for an immediate answer</h3>
+<div class="copy-script-box"><p>"I cannot answer that on the spot."</p><button type="button" class="copy-line" data-copy="I cannot answer that on the spot.">Copy</button></div>
+<h3>When they say it is simple</h3>
+<div class="copy-script-box"><p>"It may be simple. I still need to check before I commit."</p><button type="button" class="copy-line" data-copy="It may be simple. I still need to check before I commit.">Copy</button></div>
+<h3>When they ask in front of people</h3>
+<div class="copy-script-box"><p>"I will follow up after I check my capacity."</p><button type="button" class="copy-line" data-copy="I will follow up after I check my capacity.">Copy</button></div>
+<h3>When you already started saying yes</h3>
+<div class="copy-script-box"><p>"I need to pause that answer. I spoke too quickly."</p><button type="button" class="copy-line" data-copy="I need to pause that answer. I spoke too quickly.">Copy</button></div>
+<h2>What to text back</h2>
+<p class="section-label">Short:</p>
+<div class="copy-script-box"><p>"I need to check before I commit."</p><button type="button" class="copy-line" data-copy="I need to check before I commit.">Copy</button></div>
+<p class="section-label">Warmer:</p>
+<div class="copy-script-box"><p>"I know you need an answer. I need to look at my capacity first."</p><button type="button" class="copy-line" data-copy="I know you need an answer. I need to look at my capacity first.">Copy</button></div>
+<p class="section-label">Firmer:</p>
+<div class="copy-script-box"><p>"I am not giving an answer under pressure."</p><button type="button" class="copy-line" data-copy="I am not giving an answer under pressure.">Copy</button></div>
+<p class="section-label">Do not send:</p>
+<div class="copy-script-box"><p>"Fine, I guess I can, but I am already overwhelmed."</p><button type="button" class="copy-line" data-copy="Fine, I guess I can, but I am already overwhelmed.">Copy</button></div>
+<p>That gives a yes and a resentment receipt at the same time.</p>
+<h2>Wrong vs better</h2>
+<p class="section-label">Wrong:</p>
+<div class="copy-script-box"><p>"Okay, sure, I can probably make it work."</p><button type="button" class="copy-line" data-copy="Okay, sure, I can probably make it work.">Copy</button></div>
+<p class="section-label">Why it feeds the pressure:</p>
+<p>It turns an unverified answer into a commitment they can later treat as settled.</p>
+<p class="section-label">Better:</p>
+<div class="copy-script-box"><p>"I need to check before I answer."</p><button type="button" class="copy-line" data-copy="I need to check before I answer.">Copy</button></div>
+<p class="section-label">Why it works:</p>
+<p>It makes time part of the boundary before the ask becomes an agreement.</p>
+<h2>If they push back</h2>
+<p><strong>They say:</strong> "I need to know now." <strong>You say:</strong> "Then my answer for now is NO. If I can do it, I will follow up."</p>
+<p><strong>They say:</strong> "It is not a big deal." <strong>You say:</strong> "Then it can wait while I check."</p>
+<p><strong>They say:</strong> "You are overthinking." <strong>You say:</strong> "I am checking capacity, not overthinking."</p>
+<p><strong>They say:</strong> "So I cannot count on you?" <strong>You say:</strong> "You can count on me to give a real answer, not a rushed one."</p>
+<h2>A realistic escalation</h2>
+<ol><li><strong>Them:</strong> Can you cover this tonight?</li><li><strong>You:</strong> I need to check before I answer.</li><li><strong>Them:</strong> It is just tonight. Quick yes or no.</li><li><strong>You:</strong> If you need an answer this second, it is NO.</li><li><strong>Them:</strong> Wow, I thought you wanted to help.</li><li><strong>You:</strong> I do want to help where I can. I am not committing without checking capacity.</li><li><strong>Them:</strong> Fine, but I need to tell people.</li><li><strong>You:</strong> Tell them I am checking and will confirm by 5.</li></ol>
+<h2>Scripts by situation</h2>
+<h3>At work</h3>
+<div class="copy-script-box"><p>"I need to check priorities before I commit to that timeline."</p><button type="button" class="copy-line" data-copy="I need to check priorities before I commit to that timeline.">Copy</button></div>
+<h3>With family</h3>
+<div class="copy-script-box"><p>"I am not answering while I feel pressured. I will get back to you."</p><button type="button" class="copy-line" data-copy="I am not answering while I feel pressured. I will get back to you.">Copy</button></div>
+<h3>With a partner or friend</h3>
+<div class="copy-script-box"><p>"I want to answer honestly, so I need a pause."</p><button type="button" class="copy-line" data-copy="I want to answer honestly, so I need a pause.">Copy</button></div>
+<h2>When the script fails</h2>
+<p>If they keep demanding speed:</p>
+<div class="copy-script-box"><p>"A rushed answer is NO."</p><button type="button" class="copy-line" data-copy="A rushed answer is NO.">Copy</button></div>
+<p>If you already agreed:</p>
+<div class="copy-script-box"><p>"I said yes too quickly. I need to revisit that answer."</p><button type="button" class="copy-line" data-copy="I said yes too quickly. I need to revisit that answer.">Copy</button></div>
+<p>If they punish the pause:</p>
+<div class="copy-script-box"><p>"I am allowed to check before I commit."</p><button type="button" class="copy-line" data-copy="I am allowed to check before I commit.">Copy</button></div>
+<p>If pressure is connected to fear, retaliation, threats, or control, scripts are not enough. Choose safety and outside support over saying the cleanest line.</p>
+<h2>How to practice this</h2>
+<p>Practice three versions: one-second, one-minute, and one-day pauses.</p>
+<div class="copy-script-box"><p>"One second. I need to think."</p><button type="button" class="copy-line" data-copy="One second. I need to think.">Copy</button></div>
+<div class="copy-script-box"><p>"I need a few minutes before I answer."</p><button type="button" class="copy-line" data-copy="I need a few minutes before I answer.">Copy</button></div>
+<div class="copy-script-box"><p>"I will confirm tomorrow."</p><button type="button" class="copy-line" data-copy="I will confirm tomorrow.">Copy</button></div>
+<p>The skill is not perfect calm. The skill is putting time between pressure and agreement.</p>
+<h2>Common mistakes</h2>
+<ul><li>Calling a pressured yes a final yes.</li><li>Explaining the freeze instead of using a pause line.</li><li>Asking permission to check capacity.</li><li>Turning the pause into an apology speech.</li><li>Using "maybe" when you mean "I have not checked yet."</li></ul>
+<h2>FAQ</h2>
+<h3>What should I say when I freeze under pressure?</h3>
+<p>Use a buy-time line: "I need to check before I answer." It protects you before your nervous system turns pressure into agreement.</p>
+<h3>Is buying time a real boundary?</h3>
+<p>Yes. A pause is a boundary around speed. It stops the other person from making urgency do the deciding for you.</p>
+<h3>What if I already said yes too fast?</h3>
+<p>Send a reset: "I answered too quickly. I need to check capacity before I commit."</p>
+<h2>Before you respond</h2>
+<p>Ask: am I answering from choice, or am I answering to make the pressure stop?</p>
+<p>If it is the second one, you do not need a better answer yet. You need a pause.</p>
+<h2>The smallest usable version</h2>
+<p>If your brain is blank, use:</p>
+<div class="copy-script-box"><p>"I need to check."</p><button type="button" class="copy-line" data-copy="I need to check.">Copy</button></div>
+<p>If they demand more:</p>
+<div class="copy-script-box"><p>"I will answer after I check."</p><button type="button" class="copy-line" data-copy="I will answer after I check.">Copy</button></div>
+<p>If they need an answer now:</p>
+<div class="copy-script-box"><p>"Then it is NO for now."</p><button type="button" class="copy-line" data-copy="Then it is NO for now.">Copy</button></div>
+<p>That sequence is enough. Pause, confirm later, or make the rushed answer a NO.</p>
+<h2>How this should feel</h2>
+<p>At first, buying time may feel like disappointing someone in slow motion. That is normal. You are retraining the moment where speed used to make the decision for you.</p>
+<p>The better sign is not that everyone likes the pause. It is that your yes starts meaning yes again.</p>
+<h2>Sources and further reading</h2>
+<p>Verified links for context and safety boundaries:</p>
+<ul><li><a href="https://www.thehotline.org/resources/safety-planning-while-living-with-an-abusive-partner/">The National Domestic Violence Hotline: Safety planning while living with an abusive partner</a></li><li><a href="https://www.cdc.gov/niosh/docs/99-101/">NIOSH: Stress at work</a></li><li><a href="/articles/buy-time-before-answering/">Conflict Protocol: Buy time before answering</a></li></ul>
+`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} image="/assets/situations/freeze-say-yes-too-fast.webp" bodyClass="editorial-page pillar-guide-page" jsonLd={jsonLd}>
+  <article class="answer-page pillar-guide">
+    <header class="page-header shell">
+      <p class="eyebrow">Pillar guide</p>
+      <h1>{title}</h1>
+      <div class="answer-lead">
+        <p>{description}</p>
+      </div>
+    </header>
+
+    <div class="shell-narrow article-body" set:html={contentHtml} />
+
+    <script>
+      document.addEventListener("click", async (event) => {
+        const button = event.target instanceof HTMLElement ? event.target.closest("[data-copy]") : null;
+        if (!(button instanceof HTMLButtonElement)) return;
+        const text = button.dataset.copy || "";
+        if (!text) return;
+        await navigator.clipboard?.writeText(text);
+        const original = button.textContent;
+        button.textContent = "Copied";
+        window.setTimeout(() => {
+          button.textContent = original || "Copy";
+        }, 1400);
+      });
+    </script>
+  </article>
+</BaseLayout>

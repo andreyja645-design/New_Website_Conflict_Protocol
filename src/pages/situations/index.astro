@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentCard from "../../components/ContentCard.astro";
+import { toCardLink } from "../../lib/contentLinks";
+
+const cards = (await getCollection("situations")).map((entry) => toCardLink(entry, "Situation"));
+---
+
+<BaseLayout title="Situations" description="Scene-level scripts for the exact kind of conversation that usually eats your evening." canonical="/situations/">
+  <section class="section-band shell">
+    <div class="section-heading">
+      <p class="eyebrow">What do I literally say?</p>
+      <h1>Situations</h1>
+      <p class="lede">Concrete scenes, worked scripts, and exits. No vague wisdom in a cardigan.</p>
+    </div>
+    <div class="card-grid">
+      {cards.map((card) => <ContentCard card={card} />)}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContentCard from "../components/ContentCard.astro";
+import { toCardLink } from "../lib/contentLinks";
+
+const [patterns, techniques, situations] = await Promise.all([
+  getCollection("patterns"),
+  getCollection("techniques"),
+  getCollection("situations")
+]);
+
+const featured = [
+  ...situations.map((entry) => toCardLink(entry, "Situation")),
+  ...patterns.map((entry) => toCardLink(entry, "Pattern")),
+  ...techniques.map((entry) => toCardLink(entry, "Technique"))
+];
+---
+
+<BaseLayout
+  title="Words ready before the room tilts"
+  description="A dark little field guide for spotting conversational pressure and having scripts ready."
+  canonical="/"
+  image="/assets/home-hero-scripts-patterns-practice.webp"
+>
+  <section class="hero shell">
+    <div>
+      <p class="eyebrow">Conflict Protocol field guide</p>
+      <h1>Words ready before the room tilts.</h1>
+      <p class="lede">
+        You always think of the right answer three hours later. This site puts it in your mouth while
+        the conversation is still happening.
+      </p>
+      <div class="entry-doors" aria-label="Choose a starting point">
+        <a href="/start-here/">I freeze</a>
+        <a href="/patterns/">Name the pattern</a>
+        <a href="/situations/">Give me a script</a>
+      </div>
+    </div>
+    <img src="/assets/home-hero-scripts-patterns-practice.webp" alt="" />
+  </section>
+  <section class="section-band shell">
+    <div class="section-heading">
+      <p class="eyebrow">Phase 1 pages</p>
+      <h2>Three doors are real today. More doors later.</h2>
+      <p>
+        The site starts lean on purpose: one pattern, one technique, one situation. Enough to prove the
+        templates and the voice without building a junk drawer with a favicon.
+      </p>
+    </div>
+    <div class="card-grid">
+      {featured.map((card) => <ContentCard card={card} />)}
+    </div>
+  </section>
+</BaseLayout>

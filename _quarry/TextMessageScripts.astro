@@ -1,0 +1,33 @@
+---
+import type { TextMessageScripts } from "../data/usefulnessLayers";
+
+type Props = {
+  scripts: TextMessageScripts;
+  heading?: string;
+  className?: string;
+  id?: string;
+};
+
+const { scripts, heading = "What to text back", className = "", id = "text-back" } = Astro.props;
+const rows = [
+  { label: "Short", line: scripts.short, copyable: true },
+  { label: "Warmer", line: scripts.warm, copyable: true },
+  { label: "Firmer", line: scripts.firm, copyable: true },
+  { label: "Do not send", line: scripts.doNotSend, copyable: false }
+];
+---
+
+<section id={id} class:list={["manual-entry-section", "text-message-scripts", className]}>
+  <p class="section-label">Save this text</p>
+  <h2>{heading}</h2>
+  {scripts.note && <p>{scripts.note}</p>}
+  <div class="text-script-grid">
+    {rows.map((row) => (
+      <article class:list={["text-script-card", { "do-not-send": !row.copyable }]}>
+        <span>{row.label}</span>
+        <p>{row.line}</p>
+        {row.copyable && <button type="button" class="copy-line" data-copy={row.line}>Copy</button>}
+      </article>
+    ))}
+  </div>
+</section>

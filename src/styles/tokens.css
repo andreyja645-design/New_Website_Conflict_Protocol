@@ -1,0 +1,14 @@
+:root {
+  --bg: #100f16;
+  --panel: #1d1926;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(249, 198, 100, 0.35);
+  --text: #fff6e7;
+  --text-soft: #eadfce;
+  --muted: #b9a997;
+  --accent: #f9c664;
+  --danger: #d6474f;
+  --shadow: 0 22px 55px rgba(0, 0, 0, 0.35);
+  --font-display: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}

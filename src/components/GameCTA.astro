@@ -1,0 +1,32 @@
+---
+import { site } from "../lib/site";
+
+type Props = {
+  type: "pattern" | "technique" | "situation";
+  hook: string;
+  level?: string;
+};
+
+const { type, hook, level } = Astro.props;
+const eyebrow =
+  type === "pattern"
+    ? "Practice the pressure"
+    : type === "technique"
+      ? "Practice the move"
+      : "Practice the scene";
+const body =
+  type === "pattern"
+    ? "The game runs this tactic against you live, so you can spot the hook before you start defending your existence like it is a group project."
+    : type === "technique"
+      ? "The game scores your use of this move under pressure, right when your brain wants to donate a full paragraph."
+      : level
+        ? `This exact scene is a level in the game: ${level}.`
+        : "The game lets you rehearse this kind of scene while the stakes are blessedly fake.";
+---
+
+<aside id="practice-live" class="game-cta">
+  <p class="eyebrow">{eyebrow}</p>
+  <h2>{hook}</h2>
+  <p>{body}</p>
+  <a href={site.gameUrl}>Practice live -&gt;</a>
+</aside>

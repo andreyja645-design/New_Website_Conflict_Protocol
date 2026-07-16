@@ -1,0 +1,14 @@
+---
+type Props = {
+  label?: string;
+};
+
+const { label = "Try saying" } = Astro.props;
+---
+
+<figure class="script-block">
+  <figcaption>{label}</figcaption>
+  <blockquote>
+    <slot />
+  </blockquote>
+</figure>

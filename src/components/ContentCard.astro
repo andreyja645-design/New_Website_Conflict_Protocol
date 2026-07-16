@@ -1,0 +1,18 @@
+---
+import type { CardLink } from "../lib/contentLinks";
+
+type Props = {
+  card: CardLink;
+};
+
+const { card } = Astro.props;
+---
+
+<article class="content-card">
+  <a href={card.href}>
+    {card.image && <img src={card.image} alt="" loading="lazy" />}
+    <span>{card.eyebrow}</span>
+    <h2>{card.title}</h2>
+    <p>{card.oneLiner}</p>
+  </a>
+</article>
