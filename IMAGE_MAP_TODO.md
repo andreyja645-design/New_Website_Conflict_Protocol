@@ -47,3 +47,9 @@ No Phase 1 or Phase 2 shipped page uses a dishonest substitute image.
 - `situations/you-froze-in-a-meeting`: `/assets/situations/follow-up-after-public-criticism.webp`
 - `situations/silent-treatment-until-you-cave`: `/assets/situations/reopen-after-silence.webp`
 - `situations/youre-too-sensitive`: `/assets/situations/they-make-your-tone-the-issue.webp`
+
+## Phase 4 editorial mappings
+
+- `home`: `/assets/home-hero-scripts-patterns-practice.webp`
+- `start-here`: `/assets/pages/start-here-hero.webp`
+- `about`: `/assets/pages/about-conflict-protocol.webp`

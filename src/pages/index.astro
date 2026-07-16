@@ -10,10 +10,16 @@ const [patterns, techniques, situations] = await Promise.all([
   getCollection("situations")
 ]);
 
+const featuredEntries = [
+  patterns.find((entry) => entry.data.slug === "gaslighting"),
+  techniques.find((entry) => entry.data.slug === "grey-rock"),
+  situations.find((entry) => entry.data.slug === "you-froze-in-a-meeting")
+].filter(Boolean);
+
 const featured = [
-  ...situations.map((entry) => toCardLink(entry, "Situation")),
-  ...patterns.map((entry) => toCardLink(entry, "Pattern")),
-  ...techniques.map((entry) => toCardLink(entry, "Technique"))
+  toCardLink(featuredEntries[0], "Pattern"),
+  toCardLink(featuredEntries[1], "Technique"),
+  toCardLink(featuredEntries[2], "Situation")
 ];
 ---
 
@@ -37,15 +43,20 @@ const featured = [
         <a href="/situations/">Give me a script</a>
       </div>
     </div>
-    <img src="/assets/home-hero-scripts-patterns-practice.webp" alt="" />
+    <img
+      src="/assets/home-hero-scripts-patterns-practice.webp"
+      alt="Script cards, pressure patterns, and practice prompts from Conflict Protocol."
+      width="1600"
+      height="900"
+    />
   </section>
   <section class="section-band shell">
     <div class="section-heading">
-      <p class="eyebrow">Phase 1 pages</p>
-      <h2>Three doors are real today. More doors later.</h2>
+      <p class="eyebrow">Full field guide</p>
+      <h2>Pick the door that matches the mess.</h2>
       <p>
-        The site starts lean on purpose: one pattern, one technique, one situation. Enough to prove the
-        templates and the voice without building a junk drawer with a favicon.
+        The catalog is live: fourteen pressure patterns, twelve counter-moves, and eight worked scenes
+        with words you can lift. Start where your brain is currently on fire.
       </p>
     </div>
     <div class="card-grid">

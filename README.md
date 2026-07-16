@@ -1,6 +1,8 @@
 # Conflict Protocol Companion Website V2
 
-Phase 1 scaffold for the Conflict Protocol companion content site. Astro, TypeScript, static output, Cloudflare Pages friendly. No CMS, no database, no UI framework, no Tailwind. Styles are plain CSS with a small token file because the site needs a durable content system more than another abstraction party.
+Static Astro site for the Conflict Protocol field guide: patterns, techniques, situations, and the editorial pages that help someone find words before the room tilts.
+
+No CMS, no database, no accounts, no forms, no analytics in V1. Styles are plain CSS because this site needs a durable content system more than another abstraction party.
 
 ## Commands
 
@@ -13,24 +15,34 @@ npm run preview
 
 On this Windows machine, use `npm.cmd` from PowerShell if script execution blocks `npm`.
 
-## Deploy Notes
+## Cloudflare Pages Deploy
 
-Cloudflare Pages:
+Create a Cloudflare Pages project connected to this GitHub repository.
 
+Use these build settings:
+
+- Framework preset: `Astro`
 - Build command: `npm run build`
-- Output directory: `dist`
-- Set `PUBLIC_SITE_URL` to the production origin.
-- Optionally set `PUBLIC_GAME_URL` to the live game URL. Until then, CTA links fall back to the local `#practice-live` anchor.
+- Build output directory: `dist`
+- Root directory: `/`
+- Node version: Cloudflare default is fine as long as it supports the pinned Astro version.
+
+Set these environment variables in Cloudflare Pages:
+
+- `PUBLIC_SITE_URL`: the production origin, with no trailing path, for example `https://example.com`
+- `PUBLIC_GAME_URL`: the live Conflict Protocol game URL. Until this is set, the site falls back to the local `#practice-live` anchor.
+
+Deploy from `main`. Do not upload `_quarry/` manually; it is source history only and is not part of the build output.
 
 ## V1 Sitemap Checklist
 
-Content migration progress: 34 of 39 content pages done: 14 patterns + 12 techniques + 8 situations. Remaining Phase 4 work: `/start-here`, real `/about` content, homepage polish, and privacy polish. The spec names utility pages too; those are listed after the counted 39-page checklist.
+Content migration progress: 39 of 39 V1 pages done. Launch utility pages are also in place.
 
-- [ ] `/`
-- [ ] `/start-here`
-- [ ] `/patterns/`
-- [ ] `/techniques/`
-- [ ] `/situations/`
+- [x] `/`
+- [x] `/start-here`
+- [x] `/patterns/`
+- [x] `/techniques/`
+- [x] `/situations/`
 - [x] `/patterns/guilt-trip/`
 - [x] `/patterns/martyrdom/`
 - [x] `/patterns/darvo/`
@@ -66,13 +78,15 @@ Content migration progress: 34 of 39 content pages done: 14 patterns + 12 techni
 - [x] `/situations/youre-too-sensitive/`
 - [x] `/situations/saying-no-without-jade/`
 
-Utility routes scaffolded in Phase 1:
+Utility routes:
 
 - `/about`
 - `/privacy`
 - `404`
+- `/llms.txt`
+- `/robots.txt`
 
-## How To Add A Page
+## Content System
 
 1. Add one MDX file to exactly one collection folder:
    - `src/content/patterns/`
@@ -81,24 +95,19 @@ Utility routes scaffolded in Phase 1:
 2. Use only the frontmatter fields in `src/content.config.ts`.
 3. Follow the fixed section order from `WEBSITE_V2_SPEC.md` section 4.
 4. Include 5 or more verbatim scripts using `ScriptBlock`.
-5. Use an honest image path from `public/`, or leave `heroImage` empty only where the schema allows it. Technique `heroImage` is optional because `consequence-setting` has no matching card asset in the prepared drop.
-6. Open one PR with that one content file. The index pages and sitemap update from the collection automatically.
+5. Use an honest image path from `public/`, or leave `heroImage` empty only where the schema allows it.
+6. New page ideas after V1 go to `V2_IDEAS.md` first.
 
-## Phase 1 Content
+## Phase Content
 
-- Pattern: Gaslighting
-- Technique: Grey Rock
-- Situation: Saying no without a paragraph of justification
+- Phase 1: scaffold plus Gaslighting, Grey Rock, Saying no without JADE.
+- Phase 2: remaining 13 patterns and 11 techniques.
+- Phase 3: remaining 7 situations plus pattern-to-situation cross-links.
+- Phase 4: `/start-here`, `/about`, homepage final pass, `/privacy`, favicons, dependency pins, README deploy steps, and launch polish.
 
-## Phase 2 Content
+## Launch Notes
 
-- Patterns: Guilt Trip, Martyrdom, DARVO, Triangulation, Moving Goalposts, Scope Creep, Public Shaming, Credit Theft, Minimizing, Comparison, Silent Treatment, Loyalty Test, Empathy Trap
-- Techniques: Fogging, I-Statement, Broken Record, Aikido, Validation, Reframe, Boundary, Mirroring, Labeling, Tactic Naming, Consequence Setting
-- Image note: Consequence Setting intentionally ships without `heroImage`; no unrelated card is substituted.
-
-## Phase 3 Content
-
-- Situations: Your boss keeps expanding the task after you agreed, After everything I have done, You end up apologizing, Joke at your expense, You froze in a meeting, Silent treatment until you cave, You're too sensitive.
-- Pattern pages now backfill `situations` frontmatter for the Phase 3 cross-links.
-
-`_quarry/` is source material only. It does not ship and should not move into `src/` or `public/`.
+- Dependencies are pinned in `package.json`; no `"latest"` ranges remain.
+- Card-grid images use meaningful alt text.
+- Content-page Open Graph images use each page hero when present and fall back to `/assets/og-default.jpg`.
+- `_quarry/`, `CODEX_PROMPT_*.md`, and `WEBSITE_V2_SPEC.md` are project history. They are not copied into `dist/` because they are outside `src/` and `public/`.

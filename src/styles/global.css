@@ -34,6 +34,12 @@ a:hover {
   color: var(--accent);
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .shell,
 .article-shell {
   width: calc(100% - 32px);
@@ -126,6 +132,9 @@ a:hover {
 
 .hero img,
 .content-hero img {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
   border: 1px solid var(--line-strong);
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -272,6 +281,12 @@ li {
 
 .article-body {
   max-width: 720px;
+}
+
+.article-body .lead-script-list {
+  display: grid;
+  gap: 12px;
+  margin-block: 22px;
 }
 
 .article-body a,

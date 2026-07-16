@@ -1,18 +1,115 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import GameCTA from "../components/GameCTA.astro";
 ---
 
-<BaseLayout title="Start Here" description="A stub for the freeze-under-pressure orientation essay." canonical="/start-here/">
-  <section class="stub-page shell">
-    <p class="eyebrow">TODO</p>
-    <h1>Start Here</h1>
-    <p class="lede">
-      Phase 1 stops before porting the freeze-under-pressure essay. This page is the marked parking spot,
-      not a fake article wearing a hat.
-    </p>
-    <div class="stub-links">
-      <a href="/patterns/">Name the pattern</a>
-      <a href="/situations/">Give me a script</a>
+<BaseLayout
+  title="Start here"
+  description="For the moment your brain goes blank under pressure: why it happens, what to say first, and where to go next."
+  canonical="/start-here/"
+  image="/assets/pages/start-here-hero.webp"
+  imageAlt="A pressure moment paused long enough to choose the next line."
+>
+  <article class="article-shell">
+    <header class="content-hero">
+      <div>
+        <p class="eyebrow">Start here</p>
+        <h1>When your brain goes blank, start smaller.</h1>
+        <p class="lede">
+          You know the feeling. The conversation ends, your body finally unclenches, and the perfect
+          sentence strolls in three hours late like it pays rent.
+        </p>
+      </div>
+      <img src="/assets/pages/start-here-hero.webp" alt="" width="1600" height="900" />
+    </header>
+
+    <div class="article-body">
+      <p>
+        In the actual moment, though, you froze. Or you said yes too fast. Or you started explaining,
+        then explaining the explanation, then somehow apologizing for needing oxygen and a calendar.
+      </p>
+      <p>
+        That does not mean you are weak. It means pressure got faster than your words. Your system
+        reached for the oldest exits: freeze, fawn, over-explain, agree, smooth it over, survive the
+        next ten seconds.
+      </p>
+
+      <h2>Freezing is not a character flaw</h2>
+      <p>
+        A blank mind under pressure is normal. Annoying, yes. Deeply inconvenient at meetings and
+        dinner tables, also yes. But not a moral defect. Your body is trying to keep the situation from
+        getting worse, and sometimes it picks the fastest-looking door.
+      </p>
+      <p>
+        The problem is that the fastest door is often expensive. The instant yes becomes a weekend you
+        did not have. The apology becomes permission for the original issue to vanish. The paragraph of
+        reasons becomes a nice buffet for someone who wants handles.
+      </p>
+
+      <h2>You do not need sudden courage</h2>
+      <p>
+        Courage is great. Also unreliable. Prepared words are better. You need a few lines you can reach
+        while your brain is still buffering, and you need to spot the move quickly enough to avoid
+        entering the wrong conversation.
+      </p>
+      <p>
+        That is the whole job of this site: name the pressure, pick the move, borrow a script. No grand
+        transformation arc required. We are trying to get you one usable sentence sooner.
+      </p>
+
+      <h2>The three doors</h2>
+      <p>
+        If you want to understand what is happening, start with <a href="/patterns/">Patterns</a>. These
+        are the pressure moves: guilt trip, gaslighting, moving goalposts, public shaming, and the rest
+        of the little machines that make you defend yourself before you decide.
+      </p>
+      <p>
+        If you know the pattern but need a move back, use <a href="/techniques/">Techniques</a>. Grey
+        rock, broken record, boundary, labeling: short tools for staying boringly steady when the room
+        wants a speech.
+      </p>
+      <p>
+        If you are in a specific scene and need words now, go to <a href="/situations/">Situations</a>.
+        Those pages are the worked conversations: boss expanding the ask, parent guilt trips, public
+        jokes, silent treatment, the tone trial.
+      </p>
+
+      <h2>Five lines for any pressured moment</h2>
+      <p>
+        If you read nothing else, take these. They are not magic. They are a pause with shoes on.
+      </p>
+      <div class="lead-script-list">
+        <figure class="script-block">
+          <figcaption>Buy one second</figcaption>
+          <blockquote><p>"I need a second to answer that clearly."</p></blockquote>
+        </figure>
+        <figure class="script-block">
+          <figcaption>Do not commit yet</figcaption>
+          <blockquote><p>"I need to check before I commit."</p></blockquote>
+        </figure>
+        <figure class="script-block">
+          <figcaption>Slow the room down</figcaption>
+          <blockquote><p>"I am not answering this on the spot."</p></blockquote>
+        </figure>
+        <figure class="script-block">
+          <figcaption>Reset a rushed yes</figcaption>
+          <blockquote><p>"I answered too quickly. I need to revisit that."</p></blockquote>
+        </figure>
+        <figure class="script-block">
+          <figcaption>Make pressure choose</figcaption>
+          <blockquote><p>"If you need an answer right now, it is no for now."</p></blockquote>
+        </figure>
+      </div>
+
+      <p>
+        Start there. Not with the perfect speech. Not with proving you are reasonable enough to have a
+        boundary. One pause. One sentence. Then the next one.
+      </p>
     </div>
-  </section>
+
+    <GameCTA
+      type="situation"
+      hook="Rehearse the moment pressure tries to choose your answer for you."
+    />
+  </article>
 </BaseLayout>

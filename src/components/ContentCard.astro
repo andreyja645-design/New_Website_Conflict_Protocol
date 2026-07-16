@@ -10,7 +10,7 @@ const { card } = Astro.props;
 
 <article class="content-card">
   <a href={card.href}>
-    {card.image && <img src={card.image} alt="" loading="lazy" />}
+    {card.image && <img src={card.image} alt={card.title} loading="lazy" />}
     <span>{card.eyebrow}</span>
     <h2>{card.title}</h2>
     <p>{card.oneLiner}</p>

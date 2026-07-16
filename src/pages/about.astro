@@ -1,14 +1,48 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../lib/site";
 ---
 
-<BaseLayout title="About" description="A stub for who makes Conflict Protocol and why this field guide exists." canonical="/about/">
-  <section class="stub-page shell">
-    <p class="eyebrow">TODO</p>
-    <h1>About</h1>
-    <p class="lede">
-      Phase 1 leaves this honest and short. Later this page can explain the game, the field guide, and the
-      editorial rules without turning into a trust-fall exercise.
-    </p>
-  </section>
+<BaseLayout
+  title="About"
+  description="Who makes Conflict Protocol, why this field guide exists, and what it will and will not promise."
+  canonical="/about/"
+  image="/assets/pages/about-conflict-protocol.webp"
+>
+  <article class="article-shell">
+    <header class="content-hero">
+      <div>
+        <p class="eyebrow">About</p>
+        <h1>Built for the moment your words leave the building.</h1>
+        <p class="lede">
+          Conflict Protocol is an indie game and companion field guide about difficult conversations:
+          the pressure moves, the counters, and the exact sentences that help you stay in the room.
+        </p>
+      </div>
+      <img src="/assets/pages/about-conflict-protocol.webp" alt="" width="1600" height="900" />
+    </header>
+
+    <div class="article-body">
+      <p>
+        This is made by an indie developer building <a href={site.gameUrl}>The Conflict Protocol</a>.
+        The game is the place to rehearse under pressure. The site is the quiet reference shelf next to
+        it: what is this move, what does it do to you, what can you actually say back?
+      </p>
+      <p>
+        The reason is simple and familiar: freezing is expensive. So is the instant yes. So is the
+        paragraph you write because one clean no feels too dangerous in your mouth. If you have ever
+        thought of the right line hours later, this site is built for that gap.
+      </p>
+      <p>
+        The promise is plain words that work. Not a diagnosis of the person across from you. Not
+        "unlock your potential" fog. Behaviors, scripts, practice. A field guide, not a personality
+        test with better lighting.
+      </p>
+      <p>
+        One boundary: this is communication training, not therapy or crisis support. If someone is
+        threatening you, controlling your movement, or making you afraid for your safety, the right next
+        move is real-world help, not a sharper sentence.
+      </p>
+    </div>
+  </article>
 </BaseLayout>
