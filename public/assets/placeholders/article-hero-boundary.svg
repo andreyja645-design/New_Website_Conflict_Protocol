@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d0916"/>
+      <stop offset="1" stop-color="#2a173d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <path d="M600 112v450" stroke="#ffd98a" stroke-width="8" stroke-linecap="round" opacity="0.84"/>
+  <circle cx="378" cy="275" r="72" fill="#211238" stroke="#ff4fd8" stroke-width="4"/>
+  <circle cx="822" cy="275" r="72" fill="#211238" stroke="#8dffcb" stroke-width="4"/>
+  <path d="M260 478c38-84 102-126 192-126s154 42 192 126" fill="none" stroke="#d9cff2" stroke-width="6" stroke-linecap="round" opacity="0.62"/>
+  <path d="M556 478c38-84 102-126 192-126s154 42 192 126" fill="none" stroke="#d9cff2" stroke-width="6" stroke-linecap="round" opacity="0.62"/>
+  <path d="M496 184l88 88-88 88" fill="none" stroke="#f6c453" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.34"/>
+  <path d="M704 184l-88 88 88 88" fill="none" stroke="#f6c453" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.34"/>
+</svg>
