@@ -37,3 +37,13 @@ No Phase 1 or Phase 2 shipped page uses a dishonest substitute image.
 - `techniques/labeling`: `/cards/techniques/card-labeling.jpg`
 - `techniques/tactic-naming`: `/cards/techniques/card-tactic-naming.jpg`
 - `techniques/consequence-setting`: no image; `heroImage` is intentionally omitted because there is no matching card asset in the prepared drop.
+
+## Phase 3 situation mappings
+
+- `situations/boss-keeps-expanding-the-ask`: `/assets/situations/friday-555-quick-favor.webp`
+- `situations/after-everything-ive-done`: `/assets/situations/after-everything-ive-done.webp`
+- `situations/you-end-up-apologizing`: `/assets/situations/darvo-blame-reversal.webp`
+- `situations/joke-at-your-expense`: `/assets/situations/youre-too-sensitive-everyone-laughed.webp`
+- `situations/you-froze-in-a-meeting`: `/assets/situations/follow-up-after-public-criticism.webp`
+- `situations/silent-treatment-until-you-cave`: `/assets/situations/reopen-after-silence.webp`
+- `situations/youre-too-sensitive`: `/assets/situations/they-make-your-tone-the-issue.webp`

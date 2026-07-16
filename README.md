@@ -24,7 +24,7 @@ Cloudflare Pages:
 
 ## V1 Sitemap Checklist
 
-Content migration progress: 27 of 39 content pages done: 14 patterns + 12 techniques + 1 Phase-1 situation. Phase 1 also scaffolds the shell routes and indexes so the templates can be reviewed. The spec names utility pages too; those are listed after the counted 39-page checklist.
+Content migration progress: 34 of 39 content pages done: 14 patterns + 12 techniques + 8 situations. Remaining Phase 4 work: `/start-here`, real `/about` content, homepage polish, and privacy polish. The spec names utility pages too; those are listed after the counted 39-page checklist.
 
 - [ ] `/`
 - [ ] `/start-here`
@@ -57,13 +57,13 @@ Content migration progress: 27 of 39 content pages done: 14 patterns + 12 techni
 - [x] `/techniques/labeling/`
 - [x] `/techniques/tactic-naming/`
 - [x] `/techniques/consequence-setting/`
-- [ ] `/situations/scope-creep-at-work/`
-- [ ] `/situations/after-everything-ive-done/`
-- [ ] `/situations/darvo-gaslighting-apology-trap/`
-- [ ] `/situations/public-joke-at-your-expense/`
-- [ ] `/situations/froze-in-meeting/`
-- [ ] `/situations/silent-treatment-until-you-cave/`
-- [ ] `/situations/too-sensitive-tone-policing/`
+- [x] `/situations/boss-keeps-expanding-the-ask/`
+- [x] `/situations/after-everything-ive-done/`
+- [x] `/situations/you-end-up-apologizing/`
+- [x] `/situations/joke-at-your-expense/`
+- [x] `/situations/you-froze-in-a-meeting/`
+- [x] `/situations/silent-treatment-until-you-cave/`
+- [x] `/situations/youre-too-sensitive/`
 - [x] `/situations/saying-no-without-jade/`
 
 Utility routes scaffolded in Phase 1:
@@ -95,5 +95,10 @@ Utility routes scaffolded in Phase 1:
 - Patterns: Guilt Trip, Martyrdom, DARVO, Triangulation, Moving Goalposts, Scope Creep, Public Shaming, Credit Theft, Minimizing, Comparison, Silent Treatment, Loyalty Test, Empathy Trap
 - Techniques: Fogging, I-Statement, Broken Record, Aikido, Validation, Reframe, Boundary, Mirroring, Labeling, Tactic Naming, Consequence Setting
 - Image note: Consequence Setting intentionally ships without `heroImage`; no unrelated card is substituted.
+
+## Phase 3 Content
+
+- Situations: Your boss keeps expanding the task after you agreed, After everything I have done, You end up apologizing, Joke at your expense, You froze in a meeting, Silent treatment until you cave, You're too sensitive.
+- Pattern pages now backfill `situations` frontmatter for the Phase 3 cross-links.
 
 `_quarry/` is source material only. It does not ship and should not move into `src/` or `public/`.
