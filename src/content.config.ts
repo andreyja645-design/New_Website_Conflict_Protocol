@@ -39,6 +39,8 @@ const situations = defineCollection({
     patterns: slugArray,
     techniques: slugArray,
     heroImage: z.string(),
+    firstLine: z.string().optional(),
+    firstLineLabel: z.string().optional(),
     gameHook: z.string(),
     gameLevel: z.string().optional()
   })

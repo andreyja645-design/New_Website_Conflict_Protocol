@@ -36,8 +36,13 @@ const navItems = [
   { href: "/start-here/", label: "Start here" },
   { href: "/patterns/", label: "Patterns" },
   { href: "/techniques/", label: "Techniques" },
-  { href: "/situations/", label: "Situations" }
+  { href: "/situations/", label: "Situations" },
+  { href: "/about/", label: "About" }
 ];
+
+const currentPath = Astro.url.pathname;
+const isActivePath = (href: string) =>
+  currentPath === href || (href !== "/" && currentPath.startsWith(href));
 ---
 
 <!doctype html>
@@ -59,6 +64,9 @@ const navItems = [
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
@@ -74,7 +82,17 @@ const navItems = [
           <span>Conflict Protocol</span>
         </a>
         <div class="nav-links">
-          {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          {
+            navItems.map((item) => (
+              <a
+                href={item.href}
+                class:list={[{ "is-active": isActivePath(item.href) }]}
+                aria-current={isActivePath(item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
           <a class="practice-link" href={site.gameUrl}>Practice live -&gt;</a>
         </div>
       </nav>

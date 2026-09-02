@@ -29,6 +29,12 @@ const jsonLd = [
 ];
 const { Content } = await render(entry);
 const ctaType = entry.collection.slice(0, -1) as "pattern" | "technique" | "situation";
+const firstLine =
+  entry.collection === "situations" && "firstLine" in entry.data ? entry.data.firstLine : undefined;
+const firstLineLabel =
+  entry.collection === "situations" && "firstLineLabel" in entry.data
+    ? entry.data.firstLineLabel || "Say this first"
+    : "Say this first";
 ---
 
 <BaseLayout
@@ -37,7 +43,7 @@ const ctaType = entry.collection.slice(0, -1) as "pattern" | "technique" | "situ
   canonical={path}
   image={image}
   jsonLd={jsonLd}
-  bodyClass="content-page"
+  bodyClass={`content-page ${entry.collection}-page`}
 >
   <article class="article-shell">
     <header class="content-hero">
@@ -48,6 +54,15 @@ const ctaType = entry.collection.slice(0, -1) as "pattern" | "technique" | "situ
       </div>
       {image && <img src={image} alt="" />}
     </header>
+    {firstLine && (
+      <aside class="now-panel situation-now" aria-label="Fast script">
+        <div>
+          <p class="panel-label">{firstLineLabel}</p>
+          <p class="now-script">"{firstLine}"</p>
+        </div>
+        <a href="#the-script">Jump to the full script</a>
+      </aside>
+    )}
     <div class="article-body">
       <Content />
     </div>

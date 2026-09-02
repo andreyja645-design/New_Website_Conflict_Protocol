@@ -1,14 +1,24 @@
-:root {
-  --bg: #100f16;
-  --panel: #1d1926;
-  --line: rgba(255, 255, 255, 0.14);
-  --line-strong: rgba(249, 198, 100, 0.35);
-  --text: #fff6e7;
-  --text-soft: #eadfce;
-  --muted: #b9a997;
-  --accent: #f9c664;
-  --danger: #d6474f;
-  --shadow: 0 22px 55px rgba(0, 0, 0, 0.35);
-  --font-display: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+﻿:root {
+  /* Style 1: Maya AI Tactical HUD Color Tokens */
+  --bg: #06030b;
+  --bg-surface: #0e071a;
+  --panel: rgba(19, 10, 36, 0.85);
+  --panel-elevated: rgba(28, 15, 52, 0.92);
+  --line: rgba(168, 85, 247, 0.28);
+  --line-strong: rgba(168, 85, 247, 0.65);
+  --text: #f8fafc;
+  --text-soft: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #c084fc;
+  --accent-glow: #a855f7;
+  --accent-cool: #2fb8ff;
+  --magenta: #ff2d9b;
+  --emerald: #10b981;
+  --warning: #f59e0b;
+  --danger: #f43f5e;
+  --shadow: 0 22px 55px rgba(0, 0, 0, 0.85);
+  --shadow-glow: 0 0 35px rgba(168, 85, 247, 0.35);
+  --font-display: 'Orbitron', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 }
