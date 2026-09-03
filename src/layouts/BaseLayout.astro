@@ -33,6 +33,7 @@ const schemas = [
 ].filter(Boolean);
 
 const navItems = [
+  { href: "/play/", label: "Play" },
   { href: "/start-here/", label: "Start here" },
   { href: "/patterns/", label: "Patterns" },
   { href: "/techniques/", label: "Techniques" },
@@ -93,7 +94,7 @@ const isActivePath = (href: string) =>
               </a>
             ))
           }
-          <a class="practice-link" href={site.gameUrl}>Practice live -&gt;</a>
+          <a class="practice-link" href="/play/">Play free -&gt;</a>
         </div>
       </nav>
     </header>
@@ -110,6 +111,7 @@ const isActivePath = (href: string) =>
           <p>You always think of the right answer three hours later. We are fixing that.</p>
         </div>
         <nav aria-label="Footer navigation">
+          <a href="/play/">Play</a>
           <a href="/patterns/">Patterns</a>
           <a href="/techniques/">Techniques</a>
           <a href="/situations/">Situations</a>

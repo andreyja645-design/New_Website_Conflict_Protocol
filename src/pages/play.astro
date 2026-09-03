@@ -1,0 +1,1402 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../lib/site";
+
+const gameUrl = site.gameUrl === "#practice-live" ? "http://localhost:8080" : site.gameUrl;
+
+const opponentCards = [
+  {
+    name: "The Toxic Boss",
+    slug: "scope-creep",
+    role: "WORKPLACE SCOPE CREEP",
+    line: "Moves the goalposts on Friday afternoon, then claims your commitment is in question.",
+    image: "/assets/play/character-boss.png",
+    patternLink: "/patterns/scope-creep/",
+    patternLabel: "Learn the Scope Creep pattern ➔"
+  },
+  {
+    name: "The Gaslighter",
+    slug: "gaslighting",
+    role: "REALITY REVISION",
+    line: "Rewrites what you both agreed to last week until you apologize for bringing it up.",
+    image: "/assets/play/character-gaslighter.png",
+    patternLink: "/patterns/gaslighting/",
+    patternLabel: "Learn the Gaslighting pattern ➔"
+  },
+  {
+    name: "The Guilt-Tripping Parent",
+    slug: "guilt-trip",
+    role: "MARTYRDOM LEVERAGE",
+    line: "Turns every simple personal boundary into a trial about everything they've sacrificed.",
+    image: "/assets/play/character-parent.png",
+    patternLink: "/patterns/guilt-trip/",
+    patternLabel: "Learn the Guilt Trip pattern ➔"
+  },
+  {
+    name: "The Covert Narcissist",
+    slug: "darvo",
+    role: "D.A.R.V.O. INVERSION",
+    line: "Punishes your boundaries with silent treatment and weaponized victimhood.",
+    image: "/assets/play/character-narcissist.png",
+    patternLink: "/patterns/darvo/",
+    patternLabel: "Learn the DARVO pattern ➔"
+  }
+];
+
+const skillCards = [
+  {
+    name: "Grey Rock",
+    slug: "grey-rock",
+    oneLiner: "Dull, flat, unrewarding facts. Starves the manipulator of emotional fuel.",
+    image: "/assets/play/skill-grey-rock.png",
+    link: "/techniques/grey-rock/"
+  },
+  {
+    name: "Fogging",
+    slug: "fogging",
+    oneLiner: "Agreeing with the piece of truth without accepting the unfair accusation.",
+    image: "/assets/play/skill-fogging.png",
+    link: "/techniques/fogging/"
+  },
+  {
+    name: "Broken Record",
+    slug: "broken-record",
+    oneLiner: "Calmly holding a single sentence boundary without escalating volume or tone.",
+    image: "/assets/play/skill-broken-record.png",
+    link: "/techniques/broken-record/"
+  },
+  {
+    name: "Aikido Reframe",
+    slug: "aikido",
+    oneLiner: "Redirecting aggressive pressure back into a concrete project constraint.",
+    image: "/assets/play/skill-aikido.png",
+    link: "/techniques/aikido/"
+  }
+];
+---
+
+<BaseLayout
+  title="Play Free | Conflict Protocol"
+  description="You always think of the right answer three hours later. Here you get to practice it — against someone who fights back. Free, in your browser, no signup."
+  canonical="/play/"
+  image="/assets/play/maya-hero.png"
+  bodyClass="play-page"
+>
+  <div class="play-page-shell">
+    <!-- Ambient ambient glow orbs -->
+    <div class="play-glow-orb orb-1"></div>
+    <div class="play-glow-orb orb-2"></div>
+
+    <!-- ============================================================ -->
+    <!-- 1. HERO — THE PROMISE, THEN THE REVEAL                       -->
+    <!-- ============================================================ -->
+    <section class="play-hero-wrap">
+      <!-- Ambient video loop in background -->
+      <div class="hero-video-backdrop">
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          class="backdrop-video-el"
+          poster="/assets/play/maya-hero.png"
+        >
+          <source src="/assets/play/ambient-rain.mp4" type="video/mp4" />
+        </video>
+        <div class="backdrop-gradient-scrim"></div>
+        <div class="backdrop-scanlines"></div>
+      </div>
+
+      <div class="play-hero-content">
+        <!-- Status Eyebrow -->
+        <div class="play-status-pill">
+          <span class="pulse-beacon-dot"></span>
+          <span>CONFLICT PROTOCOL // LIVE COMBAT SIMULATOR</span>
+        </div>
+
+        <!-- The Promise Headline -->
+        <h1 class="play-hero-headline">
+          YOU ALWAYS THINK OF THE RIGHT ANSWER THREE HOURS LATER.<br />
+          <span class="neon-highlight-magenta">HERE YOU GET TO PRACTICE IT —</span><br />
+          <span class="neon-highlight-violet">AGAINST SOMEONE WHO FIGHTS BACK.</span>
+        </h1>
+
+        <!-- Kill The Three Objections In One Line -->
+        <p class="objection-killer-strip">
+          <span class="objection-badge">FREE</span>
+          <span class="objection-dot">•</span>
+          <span class="objection-badge">IN YOUR BROWSER</span>
+          <span class="objection-dot">•</span>
+          <span class="objection-badge">NO DOWNLOAD, NO SIGNUP</span>
+        </p>
+
+        <!-- The Single Master Action Button (Nothing Competing With It) -->
+        <div class="hero-single-cta-wrap">
+          <a class="play-master-btn" href={gameUrl} target="_blank" rel="noopener noreferrer">
+            <span class="btn-sparkle">⚔️</span>
+            <span class="btn-main-text">PLAY FREE ➔</span>
+          </a>
+        </div>
+
+        <!-- Hero Maya Visual Unit with HUD Reticles -->
+        <div class="hero-maya-hud-unit">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="maya-hud-top-bar">
+            <div class="hud-left-meta">
+              <span class="hud-ping-dot"></span>
+              <span class="hud-label-text">MAYA AI // TACTICAL CO-PILOT</span>
+            </div>
+            <span class="hud-status-badge">NEURAL LINK CONNECTED</span>
+          </div>
+
+          <div class="maya-portrait-box">
+            <img
+              src="/assets/play/maya-hero.png"
+              alt="Maya AI — Neural tactical coach in Conflict Protocol"
+              class="maya-hero-img"
+              width="600"
+              height="400"
+            />
+            <div class="portrait-scanlines"></div>
+            <div class="portrait-tag-pill">
+              <span>ACTIVE SESSION READY // COMBAT DRILL #01</span>
+            </div>
+          </div>
+
+          <div class="maya-hud-bottom-quote">
+            "I analyze their manipulation move in real time and score your counter. Type your actual words. Do not let them rush your frame."
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 2. "WHAT ACTUALLY HAPPENS" — 3 STEPS, WITH REAL SCREENSHOTS  -->
+    <!-- ============================================================ -->
+    <section class="play-section" id="how-it-works">
+      <div class="section-title-wrap text-center">
+        <span class="section-kicker">STEP-BY-STEP BREAKDOWN</span>
+        <h2 class="section-heading">WHAT ACTUALLY HAPPENS</h2>
+        <p class="section-subtitle">
+          Nobody understands the game from a generic description. Here is how an encounter unfolds under live fire:
+        </p>
+      </div>
+
+      <div class="three-steps-vertical-flow">
+        <!-- Step 1 -->
+        <article class="step-card">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="step-meta-side">
+            <span class="step-number-tag">STEP 01</span>
+            <h3 class="step-title">They open with a real manipulation move</h3>
+            <p class="step-desc">
+              The opponent drops an authentic high-pressure line — shifting blame, tone-policing, or baiting guilt.
+              Not a canned robotic template, but a dynamic scene designed to test your biological freeze reflex.
+            </p>
+            <div class="step-status-chip chip-threat">
+              <span>▲ THREAT ATTACK DETECTED</span>
+            </div>
+          </div>
+
+          <div class="step-screen-side">
+            <div class="screenshot-hud-frame">
+              <img
+                src="/assets/play/step-1-move.png"
+                alt="Opponent opens with a real manipulation move"
+                class="screenshot-img"
+                loading="lazy"
+              />
+              <div class="screenshot-scanlines"></div>
+              <span class="screenshot-badge">LIVE TURN 01 // OPPONENT ATTACK</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Step 2 -->
+        <article class="step-card step-card-reverse">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="step-meta-side">
+            <span class="step-number-tag">STEP 02</span>
+            <h3 class="step-title">You type your own reply — not multiple choice</h3>
+            <p class="step-desc">
+              No multiple-choice training wheels. You type your actual response into the composer box under real-time pressure,
+              exactly as you would in a high-stakes email, Slack message, or boardroom face-to-face confrontation.
+            </p>
+            <div class="step-status-chip chip-typing">
+              <span>⚡ LIVE COMPOSER INPUT</span>
+            </div>
+          </div>
+
+          <div class="step-screen-side">
+            <div class="screenshot-hud-frame">
+              <img
+                src="/assets/play/step-2-reply.png"
+                alt="Player typing their own reply in the composer"
+                class="screenshot-img"
+                loading="lazy"
+              />
+              <div class="screenshot-scanlines"></div>
+              <span class="screenshot-badge">FREE-FORM INPUT // NO CANNED ANSWERS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Step 3 -->
+        <article class="step-card">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="step-meta-side">
+            <span class="step-number-tag">STEP 03</span>
+            <h3 class="step-title">You get scored on what it actually did to them</h3>
+            <p class="step-desc">
+              Instant psychological telemetry. Did you hold your frame? Did you slip into defensive J.A.D.E.?
+              Composure deltas, opponent heat changes, and landed counter-technique chips show what your words actually accomplished.
+            </p>
+            <div class="step-status-chip chip-score">
+              <span>✔ TELEMETRY & TACTICAL GRADE</span>
+            </div>
+          </div>
+
+          <div class="step-screen-side">
+            <div class="screenshot-hud-frame">
+              <img
+                src="/assets/play/step-3-score.png"
+                alt="Move analysis scoring the turn"
+                class="screenshot-img"
+                loading="lazy"
+              />
+              <div class="screenshot-scanlines"></div>
+              <span class="screenshot-badge">TURN EVALUATION // HEAT & COMPOSURE DELTAS</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 3. THE TRAILER — ONE, NOT SEVEN                              -->
+    <!-- ============================================================ -->
+    <section class="play-section" id="trailer">
+      <div class="section-title-wrap text-center">
+        <span class="section-kicker">TACTICAL RECONNAISSANCE</span>
+        <h2 class="section-heading">SEE IT IN ACTION</h2>
+        <p class="section-subtitle">Click to watch a 10-second combat sequence under live pressure:</p>
+      </div>
+
+      <div class="trailer-player-container">
+        <div class="corner-reticle reticle-tl"></div>
+        <div class="corner-reticle reticle-tr"></div>
+        <div class="corner-reticle reticle-bl"></div>
+        <div class="corner-reticle reticle-br"></div>
+
+        <div class="trailer-hud-header">
+          <div class="trailer-tag-left">
+            <span class="pulse-beacon-dot"></span>
+            <span>TRANSMISSION // GAMEPLAY TEASER</span>
+          </div>
+          <span class="trailer-status-tag">1080P // TACTICAL AUDIO ACTIVE</span>
+        </div>
+
+        <div class="video-media-wrapper">
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            class="trailer-video-element"
+            poster="/assets/play/step-1-move.png"
+          >
+            <source src="/assets/play/trailer.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="trailer-hud-footer">
+          <span>Simulation renders entirely client-side. Zero lag, zero installation.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 4. WHO YOU FACE — THE EMOTIONAL HOOK                         -->
+    <!-- ============================================================ -->
+    <section class="play-section" id="opponents">
+      <div class="section-title-wrap text-center">
+        <span class="section-kicker">COMBAT PROFILES</span>
+        <h2 class="section-heading">WHO YOU FACE</h2>
+        <p class="section-subtitle">
+          Four distinct psychological combat archetypes. This is where you recognize the exact dynamic from your real life:
+        </p>
+      </div>
+
+      <div class="opponents-four-grid">
+        {opponentCards.map((opp) => (
+          <article class="opponent-profile-card">
+            <div class="corner-reticle reticle-tl"></div>
+            <div class="corner-reticle reticle-tr"></div>
+            <div class="corner-reticle reticle-bl"></div>
+            <div class="corner-reticle reticle-br"></div>
+
+            <div class="opponent-portrait-wrap">
+              <img src={opp.image} alt={opp.name} class="opponent-img" loading="lazy" />
+              <div class="opponent-img-gradient"></div>
+              <span class="opponent-role-tag">{opp.role}</span>
+            </div>
+
+            <div class="opponent-card-body">
+              <h3 class="opponent-name">{opp.name}</h3>
+              <p class="opponent-one-liner">"{opp.line}"</p>
+              <div class="opponent-crosslink-wrap">
+                <a href={opp.patternLink} class="opponent-pattern-link">
+                  <span>{opp.patternLabel}</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 5. WHAT YOU'RE ACTUALLY PRACTICING — THE BRIDGE HOME         -->
+    <!-- ============================================================ -->
+    <section class="play-section" id="techniques">
+      <div class="section-title-wrap text-center">
+        <span class="section-kicker">THE BRIDGE HOME // ARMED COUNTERS</span>
+        <h2 class="section-heading">WHAT YOU'RE ACTUALLY PRACTICING</h2>
+        <p class="section-subtitle">
+          The counter-techniques the game scores you on. Even if you're not ready to play today,
+          take these four skill cards into your next conversation:
+        </p>
+      </div>
+
+      <div class="skills-four-grid">
+        {skillCards.map((skill) => (
+          <article class="skill-card-container">
+            <div class="corner-reticle reticle-tl"></div>
+            <div class="corner-reticle reticle-tr"></div>
+            <div class="corner-reticle reticle-bl"></div>
+            <div class="corner-reticle reticle-br"></div>
+
+            <div class="skill-card-art-box">
+              <img src={skill.image} alt={skill.name} class="skill-card-img" loading="lazy" />
+              <div class="skill-card-scrim"></div>
+              <span class="skill-type-pill">COUNTER-MOVE</span>
+            </div>
+
+            <div class="skill-card-body">
+              <h3 class="skill-card-title">{skill.name}</h3>
+              <p class="skill-card-text">{skill.oneLiner}</p>
+              <div class="skill-card-action">
+                <a href={skill.link} class="skill-read-link">
+                  <span>Read technique guide & scripts ➔</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6. THE HONEST LINE (SAFETY & REALITY BOUNDARY)               -->
+    <!-- ============================================================ -->
+    <section class="honest-line-section">
+      <div class="corner-reticle reticle-tl"></div>
+      <div class="corner-reticle reticle-tr"></div>
+      <div class="corner-reticle reticle-bl"></div>
+      <div class="corner-reticle reticle-br"></div>
+
+      <div class="honest-line-content">
+        <div class="honest-badge">
+          <span class="shield-mini-icon">🛡️</span>
+          <span>SAFETY & REALITY BOUNDARY</span>
+        </div>
+        <h3 class="honest-title">WHAT THIS IS AND IS NOT</h3>
+        <p class="honest-text">
+          Conflict Protocol is communication training, not psychological therapy. It is not a diagnostic tool,
+          and it is never a substitute for leaving an unsafe situation.
+        </p>
+        <p class="honest-subtext">
+          If you are facing threats, physical danger, or domestic abuse, verbal counter-tactics are not the answer —
+          please reach out to local crisis and domestic safety resources.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 7. FINAL CTA — REPEAT THE SAME BUTTON (NOTHING COMPETING)   -->
+    <!-- ============================================================ -->
+    <section class="play-final-cta-section">
+      <div class="corner-reticle reticle-tl"></div>
+      <div class="corner-reticle reticle-tr"></div>
+      <div class="corner-reticle reticle-bl"></div>
+      <div class="corner-reticle reticle-br"></div>
+
+      <div class="final-cta-inner">
+        <span class="final-tag">READY FOR TURN 01?</span>
+        <h2 class="final-heading">
+          YOU ALWAYS THINK OF THE RIGHT ANSWER THREE HOURS LATER.<br />
+          <span class="neon-highlight-magenta">START PRACTICING IT NOW.</span>
+        </h2>
+        <p class="final-objections">
+          free · in your browser · no download, no signup
+        </p>
+
+        <div class="hero-single-cta-wrap" style="margin-top: 20px;">
+          <a class="play-master-btn" href={gameUrl} target="_blank" rel="noopener noreferrer">
+            <span class="btn-sparkle">⚔️</span>
+            <span class="btn-main-text">PLAY FREE ➔</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ============================================================ */
+  /* PLAY LANDING PAGE // MAYA AI TACTICAL HUD (STYLE 1 STANDARD) */
+  /* ============================================================ */
+  .play-page-shell {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 20px 24px 90px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Ambient Glow Orbs */
+  .play-glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(150px);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .orb-1 {
+    top: -50px;
+    right: -100px;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.16) 0%, transparent 70%);
+  }
+  .orb-2 {
+    top: 1400px;
+    left: -120px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 45, 155, 0.12) 0%, transparent 70%);
+  }
+
+  /* Corner Reticles */
+  .corner-reticle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .reticle-tl { top: 6px; left: 6px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .reticle-tr { top: 6px; right: 6px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+  .reticle-bl { bottom: 6px; left: 6px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .reticle-br { bottom: 6px; right: 6px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+
+  /* ============================================================ */
+  /* 1. HERO SECTION                                              */
+  /* ============================================================ */
+  .play-hero-wrap {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    padding: 60px 36px;
+    margin-bottom: 85px;
+    border: 1.5px solid var(--line);
+    background: rgba(14, 7, 26, 0.85);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(168, 85, 247, 0.25);
+  }
+
+  @media (max-width: 768px) {
+    .play-hero-wrap {
+      padding: 40px 20px;
+    }
+  }
+
+  /* Ambient Backdrop Video */
+  .hero-video-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .backdrop-video-el {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.25;
+    filter: saturate(0.8) contrast(1.2);
+  }
+
+  .backdrop-gradient-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(6, 3, 11, 0.7) 0%, rgba(14, 7, 26, 0.95) 85%, #06030b 100%);
+  }
+
+  .backdrop-scanlines {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+    background-size: 100% 3px;
+    opacity: 0.18;
+  }
+
+  .play-hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 960px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+
+  .play-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    background: rgba(168, 85, 247, 0.14);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+  }
+
+  .pulse-beacon-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: relative;
+  }
+  .pulse-beacon-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    animation: beacon-ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes beacon-ping {
+    75%, 100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  .play-hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.2vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .neon-highlight-magenta {
+    color: var(--magenta);
+    text-shadow: 0 0 25px rgba(255, 45, 155, 0.75), 0 0 50px rgba(255, 45, 155, 0.4);
+  }
+
+  .neon-highlight-violet {
+    color: var(--accent);
+    text-shadow: 0 0 25px rgba(168, 85, 247, 0.7);
+  }
+
+  .objection-killer-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 20px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .objection-badge {
+    color: var(--emerald);
+  }
+
+  .objection-dot {
+    color: var(--accent);
+  }
+
+  .hero-single-cta-wrap {
+    margin-top: 6px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .play-master-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 38px;
+    background: linear-gradient(135deg, #8b3dff 0%, #ff2d9b 100%);
+    border: 1.5px solid #f472b6;
+    border-radius: 12px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 0 35px rgba(255, 45, 155, 0.55), 0 0 15px rgba(255, 255, 255, 0.3);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+  }
+
+  .play-master-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 50px rgba(255, 45, 155, 0.8), 0 0 25px #fff;
+  }
+
+  .btn-sparkle {
+    font-size: 1.2rem;
+  }
+
+  /* Maya Hero Unit */
+  .hero-maya-hud-unit {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    background: rgba(18, 9, 36, 0.9);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: var(--shadow-glow), 0 15px 40px rgba(0, 0, 0, 0.85);
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .maya-hud-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 10px;
+  }
+
+  .hud-left-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hud-ping-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .hud-label-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+
+  .hud-status-badge {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--emerald);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .maya-portrait-box {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 280px;
+    background: #080312;
+    border: 1px solid var(--line);
+  }
+
+  .maya-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  .portrait-scanlines {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+    background-size: 100% 3px;
+    opacity: 0.22;
+    pointer-events: none;
+  }
+
+  .portrait-tag-pill {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(10, 5, 20, 0.85);
+    border: 1px solid var(--line);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #fff;
+    letter-spacing: 0.1em;
+  }
+
+  .maya-hud-bottom-quote {
+    background: rgba(0, 0, 0, 0.45);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #e2e8f0;
+    font-style: italic;
+  }
+
+  /* ============================================================ */
+  /* COMMON SECTION HEADINGS                                      */
+  /* ============================================================ */
+  .play-section {
+    margin-bottom: 95px;
+  }
+
+  .section-title-wrap {
+    margin-bottom: 36px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .section-kicker {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 740px;
+    margin: 8px auto 0;
+    line-height: 1.6;
+  }
+
+  /* ============================================================ */
+  /* 2. "WHAT ACTUALLY HAPPENS" — 3 STEPS                         */
+  /* ============================================================ */
+  .three-steps-vertical-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .step-card {
+    position: relative;
+    background: rgba(19, 10, 36, 0.85);
+    border: 1.5px solid var(--line);
+    border-radius: 20px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 36px;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    transition: all 0.25s;
+  }
+
+  .step-card:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .step-card-reverse {
+    grid-template-columns: 1.2fr 1fr;
+  }
+
+  .step-card-reverse .step-meta-side {
+    order: 2;
+  }
+  .step-card-reverse .step-screen-side {
+    order: 1;
+  }
+
+  @media (max-width: 880px) {
+    .step-card, .step-card-reverse {
+      grid-template-columns: 1fr;
+      padding: 24px;
+      gap: 24px;
+    }
+    .step-card-reverse .step-meta-side {
+      order: 1;
+    }
+    .step-card-reverse .step-screen-side {
+      order: 2;
+    }
+  }
+
+  .step-meta-side {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step-number-tag {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    color: #fff;
+    line-height: 1.25;
+  }
+
+  .step-desc {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--text-soft);
+  }
+
+  .step-status-chip {
+    align-self: flex-start;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-top: 6px;
+  }
+
+  .chip-threat {
+    background: rgba(244, 63, 94, 0.18);
+    border: 1px solid var(--danger);
+    color: #fca5a5;
+  }
+
+  .chip-typing {
+    background: rgba(47, 184, 255, 0.18);
+    border: 1px solid var(--accent-cool);
+    color: #bae6fd;
+  }
+
+  .chip-score {
+    background: rgba(16, 185, 129, 0.18);
+    border: 1px solid var(--emerald);
+    color: #6ee7b7;
+  }
+
+  /* Screenshot Frame */
+  .screenshot-hud-frame {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #090510;
+    border: 1px solid var(--line);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+  }
+
+  .screenshot-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .screenshot-scanlines {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+    background-size: 100% 3px;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .screenshot-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(10, 5, 20, 0.85);
+    border: 1px solid var(--line);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #fff;
+    letter-spacing: 0.1em;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ============================================================ */
+  /* 3. THE TRAILER PLAYER                                        */
+  /* ============================================================ */
+  .trailer-player-container {
+    position: relative;
+    max-width: 920px;
+    margin: 0 auto;
+    background: rgba(18, 9, 36, 0.9);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow-glow), 0 15px 40px rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .trailer-hud-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 12px;
+  }
+
+  .trailer-tag-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+
+  .trailer-status-tag {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--emerald);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .video-media-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid var(--line);
+  }
+
+  .trailer-video-element {
+    width: 100%;
+    max-height: 520px;
+    display: block;
+  }
+
+  .trailer-hud-footer {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted);
+    text-align: center;
+    padding-top: 4px;
+  }
+
+  /* ============================================================ */
+  /* 4. WHO YOU FACE                                              */
+  /* ============================================================ */
+  .opponents-four-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .opponent-profile-card {
+    position: relative;
+    background: rgba(19, 10, 36, 0.85);
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  .opponent-profile-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--danger);
+    box-shadow: 0 0 30px rgba(244, 63, 94, 0.35);
+  }
+
+  .opponent-portrait-wrap {
+    position: relative;
+    height: 220px;
+    background: #0d0716;
+    overflow: hidden;
+  }
+
+  .opponent-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.4s ease;
+  }
+
+  .opponent-profile-card:hover .opponent-img {
+    transform: scale(1.06);
+  }
+
+  .opponent-img-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(19, 10, 36, 0.95) 0%, transparent 65%);
+  }
+
+  .opponent-role-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--danger);
+    background: rgba(10, 5, 20, 0.85);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(244, 63, 94, 0.4);
+    letter-spacing: 0.1em;
+  }
+
+  .opponent-card-body {
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .opponent-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #fff;
+    margin: 0;
+  }
+
+  .opponent-one-liner {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text-soft);
+    font-style: italic;
+    flex: 1;
+    margin: 0;
+  }
+
+  .opponent-crosslink-wrap {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 12px;
+    margin-top: 6px;
+  }
+
+  .opponent-pattern-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: inline-block;
+  }
+
+  .opponent-pattern-link:hover {
+    color: #fff;
+    text-shadow: 0 0 8px var(--accent);
+  }
+
+  /* ============================================================ */
+  /* 5. WHAT YOU'RE ACTUALLY PRACTICING                           */
+  /* ============================================================ */
+  .skills-four-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .skill-card-container {
+    position: relative;
+    background: rgba(19, 10, 36, 0.85);
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  .skill-card-container:hover {
+    transform: translateY(-4px);
+    border-color: var(--emerald);
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.35);
+  }
+
+  .skill-card-art-box {
+    position: relative;
+    height: 180px;
+    background: #0d0716;
+    overflow: hidden;
+  }
+
+  .skill-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.4s ease;
+  }
+
+  .skill-card-container:hover .skill-card-img {
+    transform: scale(1.06);
+  }
+
+  .skill-card-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(19, 10, 36, 0.95) 0%, transparent 65%);
+  }
+
+  .skill-type-pill {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--emerald);
+    background: rgba(10, 5, 20, 0.85);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    letter-spacing: 0.1em;
+  }
+
+  .skill-card-body {
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .skill-card-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #fff;
+    margin: 0;
+  }
+
+  .skill-card-text {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--muted);
+    flex: 1;
+    margin: 0;
+  }
+
+  .skill-card-action {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 12px;
+    margin-top: 6px;
+  }
+
+  .skill-read-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--emerald);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: inline-block;
+  }
+
+  .skill-read-link:hover {
+    color: #fff;
+    text-shadow: 0 0 8px var(--emerald);
+  }
+
+  /* ============================================================ */
+  /* 6. THE HONEST LINE (NOT-THERAPY BOUNDARY)                    */
+  /* ============================================================ */
+  .honest-line-section {
+    position: relative;
+    background: rgba(14, 8, 24, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 28px 30px;
+    margin-bottom: 70px;
+    text-align: center;
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .honest-line-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .honest-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+  }
+
+  .honest-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .honest-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+    max-width: 680px;
+  }
+
+  .honest-subtext {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 640px;
+    margin: 0;
+  }
+
+  /* ============================================================ */
+  /* 7. FINAL CTA                                                 */
+  /* ============================================================ */
+  .play-final-cta-section {
+    position: relative;
+    background: linear-gradient(135deg, rgba(28, 14, 52, 0.95) 0%, rgba(14, 7, 28, 0.98) 100%);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 22px;
+    padding: 50px 32px;
+    text-align: center;
+    box-shadow: var(--shadow-glow), 0 15px 40px rgba(0, 0, 0, 0.85);
+  }
+
+  .final-cta-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .final-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.16em;
+  }
+
+  .final-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .final-objections {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--emerald);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
