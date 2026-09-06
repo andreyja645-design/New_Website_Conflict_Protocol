@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { COMMUNICATION_STYLES } from "../../lib/communicationStyles";
-import { site } from "../../lib/site";
 
 const constructiveCount = COMMUNICATION_STYLES.filter((s) => s.category === "constructive").length;
 const trapCount = COMMUNICATION_STYLES.filter((s) => s.category === "trap").length;
@@ -69,6 +68,9 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     <div class="archetype-grid" id="archetypeGrid">
       {COMMUNICATION_STYLES.map((style) => (
         <article class="archetype-card" data-category={style.category}>
+          <!-- Entire card clickable overlay -->
+          <a href={`/styles/${style.id}/`} class="card-clickable-overlay" aria-label={`View full dossier for ${style.label}`}></a>
+
           <!-- Corner Reticles -->
           <div class="corner-reticle reticle-tl"></div>
           <div class="corner-reticle reticle-tr"></div>
@@ -103,48 +105,16 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
             </div>
           </div>
 
-          <!-- Card Body / Tactical Briefing -->
+          <!-- Card Body: Just Label, 1-sentence Tagline, and "SEE DETAILS ➔" Button -->
           <div class="archetype-body">
             <h2 class="archetype-name">{style.label}</h2>
             <p class="archetype-tagline">“{style.tagline}”</p>
 
-            <div class="detail-box">
-              <p class="detail-text">{style.detail}</p>
-            </div>
-
-            <!-- Behavioral Habits Chips -->
-            <div class="habits-section">
-              <span class="section-label">OBSERVED COMBAT BEHAVIORS:</span>
-              <div class="habits-wrap">
-                {style.habits.map((habit) => (
-                  <span class="habit-chip">{habit}</span>
-                ))}
-              </div>
-            </div>
-
-            <!-- Tactical Countermeasure / Fix -->
-            <div class="counter-box">
-              <div class="counter-head">
-                <span class="counter-icon">💡</span>
-                <span class="counter-label">TACTICAL DIRECTIVE</span>
-              </div>
-              <p class="counter-text">{style.counterMeasure}</p>
-            </div>
-
-            <!-- Frame Control Telemetry Meter -->
-            <div class="telemetry-box">
-              <div class="telemetry-meta">
-                <span class="telemetry-label">FRAME INTEGRITY INDEX</span>
-                <span class="telemetry-value" style={`color: ${style.badgeColor};`}>
-                  {style.stats.frameControl}%
-                </span>
-              </div>
-              <div class="telemetry-bar-bg">
-                <div
-                  class="telemetry-bar-fill"
-                  style={`width: ${style.stats.frameControl}%; background: ${style.badgeColor}; box-shadow: 0 0 10px ${style.badgeColor};`}
-                ></div>
-              </div>
+            <div class="card-action-wrap">
+              <a href={`/styles/${style.id}/`} class="see-details-btn">
+                <span>SEE DETAILS</span>
+                <span class="btn-arrow">➔</span>
+              </a>
             </div>
           </div>
         </article>
@@ -196,7 +166,6 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
         const category = card.getAttribute('data-category');
         if (filter === 'all' || category === filter) {
           (card as HTMLElement).style.display = 'flex';
-          card.classList.add('fade-in');
         } else {
           (card as HTMLElement).style.display = 'none';
         }
@@ -444,12 +413,20 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(14px);
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    cursor: pointer;
   }
 
   .archetype-card:hover {
     transform: translateY(-4px);
     border-color: rgba(168, 85, 247, 0.6);
     box-shadow: 0 0 30px rgba(168, 85, 247, 0.35), 0 20px 40px rgba(0, 0, 0, 0.8);
+  }
+
+  .card-clickable-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: 16px;
   }
 
   /* Corner Reticles */
@@ -477,6 +454,8 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     justify-content: space-between;
     align-items: center;
     gap: 8px;
+    position: relative;
+    z-index: 3;
   }
 
   .category-pill {
@@ -574,17 +553,19 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     backdrop-filter: blur(8px);
   }
 
-  /* Body Content */
+  /* Body Content: Just Title, 1-sentence Tagline, and Button */
   .archetype-body {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
     flex: 1;
+    position: relative;
+    z-index: 3;
   }
 
   .archetype-name {
     font-family: var(--font-display);
-    font-size: 1.45rem;
+    font-size: 1.4rem;
     font-weight: 800;
     color: #fff;
     margin: 0;
@@ -596,128 +577,52 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     font-weight: 500;
     font-style: italic;
     color: var(--text-soft);
-    line-height: 1.45;
+    line-height: 1.5;
     margin: 0;
     border-left: 2px solid var(--accent);
     padding-left: 10px;
+    flex: 1;
   }
 
-  .detail-box {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    padding: 10px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  .detail-text {
-    font-size: 0.88rem;
-    line-height: 1.55;
-    color: #cbd5e1;
-    margin: 0;
-  }
-
-  /* Habits Section */
-  .habits-section {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .section-label {
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-  }
-
-  .habits-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .habit-chip {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #e2e8f0;
-  }
-
-  /* Tactical Counter Box */
-  .counter-box {
-    background: rgba(22, 12, 42, 0.6);
-    border: 1px solid rgba(168, 85, 247, 0.25);
-    border-radius: 8px;
-    padding: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .counter-head {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    font-weight: 800;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-  }
-
-  .counter-text {
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: #e2e8f0;
-    margin: 0;
-  }
-
-  /* Telemetry Bar */
-  .telemetry-box {
+  .card-action-wrap {
     margin-top: auto;
     padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
   }
 
-  .telemetry-meta {
-    display: flex;
-    justify-content: space-between;
+  .see-details-btn {
+    display: inline-flex;
     align-items: center;
-  }
-
-  .telemetry-label {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-  }
-
-  .telemetry-value {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-  }
-
-  .telemetry-bar-bg {
+    justify-content: space-between;
     width: 100%;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 9999px;
-    overflow: hidden;
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 4;
   }
 
-  .telemetry-bar-fill {
-    height: 100%;
-    border-radius: 9999px;
-    transition: width 0.6s ease;
+  .archetype-card:hover .see-details-btn {
+    background: linear-gradient(135deg, #a855f7 0%, #ff2d9b 100%);
+    border-color: transparent;
+    box-shadow: 0 0 20px rgba(255, 45, 155, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .btn-arrow {
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+  .archetype-card:hover .btn-arrow {
+    transform: translateX(4px);
   }
 
   /* Arena CTA Panel */
@@ -790,10 +695,6 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     box-shadow: 0 0 35px rgba(255, 45, 155, 0.7);
   }
 
-  .btn-arrow {
-    font-size: 16px;
-    transition: transform 0.2s;
-  }
   .arena-play-btn:hover .btn-arrow {
     transform: translateX(4px);
   }
