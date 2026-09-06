@@ -35,6 +35,14 @@ const firstLineLabel =
   entry.collection === "situations" && "firstLineLabel" in entry.data
     ? entry.data.firstLineLabel || "Say this first"
     : "Say this first";
+
+const isPattern = entry.collection === "patterns";
+const isTechnique = entry.collection === "techniques";
+const isSituation = entry.collection === "situations";
+
+const counters = relatedGroups.find((g) => g.title.toLowerCase().includes("counter"))?.links || [];
+const situations = relatedGroups.find((g) => g.title.toLowerCase().includes("situation"))?.links || [];
+const isTradingCard = Boolean(image?.includes("/cards/") || isPattern || isTechnique);
 ---
 
 <BaseLayout
@@ -43,35 +51,810 @@ const firstLineLabel =
   canonical={path}
   image={image}
   jsonLd={jsonLd}
-  bodyClass={`content-page ${entry.collection}-page`}
+  bodyClass={`content-page ${entry.collection}-page maya-tactical-page`}
 >
-  <article class="article-shell">
-    <header class="content-hero">
-      <div>
-        <p class="eyebrow">{section}</p>
-        <h1>{entry.data.title}</h1>
-        <p class="lede">{entry.data.oneLiner}</p>
+  <div class="shell article-shell">
+    <!-- Top HUD Status Strip -->
+    <div class="hud-status-strip">
+      <div class="hud-status-left">
+        <span class="hud-radar-beacon"></span>
+        <span class="hud-mono-tag">MAYA AI // TACTICAL DOSSIER // {section.toUpperCase()} ARCHIVE</span>
       </div>
-      {image && <img src={image} alt="" />}
-    </header>
-    {firstLine && (
-      <aside class="now-panel situation-now" aria-label="Fast script">
-        <div>
-          <p class="panel-label">{firstLineLabel}</p>
-          <p class="now-script">"{firstLine}"</p>
-        </div>
-        <a href="#the-script">Jump to the full script</a>
-      </aside>
-    )}
-    <div class="article-body">
-      <Content />
+      <div class="hud-status-right">
+        <span class="hud-shield-indicator">● LIVE COMBAT TELEMETRY</span>
+      </div>
     </div>
-    {relatedGroups.map((group) => <RelatedLinks title={group.title} links={group.links} />)}
-    {(entry.collection === "patterns" || entry.collection === "situations") && <SafetyNote />}
-    <GameCTA
-      type={ctaType}
-      hook={entry.data.gameHook}
-      level={entry.collection === "situations" ? entry.data.gameLevel : undefined}
-    />
-  </article>
+
+    <!-- ============================================================ -->
+    <!-- DOSSIER LAYOUT: 2-COLUMN GRID (NO EMPTY DEAD SPACE)           -->
+    <!-- ============================================================ -->
+    <div class="dossier-layout-grid">
+      <!-- 1. Header Area (Row 1 Left) -->
+      <header class="dossier-hero-header">
+        {isPattern && (
+          <div class="tactical-badge badge-magenta">
+            <span class="badge-icon">⚡</span>
+            <span>OPPONENT BEHAVIORAL PATTERN</span>
+          </div>
+        )}
+        {isTechnique && (
+          <div class="tactical-badge badge-cyan">
+            <span class="badge-icon">🛡️</span>
+            <span>ACTIVE COUNTER-MEASURE MOVE</span>
+          </div>
+        )}
+        {isSituation && (
+          <div class="tactical-badge badge-emerald">
+            <span class="badge-icon">🎯</span>
+            <span>WORKED COMBAT SCENARIO</span>
+          </div>
+        )}
+
+        <h1 class="hero-main-title">
+          {entry.data.title}
+        </h1>
+
+        <p class="hero-lede-text">
+          {entry.data.oneLiner}
+        </p>
+
+        <!-- Tactical Intel HUD Panel -->
+        <div class="tactical-intel-panel">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          {isPattern && (
+            <div class="intel-block-content">
+              {counters.length > 0 && (
+                <div class="intel-section">
+                  <div class="intel-header-row">
+                    <span class="intel-label">🛡️ RECOMMENDED COUNTERS</span>
+                    <span class="intel-mono-meta">NEUTRALIZE TACTIC</span>
+                  </div>
+                  <div class="intel-chips-wrap">
+                    {counters.map((c) => (
+                      <a href={c.href} class="counter-chip">
+                        <span class="chip-shield">🛡️</span>
+                        <span class="chip-name">{c.title}</span>
+                        <span class="chip-arrow">➔</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div class="intel-trap-row">
+                <span class="trap-badge">⚠️ COMBAT TRAP</span>
+                <p class="trap-desc">
+                  <strong>Do not J.A.D.E.</strong> (Justify, Argue, Defend, Explain). Overexplaining concedes FRAME to this pattern.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {isTechnique && "job" in entry.data && (
+            <div class="intel-block-content">
+              <div class="intel-section">
+                <div class="intel-header-row">
+                  <span class="intel-label">🎯 MISSION DIRECTIVE</span>
+                  <span class="intel-mono-meta">CORE EFFECT</span>
+                </div>
+                <p class="intel-text-lead">{entry.data.job}</p>
+              </div>
+
+              {"risk" in entry.data && entry.data.risk && (
+                <div class="intel-trap-row trap-warning">
+                  <span class="trap-badge warning-badge">⚠️ OPERATIONAL RISK</span>
+                  <p class="trap-desc">{entry.data.risk}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {isSituation && firstLine && (
+            <div class="intel-block-content">
+              <div class="first-response-subcard">
+                <div class="first-response-head">
+                  <span class="first-response-pill">⚡ USE THIS SCRIPT FIRST</span>
+                  <span class="first-response-label">{firstLineLabel}</span>
+                </div>
+                <div class="first-response-quote">
+                  "{firstLine}"
+                </div>
+                <div class="first-response-actions">
+                  <button type="button" class="dossier-copy-btn" data-script={firstLine}>
+                    <span class="copy-icon">📋</span>
+                    <span class="copy-txt">COPY SCRIPT</span>
+                  </button>
+                  <a href="#the-script" class="jump-script-anchor">Jump to Full Script ➔</a>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </header>
+
+      <!-- 2. Sticky Sidebar (Row 1-2 Right) -->
+      {image && (
+        <aside class="dossier-sidebar-col">
+          <div class="maya-dossier-frame sticky-dossier">
+            <div class="corner-reticle reticle-tl"></div>
+            <div class="corner-reticle reticle-tr"></div>
+            <div class="corner-reticle reticle-bl"></div>
+            <div class="corner-reticle reticle-br"></div>
+
+            <div class="dossier-hud-top">
+              <div class="dossier-tag">
+                <span class="radar-ping-mini"></span>
+                <span>MAYA AI // COMBAT INTEL</span>
+              </div>
+              <span class="dossier-status">CLASSIFIED DOSSIER</span>
+            </div>
+
+            <div class:list={["dossier-art-container", { "is-trading-card-art": isTradingCard }]}>
+              <img
+                src={image}
+                alt={entry.data.title}
+                class="dossier-art-img"
+                loading="eager"
+              />
+              <div class="scanlines-overlay"></div>
+            </div>
+
+            <div class="dossier-coach-quote">
+              <div class="quote-header">
+                <span class="quote-avatar">⚡</span>
+                <span class="quote-author">MAYA COACH ADVISORY:</span>
+              </div>
+              <p class="quote-content">
+                "{entry.data.gameHook}"
+              </p>
+            </div>
+          </div>
+        </aside>
+      )}
+
+      <!-- 3. Article Body (Row 2 Left - Starts IMMEDIATELY below header!) -->
+      <div class="article-body-wrapper">
+        <div class="article-body">
+          <Content />
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Bottom Matter (Full Width, Below the 2-Column Grid) -->
+    <div class="dossier-bottom-matter">
+      {relatedGroups.map((group) => <RelatedLinks title={group.title} links={group.links} />)}
+      {(isPattern || isSituation) && <SafetyNote />}
+      <GameCTA
+        type={ctaType}
+        hook={entry.data.gameHook}
+        level={isSituation ? entry.data.gameLevel : undefined}
+      />
+    </div>
+  </div>
 </BaseLayout>
+
+<style>
+  .article-shell {
+    max-width: 1200px;
+    padding-top: 36px;
+    padding-bottom: 80px;
+  }
+
+  /* HUD Status Strip */
+  .hud-status-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    background: rgba(14, 7, 26, 0.8);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .hud-status-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hud-radar-beacon {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: relative;
+  }
+  .hud-radar-beacon::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    animation: beacon-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes beacon-ping {
+    75%, 100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  .hud-mono-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .hud-shield-indicator {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--emerald, #10b981);
+    letter-spacing: 0.08em;
+  }
+
+  /* Corner Reticles */
+  .corner-reticle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .reticle-tl { top: 6px; left: 6px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .reticle-tr { top: 6px; right: 6px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+  .reticle-bl { bottom: 6px; left: 6px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .reticle-br { bottom: 6px; right: 6px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+
+  /* ============================================================ */
+  /* DOSSIER LAYOUT GRID (SEAMLESS 2-COLUMN, ZERO DEAD GAP)        */
+  /* ============================================================ */
+  .dossier-layout-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    grid-template-areas:
+      "header  sidebar"
+      "body    sidebar";
+    column-gap: 42px;
+    row-gap: 0;
+    align-items: start;
+    margin-bottom: 56px;
+  }
+
+  @media (max-width: 980px) {
+    .dossier-layout-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+    .dossier-hero-header { order: 1; }
+    .dossier-sidebar-col { order: 2; width: 100%; max-width: 380px; margin: 0 auto; }
+    .article-body-wrapper { order: 3; }
+  }
+
+  /* Header Section (Row 1 Left) */
+  .dossier-hero-header {
+    grid-area: header;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  /* Badges */
+  .tactical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .badge-magenta {
+    background: rgba(255, 45, 155, 0.12);
+    border: 1px solid rgba(255, 45, 155, 0.4);
+    color: var(--magenta, #ff2d9b);
+  }
+
+  .badge-cyan {
+    background: rgba(47, 184, 255, 0.12);
+    border: 1px solid rgba(47, 184, 255, 0.4);
+    color: var(--accent-cool, #2fb8ff);
+  }
+
+  .badge-emerald {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: var(--emerald, #10b981);
+  }
+
+  /* Main Title */
+  .hero-main-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: 0.03em;
+    color: #fff;
+    margin: 0;
+    text-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
+  }
+
+  .hero-lede-text {
+    font-size: 1.16rem;
+    line-height: 1.65;
+    color: var(--text-soft);
+    margin: 0;
+  }
+
+  /* Tactical Intel Panel */
+  .tactical-intel-panel {
+    position: relative;
+    background: linear-gradient(135deg, rgba(22, 11, 42, 0.9) 0%, rgba(12, 6, 24, 0.95) 100%);
+    border: 1px solid var(--line-strong);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.2), 0 10px 30px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .intel-block-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .intel-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .intel-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .intel-mono-meta {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .intel-chips-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .counter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 8px;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: all 0.2s ease;
+  }
+
+  .counter-chip:hover {
+    background: rgba(168, 85, 247, 0.25);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35);
+  }
+
+  .chip-arrow {
+    color: var(--accent);
+  }
+
+  .intel-trap-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(255, 45, 155, 0.08);
+    border: 1px solid rgba(255, 45, 155, 0.3);
+  }
+
+  .trap-warning {
+    background: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+
+  .trap-badge {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 800;
+    color: var(--magenta, #ff2d9b);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    margin-top: 1px;
+  }
+
+  .warning-badge {
+    color: var(--warning, #f59e0b);
+  }
+
+  .trap-desc {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .trap-desc strong {
+    color: #fff;
+  }
+
+  .intel-text-lead {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  /* First Response Subcard */
+  .first-response-subcard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .first-response-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .first-response-pill {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--emerald, #10b981);
+    letter-spacing: 0.12em;
+  }
+
+  .first-response-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .first-response-quote {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  .first-response-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .dossier-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 6px;
+    padding: 5px 12px;
+    color: var(--emerald, #10b981);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .dossier-copy-btn:hover {
+    background: rgba(16, 185, 129, 0.3);
+    border-color: var(--emerald, #10b981);
+    transform: translateY(-1px);
+  }
+
+  .jump-script-anchor {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .jump-script-anchor:hover {
+    text-decoration: underline;
+  }
+
+  /* ============================================================ */
+  /* STATIC SIDEBAR (ROW 1-2 RIGHT - ZERO OVERLAYS)               */
+  /* ============================================================ */
+  .dossier-sidebar-col {
+    grid-area: sidebar;
+    position: relative; /* Static: scrolls naturally, stops overlaying subsequent blocks */
+  }
+
+  .maya-dossier-frame {
+    position: relative;
+    width: 100%;
+    max-width: 390px;
+    background: linear-gradient(135deg, rgba(20, 10, 38, 0.95) 0%, rgba(10, 5, 20, 0.98) 100%);
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 35px rgba(168, 85, 247, 0.25), 0 20px 50px rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dossier-hud-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: rgba(10, 5, 20, 0.9);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .dossier-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+
+  .radar-ping-mini {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .dossier-status {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--magenta, #ff2d9b);
+  }
+
+  .dossier-art-container {
+    position: relative;
+    width: 100%;
+    background: #090510;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .dossier-art-container.is-trading-card-art {
+    aspect-ratio: 2 / 3;
+  }
+
+  .dossier-art-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .scanlines-overlay {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.18) 3px,
+      rgba(0, 0, 0, 0.18) 6px
+    );
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .dossier-coach-quote {
+    padding: 14px 16px;
+    background: rgba(14, 7, 26, 0.95);
+    border-top: 1px solid rgba(168, 85, 247, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .quote-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .quote-avatar {
+    font-size: 12px;
+  }
+
+  .quote-author {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .quote-content {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+    margin: 0;
+    font-style: italic;
+  }
+
+  /* ============================================================ */
+  /* ARTICLE BODY (ROW 2 LEFT - NO DEAD GAP)                      */
+  /* ============================================================ */
+  .article-body-wrapper {
+    grid-area: body;
+    width: 100%;
+  }
+
+  .article-body {
+    max-width: 100%;
+  }
+
+  .article-body :global(h2) {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #fff;
+    margin-top: 2.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+  }
+
+  /* Remove excessive top margin on the very first h2 so it sits right under the intel panel */
+  .article-body :global(h2:first-of-type) {
+    margin-top: 0.5rem;
+  }
+
+  .article-body :global(h2)::before {
+    content: '//';
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 900;
+    font-size: 0.85em;
+  }
+
+  .article-body :global(h3) {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 1.8rem;
+    margin-bottom: 0.7rem;
+    letter-spacing: 0.02em;
+  }
+
+  .article-body :global(p) {
+    font-size: 1.06rem;
+    line-height: 1.72;
+    color: #cbd5e1;
+    margin-bottom: 1.2rem;
+  }
+
+  .article-body :global(strong) {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .article-body :global(li) {
+    position: relative;
+    padding-left: 24px;
+    font-size: 1.04rem;
+    line-height: 1.65;
+    color: #cbd5e1;
+  }
+
+  .article-body :global(li)::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 900;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  /* ============================================================ */
+  /* BOTTOM MATTER (FULL WIDTH BELOW 2-COLUMN GRID)               */
+  /* ============================================================ */
+  .dossier-bottom-matter {
+    width: 100%;
+    margin-top: 16px;
+  }
+</style>
+
+<script>
+  // Copy script handler for first response button
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll<HTMLButtonElement>('.dossier-copy-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const text = btn.getAttribute('data-script') || '';
+        if (!text) return;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          const txtSpan = btn.querySelector('.copy-txt');
+          if (txtSpan) {
+            const original = txtSpan.textContent;
+            txtSpan.textContent = 'COPIED!';
+            setTimeout(() => {
+              txtSpan.textContent = original;
+            }, 1800);
+          }
+        } catch (e) {
+          console.error('Clipboard copy error:', e);
+        }
+      });
+    });
+  });
+</script>

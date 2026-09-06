@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile Level Selection Lab | Conflict Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #06030b;
+      --panel: #0e071a;
+      --panel-elevated: #160c28;
+      --line: rgba(168, 85, 247, 0.25);
+      --line-strong: rgba(168, 85, 247, 0.55);
+      --accent: #a855f7;
+      --accent-bright: #c084fc;
+      --magenta: #ff2d9b;
+      --cyan: #2fb8ff;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --font-display: "Orbitron", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+      --font-body: "Inter", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 80px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 80% 60%, rgba(255, 45, 155, 0.08) 0%, transparent 50%);
+    }
+
+    /* Lab Header */
+    .lab-header {
+      text-align: center;
+      max-width: 840px;
+      margin-bottom: 24px;
+    }
+
+    .lab-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent-bright);
+      letter-spacing: 0.14em;
+      margin-bottom: 10px;
+    }
+
+    .lab-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .lab-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* Option Switcher Toolbar */
+    .switcher-dock {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      max-width: 800px;
+    }
+
+    .switch-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: rgba(18, 9, 36, 0.8);
+      border: 1.5px solid var(--line);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .switch-btn:hover {
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .switch-btn.active {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(255, 45, 155, 0.2) 100%);
+      border-color: var(--magenta);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255, 45, 155, 0.4), inset 0 0 10px rgba(168, 85, 247, 0.3);
+    }
+
+    .switch-btn .badge-pill {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .switch-btn.active .badge-pill {
+      background: var(--magenta);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    /* Comparison Metrics Bar */
+    .metrics-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      background: rgba(14, 7, 26, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 24px;
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .metric-val {
+      font-weight: 800;
+      color: var(--accent-bright);
+      font-size: 14px;
+    }
+
+    .metric-lbl {
+      color: var(--text-muted);
+      font-size: 9.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Device Container */
+    .phone-stage {
+      position: relative;
+      width: 100%;
+      max-width: 390px;
+      height: 800px;
+      background: #090513;
+      border-radius: 40px;
+      box-shadow: 
+        0 0 0 10px #1e1136,
+        0 0 0 12px rgba(168, 85, 247, 0.4),
+        0 25px 60px rgba(0, 0, 0, 0.95),
+        0 0 50px rgba(168, 85, 247, 0.25);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Phone Status Bar */
+    .phone-status-bar {
+      height: 44px;
+      background: #07030e;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #94a3b8;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 20;
+      flex-shrink: 0;
+    }
+
+    .notch-pill {
+      width: 90px;
+      height: 18px;
+      background: #000;
+      border-radius: 20px;
+    }
+
+    /* Phone Scrollable Screen Content */
+    .phone-screen-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 14px 40px;
+      position: relative;
+    }
+
+    .phone-screen-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .phone-screen-scroll::-webkit-scrollbar-thumb {
+      background: rgba(168, 85, 247, 0.3);
+      border-radius: 4px;
+    }
+
+    /* Screen Top Persona Header */
+    .screen-nav-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      color: var(--text-muted);
+    }
+    .screen-nav-bar span.active {
+      color: #fff;
+    }
+
+    .difficulty-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .diff-btn {
+      padding: 6px 0;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+    }
+
+    .diff-btn.active {
+      background: rgba(255, 45, 155, 0.12);
+      border-color: var(--magenta);
+      color: #f472b6;
+    }
+
+    .persona-profile-hud {
+      background: rgba(18, 9, 36, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .persona-meta-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .persona-mini-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #1a0f30;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .persona-mini-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .persona-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .persona-target-kicker {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      font-weight: 800;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+    }
+
+    .persona-main-name {
+      font-family: var(--font-display);
+      font-size: 12.5px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+
+    .persona-hud-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .persona-progress-chip {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 3px 7px;
+      border-radius: 6px;
+    }
+
+    .section-map-kicker {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--amber);
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ============================================================ */
+    /* MODE 0: CURRENT LAYOUT (BEFORE)                              */
+    /* ============================================================ */
+    .current-card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .current-level-card {
+      background: rgba(18, 9, 36, 0.85);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .current-card-thumb {
+      position: relative;
+      height: 112px;
+      background: #090314;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .current-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .current-l-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--amber);
+      padding: 2px 6px;
+    }
+
+    .current-channel-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 800;
+      color: #e2e8f0;
+      text-align: center;
+      padding: 3px;
+      letter-spacing: 0.08em;
+    }
+
+    .current-card-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .current-scenario-lbl {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .current-level-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+
+    .current-level-brief {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .current-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .current-tag-chip {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      padding: 3px 6px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+    }
+
+    .current-card-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .current-ready-pill {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--accent-bright);
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid var(--accent);
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .current-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .current-engage-btn {
+      flex: 1;
+      max-width: 130px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .current-guide-btn {
+      background: rgba(18, 9, 36, 0.8);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 800;
+      padding: 7px 8px;
+      cursor: pointer;
+    }
+
+    /* ============================================================ */
+    /* OPTION 1: COMPACT TACTICAL ROW (RECOMMENDED ⭐)               */
+    /* ============================================================ */
+    .opt1-card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .opt1-tactical-row {
+      background: rgba(18, 9, 36, 0.85);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .opt1-tactical-row:hover {
+      border-color: var(--accent);
+      background: rgba(26, 12, 50, 0.9);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    }
+
+    .opt1-tactical-row.climax {
+      border-color: rgba(244, 63, 94, 0.6);
+      background: linear-gradient(135deg, rgba(30, 10, 24, 0.9) 0%, rgba(18, 9, 36, 0.9) 100%);
+    }
+
+    .opt1-thumb-box {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #080312;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+
+    .opt1-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .opt1-level-num {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      font-family: var(--font-display);
+      font-size: 8.5px;
+      font-weight: 900;
+      color: #fff;
+      padding: 2px 5px;
+    }
+
+    .opt1-channel-pill {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      right: 4px;
+      background: rgba(10, 5, 20, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 7.5px;
+      font-weight: 800;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 2px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .opt1-content-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .opt1-top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .opt1-scenario-tag {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      font-weight: 800;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+    }
+
+    .opt1-status-pill {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .status-ready {
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid var(--accent);
+      color: var(--accent-bright);
+    }
+
+    .status-cleared {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid var(--emerald);
+      color: #6ee7b7;
+    }
+
+    .status-locked {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+    }
+
+    .opt1-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .opt1-tactical-tagline {
+      font-size: 9.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: var(--font-mono);
+    }
+
+    .opt1-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .opt1-engage-btn {
+      flex: 1;
+      padding: 6px 12px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 9.5px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .opt1-engage-btn:hover {
+      transform: scale(1.02);
+    }
+
+    .opt1-guide-icon-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--line);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================ */
+    /* OPTION 2: INTEGRATED HOLOGRAM CARD                          */
+    /* ============================================================ */
+    .opt2-card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .opt2-hologram-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #090412;
+      border: 1.5px solid var(--line);
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px 14px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+    }
+
+    .opt2-bg-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      opacity: 0.45;
+      filter: contrast(1.1) saturate(1.1);
+    }
+
+    .opt2-scrim-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(6, 3, 11, 0.5) 0%, rgba(14, 7, 26, 0.7) 40%, rgba(10, 4, 18, 0.98) 100%);
+    }
+
+    .opt2-top-hud {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .opt2-level-chip {
+      font-family: var(--font-display);
+      font-size: 9.5px;
+      font-weight: 900;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .opt2-bottom-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .opt2-scenario-num {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      font-weight: 800;
+      color: var(--amber);
+      letter-spacing: 0.12em;
+    }
+
+    .opt2-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      color: #fff;
+    }
+
+    .opt2-brief-line {
+      font-size: 10.5px;
+      color: #cbd5e1;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .opt2-full-engage-btn {
+      width: 100%;
+      padding: 8px 12px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 10.5px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+
+    /* ============================================================ */
+    /* OPTION 3: TACTICAL ACCORDION / ROSTER                        */
+    /* ============================================================ */
+    .opt3-roster-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .opt3-accordion-item {
+      background: rgba(18, 9, 36, 0.85);
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .opt3-accordion-item.active {
+      border-color: var(--amber);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+    }
+
+    .opt3-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .opt3-left-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .opt3-idx-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--line);
+      font-family: var(--font-display);
+      font-size: 9.5px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .opt3-accordion-item.active .opt3-idx-circle {
+      background: var(--amber);
+      color: #000;
+      border-color: transparent;
+    }
+
+    .opt3-title-text {
+      font-family: var(--font-display);
+      font-size: 12.5px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .opt3-right-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .opt3-chevron {
+      font-size: 10px;
+      color: var(--text-muted);
+      transition: transform 0.25s;
+    }
+
+    .opt3-accordion-item.active .opt3-chevron {
+      transform: rotate(180deg);
+      color: var(--amber);
+    }
+
+    .opt3-expanded-drawer {
+      display: none;
+      padding: 0 14px 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 10px;
+    }
+
+    .opt3-accordion-item.active .opt3-expanded-drawer {
+      display: block;
+    }
+
+    .opt3-drawer-split {
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .opt3-drawer-thumb {
+      width: 74px;
+      height: 74px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid var(--line);
+    }
+
+    .opt3-drawer-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .opt3-drawer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .opt3-drawer-brief {
+      font-size: 10.5px;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .opt3-drawer-tags {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      color: var(--amber);
+    }
+
+    /* Modal Simulation for Engage */
+    .tactical-modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(6, 3, 11, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .tactical-modal-overlay.open {
+      display: flex;
+    }
+
+    .tactical-modal-card {
+      background: rgba(18, 9, 36, 0.98);
+      border: 1.5px solid var(--amber);
+      border-radius: 18px;
+      padding: 20px;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 0 40px rgba(245, 158, 11, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .modal-header-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--amber);
+      letter-spacing: 0.12em;
+    }
+
+    .modal-scenario-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .modal-desc {
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+
+    .modal-btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .modal-start-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border: none;
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+
+    .modal-close-btn {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    /* Explanation Banner Below Phone */
+    .lab-notes-box {
+      max-width: 780px;
+      margin-top: 30px;
+      background: rgba(14, 7, 26, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 24px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    .lab-notes-box strong {
+      color: var(--accent-bright);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lab Header -->
+  <header class="lab-header">
+    <div class="lab-tag">
+      <span>⚡ PROTOTYPE LAB // MOBILE ERGONOMICS</span>
+    </div>
+    <h1 class="lab-title">LEVEL SELECTION REDESIGN</h1>
+    <p class="lab-subtitle">
+      Compare the current clunky 3-tier mobile card with 3 streamlined tactical redesigns.
+      Click options below to interactively test on the live simulated device.
+    </p>
+  </header>
+
+  <!-- Option Switcher Dock -->
+  <div class="switcher-dock">
+    <button class="switch-btn" id="btn-mode-current" onclick="setMode('current')">
+      <span>0. Current (Before)</span>
+      <span class="badge-pill">Clunky 340px</span>
+    </button>
+    <button class="switch-btn active" id="btn-mode-opt1" onclick="setMode('opt1')">
+      <span>Option 1: Tactical Row</span>
+      <span class="badge-pill">⭐ Recommended (~120px)</span>
+    </button>
+    <button class="switch-btn" id="btn-mode-opt2" onclick="setMode('opt2')">
+      <span>Option 2: Integrated Hologram</span>
+      <span class="badge-pill">Cinematic (~200px)</span>
+    </button>
+    <button class="switch-btn" id="btn-mode-opt3" onclick="setMode('opt3')">
+      <span>Option 3: Tactical Roster</span>
+      <span class="badge-pill">Tap-to-Expand</span>
+    </button>
+  </div>
+
+  <!-- Comparison Metrics -->
+  <div class="metrics-bar" id="metrics-bar">
+    <div class="metric-item">
+      <span class="metric-val" id="metric-height">~120 px</span>
+      <span class="metric-lbl">Card Height</span>
+    </div>
+    <div class="metric-item">
+      <span class="metric-val" id="metric-visible">3.5 Levels</span>
+      <span class="metric-lbl">Visible On 1 Screen</span>
+    </div>
+    <div class="metric-item">
+      <span class="metric-val" id="metric-buttons">1 Master + Icon</span>
+      <span class="metric-lbl">Button Density</span>
+    </div>
+    <div class="metric-item">
+      <span class="metric-val" id="metric-fatigue" style="color: var(--emerald);">-65%</span>
+      <span class="metric-lbl">Scroll Fatigue</span>
+    </div>
+  </div>
+
+  <!-- Smartphone Stage -->
+  <div class="phone-stage">
+    <!-- Phone Top Status Bar -->
+    <div class="phone-status-bar">
+      <span>9:25</span>
+      <div class="notch-pill"></div>
+      <span>5G 88%</span>
+    </div>
+
+    <!-- Phone Screen Content (Scrollable) -->
+    <div class="phone-screen-scroll" id="phone-content">
+      
+      <!-- Top Navigation -->
+      <div class="screen-nav-bar">
+        <span>← PERSONAS</span>
+        <span>/</span>
+        <span class="active">BOSS</span>
+      </div>
+
+      <!-- Difficulty Selector -->
+      <div class="difficulty-tabs">
+        <button class="diff-btn">EASY</button>
+        <button class="diff-btn active">NORMAL</button>
+        <button class="diff-btn">HARD</button>
+      </div>
+
+      <!-- Persona Profile Card -->
+      <div class="persona-profile-hud">
+        <div class="persona-meta-left">
+          <div class="persona-mini-avatar">
+            <img src="/campaigns/boss/level-1-thumb.webp" alt="The Toxic Boss" />
+          </div>
+          <div class="persona-title-group">
+            <span class="persona-target-kicker">• TARGET // CORPORATE COERCION</span>
+            <span class="persona-main-name">THE TOXIC BOSS</span>
+          </div>
+        </div>
+        <div class="persona-hud-right">
+          <span class="persona-progress-chip">0/5</span>
+          <span style="font-size: 13px; cursor: pointer;">📖</span>
+        </div>
+      </div>
+
+      <!-- Section Title -->
+      <div class="section-map-kicker">
+        <span>LEVEL MAP — 5 SCENARIOS</span>
+        <span id="active-mode-tag" style="color: var(--accent-bright); font-size: 8px;">[TACTICAL ROW]</span>
+      </div>
+
+      <!-- CONTAINER WHERE THE 4 MODES ARE RENDERED -->
+      <div id="levels-render-container">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+
+    <!-- Interactive Briefing Modal Overlay -->
+    <div class="tactical-modal-overlay" id="briefing-modal">
+      <div class="tactical-modal-card">
+        <span class="modal-header-tag">MISSION BRIEFING // TURN 01</span>
+        <h3 class="modal-scenario-title" id="modal-title">SCOPE CREEP</h3>
+        <p class="modal-desc" id="modal-desc">
+          Friday 5:55 PM. Delivered and signed off — then "one more thing." Don't let team-player guilt force you into weekend work.
+        </p>
+        <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--amber); background: rgba(0,0,0,0.5); padding: 6px 10px; border-radius: 6px;">
+          ⚡ RECOMMENDED SKILL: Refusal without Guilt
+        </div>
+        <div class="modal-btn-row">
+          <button class="modal-start-btn" onclick="startCombatSim()">ENGAGE ENCOUNTER ➔</button>
+          <button class="modal-close-btn" onclick="closeModal()">BACK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Explanatory Notes -->
+  <div class="lab-notes-box">
+    <p>
+      <strong>How to test:</strong> Tap on <strong>ENGAGE</strong> to preview the fast briefing modal. In <strong>Option 3</strong>, tap on any row to expand/collapse. Switch between the 4 buttons at the top to evaluate scroll flow, readability, and information density.
+    </p>
+  </div>
+
+  <script>
+    // Levels Dataset (The 5 Boss Levels from the game)
+    const levels = [
+      {
+        id: 1,
+        title: "SCOPE CREEP",
+        channel: "Direct Encounter",
+        brief: "Friday 5:55 PM. Delivered and signed off — then 'one more thing.'",
+        tell: "Scope creep",
+        skill: "Refusal without Guilt",
+        thumb: "/campaigns/boss/level-1-thumb.webp",
+        status: "ready",
+        statusLabel: "⚡ READY",
+        isClimax: false
+      },
+      {
+        id: 2,
+        title: "WEEKEND CALL",
+        channel: "Text Intercept",
+        brief: "Sunday Zoom. Now. Demands instant surrender of your day off.",
+        tell: "Urgency Trap",
+        skill: "Acknowledge without Surrender",
+        thumb: "/campaigns/boss/level-2-thumb.webp",
+        status: "ready",
+        statusLabel: "⚡ READY",
+        isClimax: false
+      },
+      {
+        id: 3,
+        title: "ALL-HANDS ROAST",
+        channel: "Public Arena",
+        brief: "Called out in front of 40 colleagues to test your public composure.",
+        tell: "Public Shaming",
+        skill: "Frame Retention",
+        thumb: "/campaigns/boss/level-3-thumb.webp",
+        status: "locked",
+        statusLabel: "🔒 LOCKED",
+        isClimax: false
+      },
+      {
+        id: 4,
+        title: "THE APPRAISAL",
+        channel: "Performance Review",
+        brief: "Your annual bonus is held hostage against unpaid overtime.",
+        tell: "Moving Goalposts",
+        skill: "Anchored Fact Sticking",
+        thumb: "/campaigns/boss/level-4-thumb.webp",
+        status: "locked",
+        statusLabel: "🔒 LOCKED",
+        isClimax: false
+      },
+      {
+        id: 5,
+        title: "FINAL SHOWDOWN",
+        channel: "Executive Committee",
+        brief: "Surrender all credit for the product line or face termination.",
+        tell: "DARVO Inversion",
+        skill: "Broken Record & Hard Line",
+        thumb: "/campaigns/boss/level-5-thumb.webp",
+        status: "locked",
+        statusLabel: "🔒 CLIMAX",
+        isClimax: true
+      }
+    ];
+
+    let currentMode = "opt1";
+    let activeAccordionId = 1;
+
+    function setMode(mode) {
+      currentMode = mode;
+      
+      // Update Buttons
+      document.querySelectorAll(".switch-btn").forEach(btn => btn.classList.remove("active"));
+      document.getElementById(`btn-mode-${mode}`).classList.add("active");
+
+      // Update Metrics
+      const mHeight = document.getElementById("metric-height");
+      const mVis = document.getElementById("metric-visible");
+      const mBtn = document.getElementById("metric-buttons");
+      const mFatigue = document.getElementById("metric-fatigue");
+      const tag = document.getElementById("active-mode-tag");
+
+      if (mode === "current") {
+        mHeight.textContent = "~340 px";
+        mHeight.style.color = "var(--rose)";
+        mVis.textContent = "1.2 Levels";
+        mBtn.textContent = "3 Squeezed";
+        mFatigue.textContent = "Heavy (+100%)";
+        mFatigue.style.color = "var(--rose)";
+        tag.textContent = "[CURRENT (BEFORE)]";
+        renderCurrentMode();
+      } else if (mode === "opt1") {
+        mHeight.textContent = "~120 px";
+        mHeight.style.color = "var(--emerald)";
+        mVis.textContent = "3.5 Levels";
+        mBtn.textContent = "1 Master + Icon";
+        mFatigue.textContent = "-65% (Fast Scan)";
+        mFatigue.style.color = "var(--emerald)";
+        tag.textContent = "[TACTICAL ROW]";
+        renderOpt1();
+      } else if (mode === "opt2") {
+        mHeight.textContent = "~200 px";
+        mHeight.style.color = "var(--cyan)";
+        mVis.textContent = "2.3 Levels";
+        mBtn.textContent = "1 Clean Full-Width";
+        mFatigue.textContent = "-40% (Cinematic)";
+        mFatigue.style.color = "var(--cyan)";
+        tag.textContent = "[INTEGRATED HOLOGRAM]";
+        renderOpt2();
+      } else if (mode === "opt3") {
+        mHeight.textContent = "~55px (160px exp)";
+        mHeight.style.color = "var(--amber)";
+        mVis.textContent = "All 5 Levels!";
+        mBtn.textContent = "On-Demand";
+        mFatigue.textContent = "0% (Zero Scroll)";
+        mFatigue.style.color = "var(--emerald)";
+        tag.textContent = "[TACTICAL ROSTER]";
+        renderOpt3();
+      }
+    }
+
+    /* ------------------------------------------------------------- */
+    /* MODE 0: CURRENT LAYOUT                                        */
+    /* ------------------------------------------------------------- */
+    function renderCurrentMode() {
+      const container = document.getElementById("levels-render-container");
+      container.innerHTML = `
+        <div class="current-card-stack">
+          ${levels.map(lvl => `
+            <div class="current-level-card" style="${lvl.status === 'locked' ? 'opacity: 0.4;' : ''}">
+              <div class="current-card-thumb">
+                <img src="${lvl.thumb}" class="current-thumb-img" alt="${lvl.title}" />
+                <span class="current-l-tag">L${lvl.id}</span>
+                <span class="current-channel-badge">🛡️ ${lvl.channel.toUpperCase()}</span>
+              </div>
+              <div class="current-card-body">
+                <span class="current-scenario-lbl">SCENARIO 0${lvl.id}</span>
+                <h3 class="current-level-title">${lvl.title}</h3>
+                <p class="current-level-brief">${lvl.brief}</p>
+                <div class="current-chips-row">
+                  <span class="current-tag-chip">▲ ${lvl.tell}</span>
+                  <span class="current-tag-chip">◎ ${lvl.skill}</span>
+                </div>
+              </div>
+              <div class="current-card-footer">
+                <span class="current-ready-pill">${lvl.statusLabel}</span>
+                <div class="current-btn-group">
+                  <button class="current-engage-btn" onclick="openModal('${lvl.title}', '${lvl.brief}')">
+                    <span>ENGAGE</span>
+                    <span>➔</span>
+                  </button>
+                  <button class="current-guide-btn" onclick="alert('Opens technique guide dialog')">
+                    ● GUIDE
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* ------------------------------------------------------------- */
+    /* MODE 1: OPTION 1 TACTICAL ROW                                 */
+    /* ------------------------------------------------------------- */
+    function renderOpt1() {
+      const container = document.getElementById("levels-render-container");
+      container.innerHTML = `
+        <div class="opt1-card-stack">
+          ${levels.map(lvl => `
+            <div class="opt1-tactical-row ${lvl.isClimax ? 'climax' : ''}" style="${lvl.status === 'locked' ? 'opacity: 0.45;' : ''}" onclick="openModal('${lvl.title}', '${lvl.brief}')">
+              <!-- Left Thumbnail (Square 88x88) -->
+              <div class="opt1-thumb-box">
+                <img src="${lvl.thumb}" class="opt1-thumb-img" alt="${lvl.title}" />
+                <span class="opt1-level-num">L${lvl.id}</span>
+                <span class="opt1-channel-pill">${lvl.channel}</span>
+              </div>
+
+              <!-- Right Intel & Actions -->
+              <div class="opt1-content-box">
+                <div class="opt1-top-meta">
+                  <span class="opt1-scenario-tag">SCENARIO 0${lvl.id}</span>
+                  <span class="opt1-status-pill ${lvl.status === 'ready' ? 'status-ready' : 'status-locked'}">
+                    ${lvl.statusLabel}
+                  </span>
+                </div>
+
+                <h3 class="opt1-title">${lvl.title}</h3>
+                <p class="opt1-tactical-tagline">▲ ${lvl.tell} • ${lvl.skill}</p>
+
+                <div class="opt1-actions-row">
+                  <button class="opt1-engage-btn" onclick="event.stopPropagation(); openModal('${lvl.title}', '${lvl.brief}')">
+                    <span>ENGAGE</span>
+                    <span>➔</span>
+                  </button>
+                  <button class="opt1-guide-icon-btn" title="Technique Guide" onclick="event.stopPropagation(); alert('Quick Guide: ' + '${lvl.skill}')">
+                    📖
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* ------------------------------------------------------------- */
+    /* MODE 2: OPTION 2 INTEGRATED HOLOGRAM                         */
+    /* ------------------------------------------------------------- */
+    function renderOpt2() {
+      const container = document.getElementById("levels-render-container");
+      container.innerHTML = `
+        <div class="opt2-card-stack">
+          ${levels.map(lvl => `
+            <div class="opt2-hologram-card" style="${lvl.status === 'locked' ? 'opacity: 0.45;' : ''}">
+              <img src="${lvl.thumb}" class="opt2-bg-art" alt="${lvl.title}" />
+              <div class="opt2-scrim-overlay"></div>
+
+              <!-- Top HUD -->
+              <div class="opt2-top-hud">
+                <span class="opt2-level-chip">L${lvl.id} // ${lvl.channel.toUpperCase()}</span>
+                <span class="opt1-status-pill ${lvl.status === 'ready' ? 'status-ready' : 'status-locked'}">${lvl.statusLabel}</span>
+              </div>
+
+              <!-- Bottom Content & Action -->
+              <div class="opt2-bottom-content">
+                <span class="opt2-scenario-num">SCENARIO 0${lvl.id} • ${lvl.skill}</span>
+                <h3 class="opt2-title">${lvl.title}</h3>
+                <p class="opt2-brief-line">"${lvl.brief}"</p>
+                <button class="opt2-full-engage-btn" onclick="openModal('${lvl.title}', '${lvl.brief}')">
+                  <span>ENGAGE ENCOUNTER</span>
+                  <span>➔</span>
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* ------------------------------------------------------------- */
+    /* MODE 3: OPTION 3 TACTICAL ACCORDION ROSTER                    */
+    /* ------------------------------------------------------------- */
+    function renderOpt3() {
+      const container = document.getElementById("levels-render-container");
+      container.innerHTML = `
+        <div class="opt3-roster-stack">
+          ${levels.map(lvl => `
+            <div class="opt3-accordion-item ${lvl.id === activeAccordionId ? 'active' : ''}" id="acc-item-${lvl.id}">
+              <div class="opt3-header-row" onclick="toggleAccordion(${lvl.id})">
+                <div class="opt3-left-meta">
+                  <span class="opt3-idx-circle">0${lvl.id}</span>
+                  <span class="opt3-title-text">${lvl.title}</span>
+                </div>
+                <div class="opt3-right-meta">
+                  <span class="opt1-status-pill ${lvl.status === 'ready' ? 'status-ready' : 'status-locked'}" style="font-size: 7.5px;">${lvl.statusLabel}</span>
+                  <span class="opt3-chevron">▼</span>
+                </div>
+              </div>
+
+              <!-- Expanded Details Drawer -->
+              <div class="opt3-expanded-drawer">
+                <div class="opt3-drawer-split">
+                  <div class="opt3-drawer-thumb">
+                    <img src="${lvl.thumb}" alt="${lvl.title}" />
+                  </div>
+                  <div class="opt3-drawer-info">
+                    <p class="opt3-drawer-brief">${lvl.brief}</p>
+                    <span class="opt3-drawer-tags">▲ ${lvl.tell} • ${lvl.skill}</span>
+                  </div>
+                </div>
+                <button class="opt2-full-engage-btn" style="padding: 7px;" onclick="openModal('${lvl.title}', '${lvl.brief}')">
+                  <span>ENGAGE MISSION ➔</span>
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function toggleAccordion(id) {
+      if (activeAccordionId === id) {
+        activeAccordionId = null;
+      } else {
+        activeAccordionId = id;
+      }
+      renderOpt3();
+    }
+
+    function openModal(title, desc) {
+      document.getElementById("modal-title").textContent = title;
+      document.getElementById("modal-desc").textContent = desc;
+      document.getElementById("briefing-modal").classList.add("open");
+    }
+
+    function closeModal() {
+      document.getElementById("briefing-modal").classList.remove("open");
+    }
+
+    function startCombatSim() {
+      alert("Launching combat simulation for: " + document.getElementById("modal-title").textContent);
+      closeModal();
+    }
+
+    // Default Init
+    setMode('opt1');
+  </script>
+</body>
+</html>

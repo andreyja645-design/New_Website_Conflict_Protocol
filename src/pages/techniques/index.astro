@@ -14,8 +14,31 @@ const cards = (await getCollection("techniques")).map((entry) => toCardLink(entr
       <h1>Techniques</h1>
       <p class="lede">Small, usable moves. The good ones fit in your mouth when your nervous system is doing jazz hands.</p>
     </div>
-    <div class="card-grid">
+    <div class="card-grid techniques-card-grid">
       {cards.map((card) => <ContentCard card={card} />)}
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .techniques-card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 1080px) {
+    .techniques-card-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .techniques-card-grid {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+  }
+</style>

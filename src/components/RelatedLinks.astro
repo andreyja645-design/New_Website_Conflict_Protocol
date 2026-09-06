@@ -10,16 +10,140 @@ const { title, links } = Astro.props;
 ---
 
 {links.length > 0 && (
-  <section class="related-links" aria-labelledby={`${title.toLowerCase().replaceAll(" ", "-")}-heading`}>
-    <h2 id={`${title.toLowerCase().replaceAll(" ", "-")}-heading`}>{title}</h2>
-    <div>
+  <section class="related-dossiers-section" aria-labelledby={`${title.toLowerCase().replaceAll(" ", "-")}-heading`}>
+    <div class="section-title-strip">
+      <span class="hud-mono-tag">// TACTICAL CROSS-REFERENCES</span>
+      <h2 id={`${title.toLowerCase().replaceAll(" ", "-")}-heading`} class="related-heading">{title}</h2>
+    </div>
+    <div class="related-dossier-grid">
       {links.map((link) => (
-        <a href={link.href}>
-          <span>{link.eyebrow}</span>
-          <strong>{link.title}</strong>
-          <small>{link.oneLiner}</small>
+        <a href={link.href} class="related-dossier-card">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="card-meta-top">
+            <span class="eyebrow-tag">{link.eyebrow}</span>
+            <span class="card-arrow">➔</span>
+          </div>
+          <h3 class="card-link-title">{link.title}</h3>
+          <p class="card-link-desc">{link.oneLiner}</p>
         </a>
       ))}
     </div>
   </section>
 )}
+
+<style>
+  .related-dossiers-section {
+    max-width: 900px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(168, 85, 247, 0.25);
+  }
+
+  .section-title-strip {
+    margin-bottom: 20px;
+  }
+
+  .hud-mono-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .related-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 4px 0 0;
+    letter-spacing: 0.03em;
+  }
+
+  .related-dossier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .related-dossier-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(18, 9, 34, 0.9);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.22s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .related-dossier-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    background: rgba(26, 13, 50, 0.95);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 20px rgba(168, 85, 247, 0.25);
+  }
+
+  /* Reticles */
+  .corner-reticle {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .reticle-tl { top: 5px; left: 5px; border-top: 1.5px solid var(--accent); border-left: 1.5px solid var(--accent); }
+  .reticle-tr { top: 5px; right: 5px; border-top: 1.5px solid var(--accent); border-right: 1.5px solid var(--accent); }
+  .reticle-bl { bottom: 5px; left: 5px; border-bottom: 1.5px solid var(--accent); border-left: 1.5px solid var(--accent); }
+  .reticle-br { bottom: 5px; right: 5px; border-bottom: 1.5px solid var(--accent); border-right: 1.5px solid var(--accent); }
+
+  .card-meta-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .eyebrow-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .card-arrow {
+    color: var(--accent);
+    transition: transform 0.2s;
+  }
+
+  .related-dossier-card:hover .card-arrow {
+    transform: translateX(4px);
+    color: #fff;
+  }
+
+  .card-link-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .card-link-desc {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--muted);
+    margin: 0;
+  }
+</style>

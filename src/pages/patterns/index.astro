@@ -14,8 +14,31 @@ const cards = (await getCollection("patterns")).map((entry) => toCardLink(entry,
       <h1>Patterns</h1>
       <p class="lede">Not diagnoses. Behaviors. The point is to spot the move while you still have a sentence left.</p>
     </div>
-    <div class="card-grid">
+    <div class="card-grid patterns-card-grid">
       {cards.map((card) => <ContentCard card={card} />)}
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .patterns-card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 1080px) {
+    .patterns-card-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .patterns-card-grid {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+  }
+</style>

@@ -4,11 +4,210 @@ type Props = {
 };
 
 const { label = "Try saying" } = Astro.props;
+const lowerLabel = label.toLowerCase();
+const isOpponent =
+  lowerLabel.includes("they say") ||
+  lowerLabel.includes("he says") ||
+  lowerLabel.includes("she says") ||
+  lowerLabel.includes("boss says") ||
+  lowerLabel.includes("incoming");
+const badgeType = isOpponent ? "opponent" : "counter";
+const tagText = isOpponent ? `OPPONENT MOVE // ${label.toUpperCase()}` : `COUNTER-MOVE // ${label.toUpperCase()}`;
+const icon = isOpponent ? "🎯" : "⚡";
 ---
 
-<figure class="script-block">
-  <figcaption>{label}</figcaption>
-  <blockquote>
+<figure class:list={["script-block-hud", `theme-${badgeType}`]}>
+  <div class="corner-reticle reticle-tl"></div>
+  <div class="corner-reticle reticle-tr"></div>
+  <div class="corner-reticle reticle-bl"></div>
+  <div class="corner-reticle reticle-br"></div>
+
+  <div class="script-hud-header">
+    <div class="script-hud-tag">
+      <span class="script-tag-icon">{icon}</span>
+      <span class="script-tag-text">{tagText}</span>
+    </div>
+    {!isOpponent && (
+      <button type="button" class="script-copy-btn" title="Copy script to clipboard" aria-label="Copy script">
+        <span class="copy-icon">📋</span>
+        <span class="copy-label">COPY</span>
+      </button>
+    )}
+  </div>
+
+  <blockquote class="script-hud-quote">
     <slot />
   </blockquote>
 </figure>
+
+<style>
+  .script-block-hud {
+    position: relative;
+    margin: 1.6rem 0;
+    border-radius: 12px;
+    padding: 16px 20px 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .script-block-hud:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Reticles */
+  .corner-reticle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Theme: Opponent Move (Incoming Threat) */
+  .theme-opponent {
+    background: linear-gradient(135deg, rgba(255, 45, 155, 0.08) 0%, rgba(18, 8, 30, 0.95) 100%);
+    border: 1px solid rgba(255, 45, 155, 0.4);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 45, 155, 0.1);
+  }
+  .theme-opponent:hover {
+    border-color: rgba(255, 45, 155, 0.7);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 45, 155, 0.25);
+  }
+  .theme-opponent .corner-reticle {
+    border-color: var(--magenta, #ff2d9b);
+  }
+  .theme-opponent .reticle-tl { top: 5px; left: 5px; border-top: 1.5px solid var(--magenta, #ff2d9b); border-left: 1.5px solid var(--magenta, #ff2d9b); }
+  .theme-opponent .reticle-tr { top: 5px; right: 5px; border-top: 1.5px solid var(--magenta, #ff2d9b); border-right: 1.5px solid var(--magenta, #ff2d9b); }
+  .theme-opponent .reticle-bl { bottom: 5px; left: 5px; border-bottom: 1.5px solid var(--magenta, #ff2d9b); border-left: 1.5px solid var(--magenta, #ff2d9b); }
+  .theme-opponent .reticle-br { bottom: 5px; right: 5px; border-bottom: 1.5px solid var(--magenta, #ff2d9b); border-right: 1.5px solid var(--magenta, #ff2d9b); }
+  .theme-opponent .script-hud-tag {
+    color: var(--magenta, #ff2d9b);
+    border-color: rgba(255, 45, 155, 0.35);
+    background: rgba(255, 45, 155, 0.12);
+  }
+  .theme-opponent .script-hud-quote {
+    color: #fdf2f8;
+  }
+
+  /* Theme: Counter-Move (Player Response) */
+  .theme-counter {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(8, 20, 24, 0.95) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.1);
+  }
+  .theme-counter:hover {
+    border-color: rgba(16, 185, 129, 0.7);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(16, 185, 129, 0.25);
+  }
+  .theme-counter .corner-reticle {
+    border-color: var(--emerald, #10b981);
+  }
+  .theme-counter .reticle-tl { top: 5px; left: 5px; border-top: 1.5px solid var(--emerald, #10b981); border-left: 1.5px solid var(--emerald, #10b981); }
+  .theme-counter .reticle-tr { top: 5px; right: 5px; border-top: 1.5px solid var(--emerald, #10b981); border-right: 1.5px solid var(--emerald, #10b981); }
+  .theme-counter .reticle-bl { bottom: 5px; left: 5px; border-bottom: 1.5px solid var(--emerald, #10b981); border-left: 1.5px solid var(--emerald, #10b981); }
+  .theme-counter .reticle-br { bottom: 5px; right: 5px; border-bottom: 1.5px solid var(--emerald, #10b981); border-right: 1.5px solid var(--emerald, #10b981); }
+  .theme-counter .script-hud-tag {
+    color: var(--emerald, #10b981);
+    border-color: rgba(16, 185, 129, 0.35);
+    background: rgba(16, 185, 129, 0.12);
+  }
+  .theme-counter .script-hud-quote {
+    color: #ecfdf5;
+  }
+
+  /* Header row */
+  .script-hud-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .script-hud-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    border: 1px solid currentColor;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .script-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 6px;
+    padding: 4px 10px;
+    color: var(--emerald, #10b981);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .script-copy-btn:hover {
+    background: rgba(16, 185, 129, 0.28);
+    border-color: var(--emerald, #10b981);
+    transform: translateY(-1px);
+  }
+
+  .script-copy-btn.is-copied {
+    background: var(--emerald, #10b981);
+    color: #06030b;
+  }
+
+  /* Quote contents */
+  .script-hud-quote {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  .script-hud-quote :global(p) {
+    margin: 0;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+</style>
+
+<script>
+  // Add copy listener for interactive scripts
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll<HTMLButtonElement>('.script-copy-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const figure = btn.closest('.script-block-hud');
+        const quote = figure?.querySelector('.script-hud-quote')?.textContent?.trim() || '';
+        if (!quote) return;
+
+        try {
+          await navigator.clipboard.writeText(quote.replace(/^["'“”]|["'“”]$/g, ''));
+          const label = btn.querySelector('.copy-label');
+          if (label) {
+            const original = label.textContent;
+            label.textContent = 'COPIED!';
+            btn.classList.add('is-copied');
+            setTimeout(() => {
+              label.textContent = original;
+              btn.classList.remove('is-copied');
+            }, 1800);
+          }
+        } catch (e) {
+          console.error('Clipboard copy error:', e);
+        }
+      });
+    });
+  });
+</script>
