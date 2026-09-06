@@ -1,0 +1,800 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { COMMUNICATION_STYLES } from "../../lib/communicationStyles";
+import { site } from "../../lib/site";
+
+const constructiveCount = COMMUNICATION_STYLES.filter((s) => s.category === "constructive").length;
+const trapCount = COMMUNICATION_STYLES.filter((s) => s.category === "trap").length;
+const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral").length;
+---
+
+<BaseLayout
+  title="Communication Styles | Conflict Protocol"
+  description="Explore the 11 signature communication styles and combat archetypes from The Conflict Protocol. Discover whether you hold frame or take the bait."
+  canonical="/styles/"
+  image="/assets/styles/Unmovable.png"
+  imageAlt="The Unmovable - Signature Combat Archetype"
+>
+  <div class="styles-page-shell shell">
+    <!-- Atmospheric glow orbs -->
+    <div class="bg-glow-orb orb-1"></div>
+    <div class="bg-glow-orb orb-2"></div>
+
+    <!-- Maya HUD Status Strip -->
+    <div class="hud-status-strip">
+      <div class="hud-status-left">
+        <span class="hud-radar-beacon"></span>
+        <span class="hud-mono-tag">MAYA AI // COMBAT PROFILES // COMMUNICATION ARCHETYPES</span>
+      </div>
+      <div class="hud-status-right">
+        <span class="hud-shield-indicator">● {COMMUNICATION_STYLES.length} SIGNATURE PROFILES ACTIVE</span>
+      </div>
+    </div>
+
+    <!-- Hero Header -->
+    <header class="styles-hero-header">
+      <div class="tactical-badge badge-magenta">
+        <span class="badge-icon">⚡</span>
+        <span>LIFETIME COMBAT PROFILES</span>
+      </div>
+      <h1 class="catalog-title">
+        YOUR COMMUNICATION FINGERPRINT <span class="title-gradient-highlight">UNDER PRESSURE.</span>
+      </h1>
+      <p class="catalog-lede">
+        How you fight when the room tilts. In <em>Conflict Protocol</em>, your communication style isn't a personality horoscope—it is a mechanical reading of whether you held your frame, absorbed pressure, or surrendered your standing.
+      </p>
+    </header>
+
+    <!-- Filter Buttons -->
+    <div class="filter-bar" id="styleFilterBar">
+      <button class="filter-btn active" data-filter="all">
+        <span class="filter-dot dot-all"></span>
+        <span>All Styles ({COMMUNICATION_STYLES.length})</span>
+      </button>
+      <button class="filter-btn" data-filter="constructive">
+        <span class="filter-dot dot-constructive"></span>
+        <span>Constructive Mastery ({constructiveCount})</span>
+      </button>
+      <button class="filter-btn" data-filter="trap">
+        <span class="filter-dot dot-trap"></span>
+        <span>Pressure Traps ({trapCount})</span>
+      </button>
+      <button class="filter-btn" data-filter="neutral">
+        <span class="filter-dot dot-neutral"></span>
+        <span>Neutral Baseline ({neutralCount})</span>
+      </button>
+    </div>
+
+    <!-- Archetype Grid -->
+    <div class="archetype-grid" id="archetypeGrid">
+      {COMMUNICATION_STYLES.map((style) => (
+        <article class="archetype-card" data-category={style.category}>
+          <!-- Corner Reticles -->
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <!-- Card Header HUD -->
+          <div class="card-hud-bar">
+            <span class={`category-pill pill-${style.tone}`}>
+              {style.categoryLabel}
+            </span>
+            <span class="vulnerability-stat">
+              VULNERABILITY: <strong>{style.stats.vulnerabilityLevel}</strong>
+            </span>
+          </div>
+
+          <!-- 9:16 Poster Image Frame -->
+          <div class="poster-frame">
+            <img
+              src={style.image}
+              alt={`${style.label} - Conflict Protocol Communication Style`}
+              width="576"
+              height="1024"
+              loading="lazy"
+              decoding="async"
+              class="poster-img"
+            />
+            <div class="poster-scanlines"></div>
+            <div class="poster-frame-glow"></div>
+            <div class="poster-id-tag">
+              <span>FIG // {style.id.toUpperCase()}</span>
+            </div>
+          </div>
+
+          <!-- Card Body / Tactical Briefing -->
+          <div class="archetype-body">
+            <h2 class="archetype-name">{style.label}</h2>
+            <p class="archetype-tagline">“{style.tagline}”</p>
+
+            <div class="detail-box">
+              <p class="detail-text">{style.detail}</p>
+            </div>
+
+            <!-- Behavioral Habits Chips -->
+            <div class="habits-section">
+              <span class="section-label">OBSERVED COMBAT BEHAVIORS:</span>
+              <div class="habits-wrap">
+                {style.habits.map((habit) => (
+                  <span class="habit-chip">{habit}</span>
+                ))}
+              </div>
+            </div>
+
+            <!-- Tactical Countermeasure / Fix -->
+            <div class="counter-box">
+              <div class="counter-head">
+                <span class="counter-icon">💡</span>
+                <span class="counter-label">TACTICAL DIRECTIVE</span>
+              </div>
+              <p class="counter-text">{style.counterMeasure}</p>
+            </div>
+
+            <!-- Frame Control Telemetry Meter -->
+            <div class="telemetry-box">
+              <div class="telemetry-meta">
+                <span class="telemetry-label">FRAME INTEGRITY INDEX</span>
+                <span class="telemetry-value" style={`color: ${style.badgeColor};`}>
+                  {style.stats.frameControl}%
+                </span>
+              </div>
+              <div class="telemetry-bar-bg">
+                <div
+                  class="telemetry-bar-fill"
+                  style={`width: ${style.stats.frameControl}%; background: ${style.badgeColor}; box-shadow: 0 0 10px ${style.badgeColor};`}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Arena Call to Action -->
+    <section class="arena-cta-panel">
+      <div class="corner-reticle reticle-tl"></div>
+      <div class="corner-reticle reticle-tr"></div>
+      <div class="corner-reticle reticle-bl"></div>
+      <div class="corner-reticle reticle-br"></div>
+
+      <div class="arena-cta-content">
+        <div class="arena-cta-left">
+          <div class="tactical-badge badge-cyan">
+            <span class="badge-icon">⚔️</span>
+            <span>DIAGNOSTIC COMBAT SIMULATION</span>
+          </div>
+          <h2>FIND OUT WHICH STYLE YOU DEPLOY UNDER FIRE.</h2>
+          <p>
+            No multiple choice questionnaires. Conflict Protocol drops you into live workplace and social conflict scenarios against Maya AI. See your actual style fingerprint in real time.
+          </p>
+        </div>
+        <div class="arena-cta-right">
+          <a href="/play/" class="arena-play-btn">
+            <span>LAUNCH COMBAT ARENA</span>
+            <span class="btn-arrow">➔</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  // Client-side category filtering
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.archetype-card');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+
+      cards.forEach((card) => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'all' || category === filter) {
+          (card as HTMLElement).style.display = 'flex';
+          card.classList.add('fade-in');
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .styles-page-shell {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 30px 24px 90px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Atmospheric glow orbs */
+  .bg-glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .orb-1 {
+    top: -40px;
+    right: -80px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.16) 0%, transparent 70%);
+  }
+  .orb-2 {
+    top: 700px;
+    left: -120px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(47, 184, 255, 0.1) 0%, transparent 70%);
+  }
+
+  /* Maya HUD Status Strip */
+  .hud-status-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    background: rgba(14, 7, 26, 0.8);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .hud-status-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hud-radar-beacon {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: relative;
+  }
+  .hud-radar-beacon::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    animation: beacon-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes beacon-ping {
+    75%, 100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  .hud-mono-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .hud-shield-indicator {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--emerald, #10b981);
+    letter-spacing: 0.08em;
+  }
+
+  /* Hero Section */
+  .styles-hero-header {
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 860px;
+  }
+
+  .tactical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .badge-magenta {
+    background: rgba(255, 45, 155, 0.12);
+    border: 1px solid rgba(255, 45, 155, 0.4);
+    color: var(--magenta, #ff2d9b);
+  }
+
+  .badge-cyan {
+    background: rgba(47, 184, 255, 0.12);
+    border: 1px solid rgba(47, 184, 255, 0.4);
+    color: var(--cyan, #2fb8ff);
+  }
+
+  .catalog-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: 0.02em;
+    color: #fff;
+    margin: 0;
+  }
+
+  .catalog-lede {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--text-soft);
+    margin: 0;
+  }
+
+  .catalog-lede em {
+    color: #fff;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  /* Filter Bar */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding: 8px;
+    background: rgba(18, 9, 34, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    width: fit-content;
+  }
+
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-soft);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .filter-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .filter-btn.active {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 0.5);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+  }
+
+  .filter-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+  .dot-all { background: #fff; }
+  .dot-constructive { background: #10b981; box-shadow: 0 0 6px #10b981; }
+  .dot-trap { background: #f43f5e; box-shadow: 0 0 6px #f43f5e; }
+  .dot-neutral { background: #94a3b8; }
+
+  /* Archetype Grid */
+  .archetype-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 70px;
+  }
+
+  @media (max-width: 1100px) {
+    .archetype-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .archetype-grid {
+      grid-template-columns: 1fr;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  /* Archetype Card */
+  .archetype-card {
+    position: relative;
+    background: rgba(16, 8, 30, 0.85);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(14px);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+
+  .archetype-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.35), 0 20px 40px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Corner Reticles */
+  .corner-reticle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+    z-index: 3;
+    transition: all 0.25s ease;
+  }
+  .reticle-tl { top: 6px; left: 6px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .reticle-tr { top: 6px; right: 6px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+  .reticle-bl { bottom: 6px; left: 6px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .reticle-br { bottom: 6px; right: 6px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+
+  .archetype-card:hover .reticle-tl { top: 4px; left: 4px; border-color: var(--magenta, #ff2d9b); }
+  .archetype-card:hover .reticle-tr { top: 4px; right: 4px; border-color: var(--magenta, #ff2d9b); }
+  .archetype-card:hover .reticle-bl { bottom: 4px; left: 4px; border-color: var(--magenta, #ff2d9b); }
+  .archetype-card:hover .reticle-br { bottom: 4px; right: 4px; border-color: var(--magenta, #ff2d9b); }
+
+  /* Card HUD Bar */
+  .card-hud-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .category-pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 9999px;
+  }
+  .pill-good {
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    color: #10b981;
+  }
+  .pill-bad {
+    background: rgba(244, 63, 94, 0.14);
+    border: 1px solid rgba(244, 63, 94, 0.5);
+    color: #f43f5e;
+  }
+  .pill-warn {
+    background: rgba(234, 179, 8, 0.14);
+    border: 1px solid rgba(234, 179, 8, 0.5);
+    color: #eab308;
+  }
+  .pill-neutral {
+    background: rgba(148, 163, 184, 0.14);
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    color: #cbd5e1;
+  }
+
+  .vulnerability-stat {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .vulnerability-stat strong {
+    color: #fff;
+  }
+
+  /* Poster Frame (9:16 vertical art) */
+  .poster-frame {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 9 / 16;
+    background: #000;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
+  }
+
+  .poster-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .archetype-card:hover .poster-img {
+    transform: scale(1.03);
+  }
+
+  .poster-scanlines {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%);
+    background-size: 100% 3px;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .poster-frame-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 10%, rgba(168, 85, 247, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .poster-id-tag {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(10, 5, 20, 0.85);
+    border: 1px solid var(--line);
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    backdrop-filter: blur(8px);
+  }
+
+  /* Body Content */
+  .archetype-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+  }
+
+  .archetype-name {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .archetype-tagline {
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--text-soft);
+    line-height: 1.45;
+    margin: 0;
+    border-left: 2px solid var(--accent);
+    padding-left: 10px;
+  }
+
+  .detail-box {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .detail-text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #cbd5e1;
+    margin: 0;
+  }
+
+  /* Habits Section */
+  .habits-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .habits-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .habit-chip {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+  }
+
+  /* Tactical Counter Box */
+  .counter-box {
+    background: rgba(22, 12, 42, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .counter-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .counter-text {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #e2e8f0;
+    margin: 0;
+  }
+
+  /* Telemetry Bar */
+  .telemetry-box {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .telemetry-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .telemetry-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .telemetry-value {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .telemetry-bar-bg {
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .telemetry-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.6s ease;
+  }
+
+  /* Arena CTA Panel */
+  .arena-cta-panel {
+    position: relative;
+    background: linear-gradient(135deg, rgba(20, 10, 38, 0.95) 0%, rgba(10, 5, 20, 0.98) 100%);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 16px;
+    padding: 36px 40px;
+    box-shadow: 0 0 35px rgba(168, 85, 247, 0.25), 0 15px 40px rgba(0, 0, 0, 0.8);
+  }
+
+  .arena-cta-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+  }
+
+  @media (max-width: 860px) {
+    .arena-cta-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .arena-cta-left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 680px;
+  }
+
+  .arena-cta-left h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 900;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .arena-cta-left p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-soft);
+    margin: 0;
+  }
+
+  .arena-play-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #a855f7 0%, #ff2d9b 100%);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    box-shadow: 0 0 25px rgba(255, 45, 155, 0.45);
+    white-space: nowrap;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .arena-play-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 35px rgba(255, 45, 155, 0.7);
+  }
+
+  .btn-arrow {
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+  .arena-play-btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+</style>
