@@ -9,13 +9,167 @@ const cards = (await getCollection("situations")).map((entry) => toCardLink(entr
 
 <BaseLayout title="Situations" description="Scene-level scripts for the exact kind of conversation that usually eats your evening." canonical="/situations/">
   <section class="section-band shell">
-    <div class="section-heading">
-      <p class="eyebrow">What do I literally say?</p>
-      <h1>Situations</h1>
-      <p class="lede">Concrete scenes, worked scripts, and exits. No vague wisdom in a cardigan.</p>
+    <!-- Maya HUD Status Strip -->
+    <div class="hud-status-strip">
+      <div class="hud-status-left">
+        <span class="hud-radar-beacon beacon-emerald"></span>
+        <span class="hud-mono-tag tag-emerald">MAYA AI // TACTICAL CATALOG // WORKED COMBAT SCENARIOS</span>
+      </div>
+      <div class="hud-status-right">
+        <span class="hud-shield-indicator">● {cards.length} SCENARIOS ACTIVE</span>
+      </div>
     </div>
-    <div class="card-grid">
+
+    <div class="catalog-hero-header">
+      <div class="tactical-badge badge-emerald">
+        <span class="badge-icon">🎯</span>
+        <span>REALITY-TESTED ENGAGEMENTS</span>
+      </div>
+      <h1 class="catalog-title">
+        EXACT SENTENCES FOR <span class="title-gradient-highlight">WHEN THE ROOM GETS HEATED.</span>
+      </h1>
+      <p class="catalog-lede">
+        Concrete scenes, worked scripts, and tactical exits. No vague wisdom in a cardigan—just field-tested lines for real conversations that usually eat your evening.
+      </p>
+    </div>
+
+    <div class="card-grid situations-card-grid">
       {cards.map((card) => <ContentCard card={card} />)}
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hud-status-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    background: rgba(14, 7, 26, 0.8);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .hud-status-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hud-radar-beacon {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: relative;
+  }
+  .hud-radar-beacon::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    animation: beacon-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .beacon-emerald {
+    background: var(--emerald, #10b981);
+  }
+  .beacon-emerald::after {
+    border-color: var(--emerald, #10b981);
+  }
+
+  @keyframes beacon-ping {
+    75%, 100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  .hud-mono-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+  .tag-emerald {
+    color: var(--emerald, #10b981);
+  }
+
+  .hud-shield-indicator {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--emerald, #10b981);
+    letter-spacing: 0.08em;
+  }
+
+  .catalog-hero-header {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 840px;
+  }
+
+  .tactical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .badge-emerald {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: var(--emerald, #10b981);
+  }
+
+  .catalog-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: 0.02em;
+    color: #fff;
+    margin: 0;
+  }
+
+  .catalog-lede {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--text-soft);
+    margin: 0;
+  }
+
+  .situations-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+
+  @media (max-width: 1080px) {
+    .situations-card-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .situations-card-grid {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+  }
+</style>

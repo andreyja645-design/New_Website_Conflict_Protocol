@@ -11,16 +11,30 @@ import { site } from "../lib/site";
   bodyClass="about-page"
 >
   <article class="article-shell">
+    <!-- Maya HUD Status Strip -->
+    <div class="hud-status-strip">
+      <div class="hud-status-left">
+        <span class="hud-radar-beacon"></span>
+        <span class="hud-mono-tag">MAYA AI // OPERATIONAL DIRECTIVE // ARCHIVE BRIEFING</span>
+      </div>
+      <div class="hud-status-right">
+        <span class="hud-shield-indicator">● PROTOCOL SPECIFICATION v2.4</span>
+      </div>
+    </div>
+
     <header class="content-hero">
       <div>
-        <p class="eyebrow">About</p>
-        <h1>Built for the moment your words leave the building.</h1>
+        <div class="tactical-badge badge-purple">
+          <span class="badge-icon">⚡</span>
+          <span>SYSTEM ARCHITECTURE</span>
+        </div>
+        <h1>Built for the moment <span class="title-gradient-highlight">your words leave the building.</span></h1>
         <p class="lede">
           Conflict Protocol is an indie game and companion field guide about difficult conversations:
           the pressure moves, the counters, and the exact sentences that help you stay in the room.
         </p>
       </div>
-      <img src="/assets/pages/about-conflict-protocol.webp" alt="" width="1600" height="900" />
+      <img src="/assets/pages/about-conflict-protocol.webp" alt="Conflict Protocol Field Guide Briefing" width="1600" height="900" />
     </header>
 
     <div class="article-body">
@@ -53,3 +67,84 @@ import { site } from "../lib/site";
     </div>
   </article>
 </BaseLayout>
+
+<style>
+  .hud-status-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    background: rgba(14, 7, 26, 0.8);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .hud-status-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hud-radar-beacon {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: relative;
+  }
+  .hud-radar-beacon::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    animation: beacon-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes beacon-ping {
+    75%, 100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  .hud-mono-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .hud-shield-indicator {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--emerald, #10b981);
+    letter-spacing: 0.08em;
+  }
+
+  .tactical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .badge-purple {
+    background: rgba(168, 85, 247, 0.14);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: var(--accent);
+  }
+</style>

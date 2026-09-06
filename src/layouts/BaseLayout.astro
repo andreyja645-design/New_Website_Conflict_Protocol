@@ -79,8 +79,15 @@ const isActivePath = (href: string) =>
     <header class="site-header">
       <nav class="nav shell" aria-label="Main navigation">
         <a class="brand" href="/" aria-label="Conflict Protocol home">
-          <img src="/assets/cp-logo.webp" alt="" width="40" height="40" />
-          <span>Conflict Protocol</span>
+          <div class="brand-logo-wrap">
+            <img src="/assets/cp-logo.webp" alt="" width="40" height="40" />
+            <span class="logo-pulse-ring"></span>
+          </div>
+          <span class="brand-name">Conflict Protocol</span>
+          <span class="nav-hud-badge">
+            <span class="hud-beacon-dot"></span>
+            <span>LIVE PROTOCOL</span>
+          </span>
         </a>
         <div class="nav-links">
           {
@@ -94,7 +101,10 @@ const isActivePath = (href: string) =>
               </a>
             ))
           }
-          <a class="practice-link" href="/play/">Play free -&gt;</a>
+          <a class="practice-link" href="/play/">
+            <span class="practice-link-glow"></span>
+            <span>Play free ➔</span>
+          </a>
         </div>
       </nav>
     </header>
@@ -102,16 +112,26 @@ const isActivePath = (href: string) =>
       <slot />
     </main>
     <footer class="footer">
+      <div class="shell footer-hud-strip">
+        <div class="footer-hud-left">
+          <span class="footer-radar-dot"></span>
+          <span class="footer-hud-mono">CONFLICT PROTOCOL // NEURAL COMBAT SIMULATION v2.4</span>
+        </div>
+        <div class="footer-hud-right">
+          <span class="footer-hud-status">● SYSTEM ALL-CLEAR // BUFFER READY</span>
+        </div>
+      </div>
       <div class="shell footer-grid">
-        <div>
+        <div class="footer-brand-col">
           <a class="brand" href="/">
             <img src="/assets/cp-logo.webp" alt="" width="34" height="34" />
-            <span>Conflict Protocol</span>
+            <span class="brand-name">Conflict Protocol</span>
           </a>
           <p>You always think of the right answer three hours later. We are fixing that.</p>
         </div>
         <nav aria-label="Footer navigation">
           <a href="/play/">Play</a>
+          <a href="/start-here/">Start here</a>
           <a href="/patterns/">Patterns</a>
           <a href="/techniques/">Techniques</a>
           <a href="/situations/">Situations</a>

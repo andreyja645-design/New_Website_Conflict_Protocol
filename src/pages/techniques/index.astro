@@ -9,11 +9,30 @@ const cards = (await getCollection("techniques")).map((entry) => toCardLink(entr
 
 <BaseLayout title="Techniques" description="Short moves for staying steady when pressure wants a paragraph." canonical="/techniques/">
   <section class="section-band shell">
-    <div class="section-heading">
-      <p class="eyebrow">What do I do back?</p>
-      <h1>Techniques</h1>
-      <p class="lede">Small, usable moves. The good ones fit in your mouth when your nervous system is doing jazz hands.</p>
+    <!-- Maya HUD Status Strip -->
+    <div class="hud-status-strip">
+      <div class="hud-status-left">
+        <span class="hud-radar-beacon beacon-cyan"></span>
+        <span class="hud-mono-tag tag-cyan">MAYA AI // TACTICAL CATALOG // COUNTER-MEASURE TECHNIQUES</span>
+      </div>
+      <div class="hud-status-right">
+        <span class="hud-shield-indicator">● {cards.length} TECHNIQUES READY</span>
+      </div>
     </div>
+
+    <div class="catalog-hero-header">
+      <div class="tactical-badge badge-cyan">
+        <span class="badge-icon">🛡️</span>
+        <span>COUNTER-MEASURE REPERTOIRE</span>
+      </div>
+      <h1 class="catalog-title">
+        SHORT MOVES FOR <span class="title-gradient-highlight">WHEN PRESSURE WANTS A PARAGRAPH.</span>
+      </h1>
+      <p class="catalog-lede">
+        Small, usable moves. The good ones fit in your mouth when your nervous system is doing jazz hands and the opponent is pushing for territory.
+      </p>
+    </div>
+
     <div class="card-grid techniques-card-grid">
       {cards.map((card) => <ContentCard card={card} />)}
     </div>
@@ -21,10 +40,122 @@ const cards = (await getCollection("techniques")).map((entry) => toCardLink(entr
 </BaseLayout>
 
 <style>
+  .hud-status-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    background: rgba(14, 7, 26, 0.8);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .hud-status-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hud-radar-beacon {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: relative;
+  }
+  .hud-radar-beacon::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    animation: beacon-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .beacon-cyan {
+    background: var(--cyan, #2fb8ff);
+  }
+  .beacon-cyan::after {
+    border-color: var(--cyan, #2fb8ff);
+  }
+
+  @keyframes beacon-ping {
+    75%, 100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  .hud-mono-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+  .tag-cyan {
+    color: var(--cyan, #2fb8ff);
+  }
+
+  .hud-shield-indicator {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--emerald, #10b981);
+    letter-spacing: 0.08em;
+  }
+
+  .catalog-hero-header {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 840px;
+  }
+
+  .tactical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .badge-cyan {
+    background: rgba(47, 184, 255, 0.12);
+    border: 1px solid rgba(47, 184, 255, 0.4);
+    color: var(--cyan, #2fb8ff);
+  }
+
+  .catalog-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: 0.02em;
+    color: #fff;
+    margin: 0;
+  }
+
+  .catalog-lede {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--text-soft);
+    margin: 0;
+  }
+
   .techniques-card-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 22px;
   }
 
   @media (max-width: 1080px) {
