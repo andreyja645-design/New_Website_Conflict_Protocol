@@ -172,7 +172,7 @@ const questions = [
   title="Combat Style Test | Conflict Protocol"
   description="Take a 12-question pressure test to discover which Conflict Protocol combat style you use when conversations turn difficult."
   canonical="/style-quiz/"
-  image="/assets/styles/Unmovable.png"
+  image="/assets/styles/Unmovable.webp"
   imageAlt="Conflict Protocol combat style assessment"
   bodyClass="style-quiz-page"
 >
@@ -228,7 +228,15 @@ const questions = [
 
       <section class="result-panel" data-result-panel hidden aria-live="polite">
         <div class="result-visual">
-          <img data-result-image src="/assets/styles/Unmovable.png" alt="" width="941" height="1672" />
+          <img
+            data-result-image
+            src="/assets/styles/Unmovable.webp"
+            alt=""
+            width="941"
+            height="1672"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="result-scanlines" aria-hidden="true"></div>
         </div>
 
