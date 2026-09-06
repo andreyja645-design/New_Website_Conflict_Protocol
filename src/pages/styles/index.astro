@@ -42,6 +42,10 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
       <p class="catalog-lede">
         How you fight when the room tilts. In <em>Conflict Protocol</em>, your communication style isn't a personality horoscope—it is a mechanical reading of whether you held your frame, absorbed pressure, or surrendered your standing.
       </p>
+      <a class="style-quiz-link" href="/style-quiz/">
+        <span>TAKE THE 12-QUESTION STYLE TEST</span>
+        <span class="btn-arrow">➔</span>
+      </a>
     </header>
 
     <!-- Filter Buttons -->
@@ -322,6 +326,35 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     font-style: normal;
     font-weight: 700;
   }
+
+  .style-quiz-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    align-self: flex-start;
+    gap: 18px;
+    margin-top: 8px;
+    padding: 12px 18px;
+    border: 1px solid rgba(255, 45, 155, 0.62);
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.24), rgba(255, 45, 155, 0.15));
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .style-quiz-link:hover,
+  .style-quiz-link:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--magenta);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.38), rgba(255, 45, 155, 0.24));
+  }
+
+  .style-quiz-link:active { transform: translateY(1px); }
 
   /* Filter Bar */
   .filter-bar {
