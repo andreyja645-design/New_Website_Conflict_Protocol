@@ -14,6 +14,7 @@ const isTradingCard = Boolean(
 ---
 
 <article class:list={["content-card", { "is-trading-card": isTradingCard }]}>
+  <div class="card-shimmer-sweep"></div>
   <div class="corner-reticle reticle-tl"></div>
   <div class="corner-reticle reticle-tr"></div>
   <div class="corner-reticle reticle-bl"></div>
@@ -58,6 +59,28 @@ const isTradingCard = Boolean(
     transform: translateY(-6px);
     border-color: var(--accent);
     box-shadow: 0 0 25px rgba(168, 85, 247, 0.38), 0 16px 40px rgba(0, 0, 0, 0.85);
+  }
+
+  /* Holographic light shimmer sweep */
+  .card-shimmer-sweep {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.06) 35%,
+      rgba(168, 85, 247, 0.16) 45%,
+      rgba(255, 45, 155, 0.1) 55%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .content-card:hover .card-shimmer-sweep {
+    transform: translateX(100%);
   }
 
 
@@ -105,13 +128,11 @@ const isTradingCard = Boolean(
     height: 100%;
     object-fit: cover;
     object-position: top center;
-    transition: transform 0.4s ease, filter 0.4s ease;
-    filter: brightness(1);
+    transition: transform 0.4s ease;
   }
 
   .content-card:hover .card-img {
     transform: scale(1.04);
-    filter: brightness(0.82);
   }
 
   .card-img-scrim {
@@ -202,7 +223,6 @@ const isTradingCard = Boolean(
 
   .content-card.is-trading-card:hover .card-img {
     transform: scale(1.02);
-    filter: brightness(0.82);
   }
 
   .content-card.is-trading-card .card-body-content {

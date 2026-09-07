@@ -103,6 +103,7 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
               class="poster-img"
             />
             <div class="poster-scanlines"></div>
+            <div class="poster-frame-glow"></div>
             <div class="poster-id-tag">
               <span>FIG // {style.id.toUpperCase()}</span>
             </div>
@@ -554,13 +555,11 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     object-fit: cover;
     object-position: top center;
     display: block;
-    transition: transform 0.4s ease, filter 0.4s ease;
-    filter: brightness(1);
+    transition: transform 0.4s ease;
   }
 
   .archetype-card:hover .poster-img {
     transform: scale(1.03);
-    filter: brightness(0.82);
   }
 
   .poster-scanlines {
@@ -569,6 +568,13 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%);
     background-size: 100% 3px;
     opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .poster-frame-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 10%, rgba(168, 85, 247, 0.18) 0%, transparent 70%);
     pointer-events: none;
   }
 
