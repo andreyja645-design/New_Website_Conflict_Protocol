@@ -86,7 +86,7 @@ const skillCards = [
 
 <BaseLayout
   title="Play Free | Conflict Protocol"
-  description="You always think of the right answer three hours later. Here you get to practice it — against someone who fights back. Free, in your browser, no signup."
+  description="Conflict Protocol is a game for practicing composure, recognition, and boundaries under pressure."
   canonical="/play/"
   image="/assets/play/maya-hero.webp"
   bodyClass="play-page"
@@ -97,100 +97,49 @@ const skillCards = [
     <div class="play-glow-orb orb-2"></div>
 
     <!-- ============================================================ -->
-    <!-- 1. HERO — THE PROMISE, THEN THE REVEAL                       -->
+    <!-- 1. HERO // THE CORE PLAYER BENEFIT                          -->
     <!-- ============================================================ -->
-    <section class="play-hero-wrap">
-      <!-- Ambient video loop in background -->
-      <div class="hero-video-backdrop">
-        <video
-          autoplay
-          loop
-          muted
-          playsinline
-          class="backdrop-video-el"
-          poster="/assets/play/maya-hero.webp"
-        >
-          <source src="/assets/play/ambient-rain.mp4" type="video/mp4" />
-        </video>
-        <div class="backdrop-gradient-scrim"></div>
-        <div class="backdrop-scanlines"></div>
-      </div>
-
-      <div class="play-hero-content">
-        <!-- Status Eyebrow -->
-        <div class="play-status-pill">
-          <span class="pulse-beacon-dot"></span>
-          <span>CONFLICT PROTOCOL // LIVE COMBAT SIMULATOR</span>
-        </div>
-
-        <!-- The Promise Headline -->
-        <div class="hero-hook-lead">
-          <span class="hook-icon">⚡</span>
-          <span>YOU ALWAYS THINK OF THE RIGHT ANSWER THREE HOURS LATER.</span>
-        </div>
-        <h1 class="play-hero-headline">
-          <span class="neon-highlight-magenta">HERE YOU GET TO PRACTICE IT —</span><br />
-          <span class="neon-highlight-violet">AGAINST SOMEONE WHO FIGHTS BACK.</span>
+    <section class="play-benefit-hero">
+      <div class="benefit-hero-copy">
+        <p class="benefit-hero-eyebrow">A CONFLICT GAME, NOT AN AI CHATBOT</p>
+        <h1 class="benefit-hero-title">
+          <span>STAY YOURSELF</span>
+          <strong>UNDER PRESSURE.</strong>
         </h1>
-
-        <!-- Kill The Three Objections In One Line -->
-        <p class="objection-killer-strip">
-          <span class="objection-badge">FREE</span>
-          <span class="objection-dot">•</span>
-          <span class="objection-badge">IN YOUR BROWSER</span>
-          <span class="objection-dot">•</span>
-          <span class="objection-badge">NO DOWNLOAD, NO SIGNUP</span>
+        <p class="benefit-hero-lede">
+          Practice staying yourself while an AI opponent applies guilt, urgency, blame, and emotional pressure.
         </p>
-
-        <!-- The Single Master Action Button (Nothing Competing With It) -->
-        <div class="hero-single-cta-wrap">
+        <div class="benefit-hero-actions">
           {gameUrl ? (
-            <a class="play-master-btn" href={gameUrl} target="_blank" rel="noopener noreferrer">
-              <span class="btn-sparkle">⚔️</span>
-              <span class="btn-main-text">PLAY FREE ➔</span>
+            <a class="benefit-primary-action" href={gameUrl} target="_blank" rel="noopener noreferrer">
+              PLAY FREE <span aria-hidden="true">➔</span>
             </a>
           ) : (
-            <a class="play-master-btn is-disabled" href="#practice-live" aria-disabled="true">
-              <span class="btn-sparkle">⚔️</span>
-              <span class="btn-main-text">PLAY FREE (COMING SOON)</span>
+            <a class="benefit-primary-action is-disabled" href="#practice-live" aria-disabled="true">
+              PLAY FREE SOON
             </a>
           )}
-        </div>
-
-        <!-- Hero Maya Visual Unit with HUD Reticles -->
-        <div class="hero-maya-hud-unit">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <div class="maya-hud-top-bar">
-            <div class="hud-left-meta">
-              <span class="hud-ping-dot"></span>
-              <span class="hud-label-text">MAYA AI // TACTICAL CO-PILOT</span>
-            </div>
-            <span class="hud-status-badge">NEURAL LINK CONNECTED</span>
-          </div>
-
-          <div class="maya-portrait-box">
-            <img
-              src="/assets/play/maya-hero.webp"
-              alt="Maya AI — Neural tactical coach in Conflict Protocol"
-              class="maya-hero-img"
-              width="600"
-              height="400"
-            />
-            <div class="portrait-scanlines"></div>
-            <div class="portrait-tag-pill">
-              <span>ACTIVE SESSION READY // COMBAT DRILL #01</span>
-            </div>
-          </div>
-
-          <div class="maya-hud-bottom-quote">
-            "I analyze their manipulation move in real time and score your counter. Type your actual words. Do not let them rush your frame."
-          </div>
+          <a class="benefit-secondary-action" href="#techniques">SEE WHAT YOU TRAIN</a>
         </div>
       </div>
+
+      <figure class="benefit-hero-visual">
+        <div class="benefit-hero-image-wrap">
+          <img
+            src="/assets/play/maya-hero.webp"
+            alt="Maya, the tactical coach inside Conflict Protocol"
+            width="1024"
+            height="1536"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+        <figcaption>
+          <span>NOT A CHATBOT</span>
+          <strong>A CONFLICT GAME</strong>
+        </figcaption>
+      </figure>
     </section>
 
     <!-- ============================================================ -->
@@ -786,81 +735,194 @@ const skillCards = [
   /* ============================================================ */
   /* 1. HERO SECTION                                              */
   /* ============================================================ */
-  .play-hero-wrap {
-    position: relative;
-    border-radius: 24px;
-    overflow: hidden;
-    padding: 60px 36px;
+  .play-benefit-hero {
+    min-height: calc(100dvh - 112px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(390px, 0.82fr);
+    align-items: center;
+    gap: clamp(44px, 6vw, 84px);
+    padding: clamp(42px, 6vw, 72px) 0 clamp(58px, 7vw, 88px);
     margin-bottom: 85px;
-    border: 1.5px solid var(--line);
-    background: rgba(14, 7, 26, 0.85);
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(168, 85, 247, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  @media (max-width: 768px) {
-    .play-hero-wrap {
-      padding: 40px 20px;
-    }
+  .benefit-hero-copy {
+    max-width: 690px;
   }
 
-  /* Ambient Backdrop Video */
-  .hero-video-backdrop {
-    position: absolute;
-    inset: 0;
+  .benefit-hero-eyebrow {
+    margin: 0 0 22px;
+    color: #ed3f98;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.17em;
+  }
+
+  .benefit-hero-title {
+    max-width: 690px;
+    margin: 0 0 28px;
+    color: #f7f3fb;
+    font-family: var(--font-display);
+    font-size: clamp(3.2rem, 5.5vw, 5.35rem);
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+  }
+
+  .benefit-hero-title span,
+  .benefit-hero-title strong {
+    display: block;
+  }
+
+  .benefit-hero-title strong {
+    color: #ed3f98;
+  }
+
+  .benefit-hero-lede {
+    max-width: 610px;
+    margin: 0 0 34px;
+    color: #d6ccde;
+    font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+    line-height: 1.62;
+  }
+
+  .benefit-hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .benefit-primary-action,
+  .benefit-secondary-action {
+    min-height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 25px;
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+  }
+
+  .benefit-primary-action {
+    gap: 12px;
+    color: #120810;
+    background: #ed3f98;
+    border: 1px solid #ed3f98;
+    box-shadow: 0 14px 34px rgba(237, 63, 152, 0.2);
+  }
+
+  .benefit-primary-action:hover {
+    color: #120810;
+    background: #ff62ae;
+    text-shadow: none;
+    transform: translateY(-2px);
+  }
+
+  .benefit-secondary-action {
+    color: #f7f3fb;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .benefit-secondary-action:hover {
+    color: #f7f3fb;
+    border-color: rgba(237, 63, 152, 0.7);
+    background: rgba(237, 63, 152, 0.08);
+    text-shadow: none;
+  }
+
+  .benefit-primary-action:active,
+  .benefit-secondary-action:active {
+    transform: translateY(1px);
+  }
+
+  .benefit-primary-action.is-disabled {
+    opacity: 0.52;
     pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
   }
 
-  .backdrop-video-el {
+  .benefit-hero-visual {
+    width: min(100%, 500px);
+    margin: 0 0 0 auto;
+  }
+
+  .benefit-hero-image-wrap {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 1px solid rgba(237, 63, 152, 0.55);
+    border-radius: 16px;
+    background: #110b19;
+    box-shadow: 0 26px 80px rgba(0, 0, 0, 0.52);
+  }
+
+  .benefit-hero-image-wrap img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.25;
-    filter: saturate(0.8) contrast(1.2);
+    object-position: center 28%;
   }
 
-  .backdrop-gradient-scrim {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 50% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 60%),
-      linear-gradient(180deg, rgba(6, 3, 11, 0.7) 0%, rgba(14, 7, 26, 0.95) 85%, #06030b 100%);
-  }
-
-  .backdrop-scanlines {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
-    background-size: 100% 3px;
-    opacity: 0.18;
-  }
-
-  .play-hero-content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 960px;
-    margin: 0 auto;
-    gap: 20px;
-  }
-
-  .play-status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 16px;
-    border-radius: 9999px;
-    background: rgba(168, 85, 247, 0.14);
-    border: 1px solid rgba(168, 85, 247, 0.4);
+  .benefit-hero-visual figcaption {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    padding-top: 16px;
     font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    color: var(--accent);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  .benefit-hero-visual figcaption span {
+    color: #b9adc4;
+  }
+
+  .benefit-hero-visual figcaption strong {
+    color: #ed3f98;
+    text-align: right;
+  }
+
+  @media (max-width: 900px) {
+    .play-benefit-hero {
+      min-height: auto;
+      grid-template-columns: 1fr;
+      gap: 46px;
+      padding-top: 54px;
+    }
+
+    .benefit-hero-visual {
+      width: min(100%, 620px);
+      margin-inline: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .benefit-hero-title {
+      font-size: clamp(2.6rem, 12vw, 3.5rem);
+      line-height: 1.02;
+    }
+
+    .benefit-hero-actions,
+    .benefit-primary-action,
+    .benefit-secondary-action {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .benefit-primary-action,
+    .benefit-secondary-action {
+      transition: none;
+    }
   }
 
   .pulse-beacon-dot {
@@ -886,39 +948,6 @@ const skillCards = [
     }
   }
 
-  .hero-hook-lead {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 20px;
-    border-radius: 9999px;
-    background: rgba(168, 85, 247, 0.12);
-    border: 1px solid rgba(168, 85, 247, 0.35);
-    font-family: var(--font-mono);
-    font-size: clamp(0.85rem, 1.3vw, 1.05rem);
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    color: #f1f5f9;
-    text-transform: uppercase;
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
-  }
-
-  .hook-icon {
-    font-size: 1.1rem;
-    color: var(--accent);
-  }
-
-  .play-hero-headline {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 2.9vw, 2.45rem);
-    font-weight: 900;
-    line-height: 1.22;
-    letter-spacing: 0.02em;
-    color: #fff;
-    text-transform: uppercase;
-    max-width: 860px;
-  }
-
   .neon-highlight-magenta {
     color: var(--magenta);
     text-shadow: 0 0 25px rgba(255, 45, 155, 0.75), 0 0 50px rgba(255, 45, 155, 0.4);
@@ -927,31 +956,6 @@ const skillCards = [
   .neon-highlight-violet {
     color: var(--accent);
     text-shadow: 0 0 25px rgba(168, 85, 247, 0.7);
-  }
-
-  .objection-killer-strip {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: #cbd5e1;
-    text-transform: uppercase;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 8px 20px;
-    border-radius: 9999px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .objection-badge {
-    color: var(--emerald);
-  }
-
-  .objection-dot {
-    color: var(--accent);
   }
 
   .hero-single-cta-wrap {
@@ -987,112 +991,6 @@ const skillCards = [
 
   .btn-sparkle {
     font-size: 1.2rem;
-  }
-
-  /* Maya Hero Unit */
-  .hero-maya-hud-unit {
-    position: relative;
-    width: 100%;
-    max-width: 680px;
-    background: rgba(18, 9, 36, 0.9);
-    border: 1.5px solid var(--line-strong);
-    border-radius: 18px;
-    padding: 20px;
-    box-shadow: var(--shadow-glow), 0 15px 40px rgba(0, 0, 0, 0.85);
-    margin-top: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    text-align: left;
-  }
-
-  .maya-hud-top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding-bottom: 10px;
-  }
-
-  .hud-left-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .hud-ping-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-  }
-
-  .hud-label-text {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 800;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-  }
-
-  .hud-status-badge {
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    color: var(--emerald);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-  }
-
-  .maya-portrait-box {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    height: 280px;
-    background: #080312;
-    border: 1px solid var(--line);
-  }
-
-  .maya-hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    display: block;
-  }
-
-  .portrait-scanlines {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
-    background-size: 100% 3px;
-    opacity: 0.22;
-    pointer-events: none;
-  }
-
-  .portrait-tag-pill {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: rgba(10, 5, 20, 0.85);
-    border: 1px solid var(--line);
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: #fff;
-    letter-spacing: 0.1em;
-  }
-
-  .maya-hud-bottom-quote {
-    background: rgba(0, 0, 0, 0.45);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0;
-    padding: 10px 14px;
-    font-size: 0.88rem;
-    line-height: 1.5;
-    color: #e2e8f0;
-    font-style: italic;
   }
 
   /* ============================================================ */

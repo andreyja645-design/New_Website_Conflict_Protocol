@@ -11,6 +11,7 @@ type Props = {
   imageAlt?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   bodyClass?: string;
+  noIndex?: boolean;
 };
 
 const {
@@ -20,7 +21,8 @@ const {
   image = site.ogImage,
   imageAlt = description,
   jsonLd = [],
-  bodyClass = ""
+  bodyClass = "",
+  noIndex = false
 } = Astro.props;
 
 const pageTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
@@ -54,6 +56,7 @@ const isActivePath = (href: string) =>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

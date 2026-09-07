@@ -1,0 +1,1044 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../lib/site";
+
+const rawGameUrl = site.gameUrl;
+const hasValidGameUrl = Boolean(
+  rawGameUrl && rawGameUrl !== "#practice-live" && !rawGameUrl.includes("localhost")
+);
+const gameUrl = hasValidGameUrl ? rawGameUrl : null;
+
+const benefits = [
+  {
+    title: "Recognize the hook sooner",
+    copy: "Notice guilt, false urgency, blame shifts, and bait before they choose your reaction for you."
+  },
+  {
+    title: "Stay composed while it is happening",
+    copy: "Practice catching the moment you become angry, defensive, confused, or tempted to appease."
+  },
+  {
+    title: "Hold a boundary without attacking",
+    copy: "Learn the difference between being passive, becoming aggressive, and answering with calm assertion."
+  },
+  {
+    title: "Rehearse the conversation once",
+    copy: "Prepare for the boss, parent, friend, or partner conversation you cannot safely practice in real life."
+  },
+  {
+    title: "See your pressure pattern",
+    copy: "Discover whether you appease, argue, overexplain, shut down, or hold frame when conflict tightens.",
+    href: "/style-quiz/",
+    linkLabel: "Take the combat style test"
+  }
+];
+
+const gameplay = [
+  {
+    title: "Face the pressure",
+    copy: "An opponent uses a recognizable manipulation move inside a live scenario.",
+    image: "/assets/play/step-1-crop.png",
+    alt: "Conflict Protocol opponent applying pressure in a live scenario"
+  },
+  {
+    title: "Write your real response",
+    copy: "There are no multiple choice training wheels. You decide what to say.",
+    image: "/assets/play/step-2-crop.png",
+    alt: "Player writing a free form response in Conflict Protocol"
+  },
+  {
+    title: "See what your words did",
+    copy: "The game scores whether you held frame, escalated, or surrendered your boundary.",
+    image: "/assets/play/step-3-crop.png",
+    alt: "Conflict Protocol showing the result of a player's response"
+  }
+];
+
+const changes = [
+  "What do I say?",
+  "I recognize this pattern.",
+  "I am getting hooked. Slow down.",
+  "I know what I want to do."
+];
+
+const winConditions = [
+  "Get a workable agreement",
+  "Hold your boundary",
+  "Stay calm",
+  "End the conversation",
+  "Recognize when to walk away"
+];
+---
+
+<BaseLayout
+  title="Play 2 Preview | Conflict Protocol"
+  description="Conflict Protocol is a game for practicing composure, recognition, and boundaries under pressure."
+  canonical="/play-2/"
+  image="/assets/play/maya-hero.webp"
+  imageAlt="Maya, the tactical coach in Conflict Protocol"
+  bodyClass="play-two-page"
+  noIndex={true}
+>
+  <div class="play-two-shell">
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">A CONFLICT GAME, NOT AN AI CHATBOT</p>
+        <h1>
+          <span>STAY YOURSELF</span>
+          <strong>UNDER PRESSURE.</strong>
+        </h1>
+        <p class="hero-lede">
+          Practice staying yourself while an AI opponent applies guilt, urgency, blame, and emotional pressure.
+        </p>
+        <div class="hero-actions">
+          {gameUrl ? (
+            <a class="primary-action" href={gameUrl} target="_blank" rel="noopener noreferrer">
+              PLAY FREE <span aria-hidden="true">➔</span>
+            </a>
+          ) : (
+            <a class="primary-action is-disabled" href="#practice-live" aria-disabled="true">
+              PLAY FREE SOON
+            </a>
+          )}
+          <a class="secondary-action" href="#benefits">SEE WHAT YOU TRAIN</a>
+        </div>
+      </div>
+
+      <figure class="hero-visual reveal">
+        <div class="hero-image-wrap">
+          <img
+            src="/assets/play/maya-hero.webp"
+            alt="Maya, the tactical coach inside Conflict Protocol"
+            width="1024"
+            height="1536"
+            decoding="async"
+          />
+        </div>
+        <figcaption>
+          <span>NOT A CHATBOT</span>
+          <strong>A CONFLICT GAME</strong>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="game-definition section-space reveal" aria-labelledby="game-definition-title">
+      <div class="definition-copy">
+        <h2 id="game-definition-title">Conflict Protocol is built around the mechanics of conflict.</h2>
+        <p>
+          A normal chatbot explains what a good response might sound like. This game puts you inside the pressure,
+          lets the opponent push back, and makes your choices matter.
+        </p>
+      </div>
+      <div class="definition-contrast" aria-label="Chatbot and Conflict Protocol comparison">
+        <div>
+          <span>CHATBOT</span>
+          <strong>Gives you advice</strong>
+          <p>Useful words, cooperative partner, no emotional stakes.</p>
+        </div>
+        <div class="protocol-side">
+          <span>CONFLICT PROTOCOL</span>
+          <strong>Makes you practice</strong>
+          <p>Active resistance, consequences, and another chance to try.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits section-space" id="benefits" aria-labelledby="benefits-title">
+      <div class="section-heading reveal">
+        <h2 id="benefits-title">The real benefit is not a perfect comeback.</h2>
+        <p>It is recognition before reaction, then a choice you can still respect afterward.</p>
+      </div>
+
+      <div class="benefit-grid">
+        <article class="benefit-anchor reveal">
+          <img
+            src="/assets/play/character-gaslighter.webp"
+            alt="A gaslighting opponent applying emotional pressure"
+            width="921"
+            height="1152"
+            loading="lazy"
+            decoding="async"
+          />
+          <div>
+            <h3>Stay yourself while someone tries to destabilize you.</h3>
+            <p>
+              The game can make you feel rushed, guilty, defensive, or angry in a controlled setting. You practice
+              noticing the hook before it becomes an automatic reaction.
+            </p>
+          </div>
+        </article>
+
+        <div class="benefit-list">
+          {benefits.map((benefit) => (
+            <article class="benefit-item reveal">
+              <h3>{benefit.title}</h3>
+              <p>{benefit.copy}</p>
+              {benefit.href && <a href={benefit.href}>{benefit.linkLabel} <span aria-hidden="true">➔</span></a>}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="play-loop section-space" aria-labelledby="play-loop-title">
+      <div class="section-heading reveal">
+        <h2 id="play-loop-title">You learn by doing, not memorizing.</h2>
+        <p>Every run gives you a conflict, your own words, and visible consequences.</p>
+      </div>
+
+      <div class="gameplay-grid">
+        {gameplay.map((item, index) => (
+          <figure class:list={["gameplay-panel", { "gameplay-panel-primary": index === 0 }, "reveal"]}>
+            <img
+              src={item.image}
+              alt={item.alt}
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>
+              <h3>{item.title}</h3>
+              <p>{item.copy}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <section class="change-section section-space reveal" aria-labelledby="change-title">
+      <div class="change-intro">
+        <h2 id="change-title">Practice changes the moment before you react.</h2>
+        <p>
+          The goal is to turn familiar pressure from a surprise into something you can recognize, regulate, and answer.
+        </p>
+      </div>
+      <ol class="change-track">
+        {changes.map((change) => (
+          <li>
+            <blockquote>“{change}”</blockquote>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="winning section-space" aria-labelledby="winning-title">
+      <div class="winning-copy reveal">
+        <h2 id="winning-title">Winning is not dominating the other person.</h2>
+        <p>
+          A successful conflict is one where you reach the objective without losing yourself in the process. Sometimes
+          the strongest move is to stop trying to win an unwinnable argument.
+        </p>
+        <blockquote>Leaving is not losing.</blockquote>
+      </div>
+      <div class="win-list reveal">
+        <p>A win can mean:</p>
+        <ul>
+          {winConditions.map((condition) => <li>{condition}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="practice-preview section-space" aria-labelledby="practice-title">
+      <div class="section-heading reveal">
+        <h2 id="practice-title">Build responses you can use outside the game.</h2>
+        <p>Patterns become reflexes: slow the conversation, reject the premise, return to the boundary, or exit.</p>
+      </div>
+      <div class="technique-strip">
+        <a class="technique reveal" href="/techniques/grey-rock/">
+          <img src="/assets/play/skill-grey-rock.webp" alt="Grey Rock technique card" loading="lazy" />
+          <div><strong>Grey Rock</strong><span>Remove emotional fuel</span></div>
+        </a>
+        <a class="technique reveal" href="/techniques/fogging/">
+          <img src="/assets/play/skill-fogging.webp" alt="Fogging technique card" loading="lazy" />
+          <div><strong>Fogging</strong><span>Accept truth without surrender</span></div>
+        </a>
+        <a class="technique reveal" href="/techniques/broken-record/">
+          <img src="/assets/play/skill-broken-record.webp" alt="Broken Record technique card" loading="lazy" />
+          <div><strong>Broken Record</strong><span>Return to one clear boundary</span></div>
+        </a>
+        <a class="technique reveal" href="/techniques/aikido/">
+          <img src="/assets/play/skill-aikido.webp" alt="Aikido Reframe technique card" loading="lazy" />
+          <div><strong>Aikido Reframe</strong><span>Redirect pressure into facts</span></div>
+        </a>
+      </div>
+    </section>
+
+    <aside class="safety-note reveal">
+      <strong>Communication training, not therapy.</strong>
+      <p>
+        Conflict Protocol is not a diagnostic tool or a substitute for leaving an unsafe situation. Threats, physical
+        danger, and domestic abuse require real safety support, not better verbal tactics.
+      </p>
+    </aside>
+
+    <section class="final-cta section-space reveal" id="practice-live">
+      <div>
+        <h2>Practice the conversation before it counts.</h2>
+        <p>You do not need the perfect line. You need enough composure to choose your next move.</p>
+      </div>
+      {gameUrl ? (
+        <a class="primary-action" href={gameUrl} target="_blank" rel="noopener noreferrer">
+          PLAY FREE <span aria-hidden="true">➔</span>
+        </a>
+      ) : (
+        <span class="primary-action is-disabled">PLAY FREE SOON</span>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const revealItems = document.querySelectorAll<HTMLElement>(".play-two-page .reveal");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -48px" }
+    );
+
+    revealItems.forEach((item) => observer.observe(item));
+  }
+</script>
+
+<style>
+  :global(.play-two-page) {
+    --p2-bg: #08050d;
+    --p2-panel: #110b19;
+    --p2-panel-soft: #171020;
+    --p2-line: rgba(255, 255, 255, 0.13);
+    --p2-text: #f7f3fb;
+    --p2-muted: #b9adc4;
+    --p2-accent: #ed3f98;
+    background: var(--p2-bg);
+  }
+
+  :global(.play-two-page main) {
+    overflow: hidden;
+  }
+
+  .play-two-shell {
+    color: var(--p2-text);
+    background:
+      radial-gradient(circle at 82% 5%, rgba(237, 63, 152, 0.13), transparent 27rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 32rem),
+      var(--p2-bg);
+  }
+
+  .hero,
+  .section-space,
+  .safety-note {
+    width: min(1180px, calc(100% - 40px));
+    margin-inline: auto;
+  }
+
+  .hero {
+    min-height: calc(100dvh - 72px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.72fr);
+    align-items: center;
+    gap: clamp(38px, 7vw, 96px);
+    padding-block: clamp(48px, 8vw, 88px);
+  }
+
+  .hero-copy {
+    max-width: 720px;
+  }
+
+  .eyebrow {
+    margin: 0 0 18px;
+    font: 800 0.72rem/1 var(--font-mono);
+    letter-spacing: 0.17em;
+    color: var(--p2-accent);
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  figure,
+  blockquote {
+    margin-top: 0;
+  }
+
+  h1 {
+    margin-bottom: 24px;
+    font-family: var(--font-display);
+    font-size: clamp(2.65rem, 5.5vw, 5.3rem);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+    max-width: 820px;
+  }
+
+  h1 span,
+  h1 strong {
+    display: block;
+  }
+
+  h1 strong {
+    color: var(--p2-accent);
+    font-weight: 900;
+  }
+
+  .hero-lede {
+    max-width: 580px;
+    margin-bottom: 30px;
+    color: #d6ccde;
+    font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+    line-height: 1.62;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .primary-action,
+  .secondary-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 24px;
+    border-radius: 10px;
+    font: 800 0.78rem/1 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+  }
+
+  .primary-action {
+    gap: 12px;
+    color: #120810;
+    background: var(--p2-accent);
+    border: 1px solid var(--p2-accent);
+    box-shadow: 0 14px 34px rgba(237, 63, 152, 0.2);
+  }
+
+  .primary-action:hover {
+    color: #120810;
+    background: #ff62ae;
+    text-shadow: none;
+    transform: translateY(-2px);
+  }
+
+  .primary-action:active,
+  .secondary-action:active {
+    transform: translateY(1px);
+  }
+
+  .secondary-action {
+    color: var(--p2-text);
+    border: 1px solid var(--p2-line);
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .secondary-action:hover {
+    color: var(--p2-text);
+    border-color: rgba(237, 63, 152, 0.7);
+    background: rgba(237, 63, 152, 0.08);
+    text-shadow: none;
+  }
+
+  .is-disabled {
+    opacity: 0.52;
+    pointer-events: none;
+  }
+
+  .hero-visual {
+    width: min(100%, 430px);
+    margin: 0 0 0 auto;
+  }
+
+  .hero-image-wrap {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(237, 63, 152, 0.42);
+    background: var(--p2-panel);
+    box-shadow: 0 26px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 28%;
+  }
+
+  .hero-visual figcaption {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    padding-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-visual figcaption span {
+    color: var(--p2-muted);
+  }
+
+  .hero-visual figcaption strong {
+    color: var(--p2-accent);
+    text-align: right;
+  }
+
+  .section-space {
+    padding-block: clamp(76px, 10vw, 132px);
+  }
+
+  .game-definition {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+    gap: clamp(44px, 8vw, 110px);
+    align-items: center;
+    border-top: 1px solid var(--p2-line);
+  }
+
+  .definition-copy h2,
+  .section-heading h2,
+  .change-intro h2,
+  .winning h2,
+  .final-cta h2 {
+    margin-bottom: 18px;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.8rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  .definition-copy p,
+  .section-heading p,
+  .change-intro p,
+  .winning-copy > p,
+  .final-cta p {
+    color: var(--p2-muted);
+    line-height: 1.7;
+    font-size: 1.02rem;
+    max-width: 650px;
+  }
+
+  .definition-contrast {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--p2-line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--p2-panel);
+  }
+
+  .definition-contrast > div {
+    min-height: 260px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .definition-contrast > div + div {
+    border-left: 1px solid var(--p2-line);
+  }
+
+  .definition-contrast span {
+    margin-bottom: 12px;
+    color: var(--p2-muted);
+    font: 800 0.67rem/1 var(--font-mono);
+    letter-spacing: 0.13em;
+  }
+
+  .definition-contrast strong {
+    margin-bottom: 10px;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+  }
+
+  .definition-contrast p {
+    margin: 0;
+    color: var(--p2-muted);
+    line-height: 1.55;
+    font-size: 0.9rem;
+  }
+
+  .definition-contrast .protocol-side {
+    background: linear-gradient(145deg, rgba(237, 63, 152, 0.22), rgba(237, 63, 152, 0.035));
+  }
+
+  .protocol-side span,
+  .protocol-side strong {
+    color: #ff77b9;
+  }
+
+  .section-heading {
+    max-width: 760px;
+    margin-bottom: 50px;
+  }
+
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(330px, 0.75fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .benefit-anchor {
+    position: relative;
+    min-height: 680px;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(237, 63, 152, 0.35);
+    background: var(--p2-panel);
+  }
+
+  .benefit-anchor::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 18%, rgba(8, 5, 13, 0.95) 76%);
+    pointer-events: none;
+  }
+
+  .benefit-anchor img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .benefit-anchor > div {
+    position: absolute;
+    inset: auto 36px 32px;
+    z-index: 1;
+  }
+
+  .benefit-anchor h3 {
+    max-width: 620px;
+    margin-bottom: 14px;
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3vw, 2.7rem);
+    line-height: 1.12;
+  }
+
+  .benefit-anchor p {
+    max-width: 640px;
+    margin-bottom: 0;
+    color: #d5ccdc;
+    line-height: 1.65;
+  }
+
+  .benefit-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--p2-line);
+  }
+
+  .benefit-item {
+    padding: 26px 8px 26px 24px;
+    border-bottom: 1px solid var(--p2-line);
+  }
+
+  .benefit-item h3 {
+    margin-bottom: 8px;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: -0.015em;
+  }
+
+  .benefit-item p {
+    margin-bottom: 0;
+    color: var(--p2-muted);
+    font-size: 0.92rem;
+    line-height: 1.58;
+  }
+
+  .benefit-item a {
+    display: inline-flex;
+    gap: 8px;
+    margin-top: 12px;
+    color: var(--p2-accent);
+    font: 800 0.7rem/1.3 var(--font-mono);
+    letter-spacing: 0.06em;
+    text-decoration: none;
+  }
+
+  .benefit-item a:hover {
+    color: #ff77b9;
+    text-shadow: none;
+  }
+
+  .gameplay-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 24px;
+  }
+
+  .gameplay-panel {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid var(--p2-line);
+    background: var(--p2-panel);
+  }
+
+  .gameplay-panel-primary {
+    grid-row: span 2;
+  }
+
+  .gameplay-panel img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: top;
+    border-bottom: 1px solid var(--p2-line);
+  }
+
+  .gameplay-panel-primary img {
+    height: 100%;
+    min-height: 500px;
+  }
+
+  .gameplay-panel figcaption {
+    padding: 24px;
+  }
+
+  .gameplay-panel h3 {
+    margin-bottom: 8px;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+  }
+
+  .gameplay-panel p {
+    margin: 0;
+    color: var(--p2-muted);
+    line-height: 1.55;
+  }
+
+  .change-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(480px, 1.22fr);
+    gap: clamp(48px, 8vw, 110px);
+    align-items: start;
+  }
+
+  .change-track {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: change;
+    border-top: 1px solid var(--p2-line);
+  }
+
+  .change-track li {
+    display: flex;
+    align-items: center;
+    min-height: 108px;
+    border-bottom: 1px solid var(--p2-line);
+  }
+
+  .change-track blockquote {
+    margin-bottom: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 2vw, 1.45rem);
+    line-height: 1.3;
+  }
+
+  .winning {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(48px, 9vw, 120px);
+    align-items: center;
+    border-block: 1px solid var(--p2-line);
+  }
+
+  .winning-copy blockquote {
+    margin: 38px 0 0;
+    color: var(--p2-accent);
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+  }
+
+  .win-list {
+    padding: 28px;
+    border-radius: 14px;
+    background: var(--p2-panel-soft);
+    border: 1px solid var(--p2-line);
+  }
+
+  .win-list > p {
+    margin-bottom: 20px;
+    color: var(--p2-muted);
+    font: 700 0.72rem/1 var(--font-mono);
+    letter-spacing: 0.1em;
+  }
+
+  .win-list ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .win-list li {
+    position: relative;
+    padding: 14px 0 14px 26px;
+    border-bottom: 1px solid var(--p2-line);
+    font-weight: 650;
+  }
+
+  .win-list li:last-child {
+    border-bottom: 0;
+  }
+
+  .win-list li::before {
+    content: "↳";
+    position: absolute;
+    left: 0;
+    color: var(--p2-accent);
+  }
+
+  .technique-strip {
+    display: grid;
+    grid-template-columns: 1.12fr 0.96fr 0.96fr 0.96fr;
+    gap: 16px;
+  }
+
+  .technique {
+    display: block;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid var(--p2-line);
+    background: var(--p2-panel);
+    color: var(--p2-text);
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  .technique:hover {
+    color: var(--p2-text);
+    border-color: rgba(237, 63, 152, 0.65);
+    text-shadow: none;
+    transform: translateY(-4px);
+  }
+
+  .technique img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+  }
+
+  .technique > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px;
+  }
+
+  .technique strong {
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+
+  .technique span {
+    color: var(--p2-muted);
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .safety-note {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.45fr) minmax(0, 1.55fr);
+    gap: 34px;
+    align-items: start;
+    padding-block: 30px;
+    border-top: 1px solid var(--p2-line);
+    border-bottom: 1px solid var(--p2-line);
+  }
+
+  .safety-note strong {
+    font-family: var(--font-display);
+  }
+
+  .safety-note p {
+    margin-bottom: 0;
+    color: var(--p2-muted);
+    line-height: 1.6;
+  }
+
+  .final-cta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 50px;
+    align-items: center;
+  }
+
+  .final-cta h2 {
+    max-width: 760px;
+    margin-bottom: 12px;
+  }
+
+  .final-cta p {
+    margin-bottom: 0;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    .hero,
+    .game-definition,
+    .benefit-grid,
+    .change-section,
+    .winning {
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      min-height: auto;
+      padding-top: 64px;
+    }
+
+    .hero-visual {
+      width: min(100%, 620px);
+      margin-inline: 0;
+    }
+
+    .game-definition,
+    .change-section,
+    .winning {
+      gap: 44px;
+    }
+
+    .benefit-anchor {
+      min-height: 560px;
+    }
+
+    .benefit-list {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .benefit-item:nth-child(odd) {
+      border-right: 1px solid var(--p2-line);
+    }
+
+    .technique-strip {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .hero,
+    .section-space,
+    .safety-note {
+      width: min(100% - 28px, 1180px);
+    }
+
+    .hero {
+      gap: 42px;
+      padding-block: 48px 72px;
+    }
+
+    h1 {
+      font-size: clamp(2.35rem, 12vw, 3.35rem);
+      line-height: 1.02;
+    }
+
+    .hero-actions,
+    .primary-action,
+    .secondary-action {
+      width: 100%;
+    }
+
+    .definition-contrast,
+    .gameplay-grid,
+    .benefit-list,
+    .technique-strip,
+    .safety-note,
+    .final-cta {
+      grid-template-columns: 1fr;
+    }
+
+    .definition-contrast > div {
+      min-height: 210px;
+      padding: 24px;
+    }
+
+    .definition-contrast > div + div {
+      border-left: 0;
+      border-top: 1px solid var(--p2-line);
+    }
+
+    .benefit-item:nth-child(odd) {
+      border-right: 0;
+    }
+
+    .benefit-anchor {
+      min-height: 620px;
+    }
+
+    .benefit-anchor > div {
+      inset: auto 22px 22px;
+    }
+
+    .gameplay-panel-primary {
+      grid-row: auto;
+    }
+
+    .gameplay-panel-primary img,
+    .gameplay-panel img {
+      min-height: 0;
+      height: auto;
+    }
+
+    .change-track li {
+      min-height: 96px;
+    }
+
+    .winning {
+      gap: 38px;
+    }
+
+    .safety-note {
+      gap: 12px;
+    }
+
+    .final-cta {
+      gap: 28px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .primary-action,
+    .secondary-action,
+    .technique {
+      transition: none;
+    }
+  }
+</style>
