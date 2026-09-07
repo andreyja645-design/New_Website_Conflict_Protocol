@@ -1008,6 +1008,15 @@ const skillCards = [
     text-align: center;
   }
 
+  .section-title-wrap.text-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-inline: auto;
+  }
+
   .section-kicker {
     display: block;
     font-family: var(--font-mono);
@@ -1017,6 +1026,7 @@ const skillCards = [
     color: var(--accent);
     text-transform: uppercase;
     margin-bottom: 6px;
+    text-align: center;
   }
 
   .section-heading {
@@ -1026,6 +1036,10 @@ const skillCards = [
     letter-spacing: 0.04em;
     color: #fff;
     text-transform: uppercase;
+    text-align: center;
+    margin-inline: auto;
+    max-width: 900px;
+    width: 100%;
   }
 
   .section-subtitle {
@@ -1034,6 +1048,7 @@ const skillCards = [
     max-width: 740px;
     margin: 8px auto 0;
     line-height: 1.6;
+    text-align: center;
   }
 
   /* ============================================================ */
@@ -1311,11 +1326,13 @@ const skillCards = [
     height: 100%;
     object-fit: cover;
     object-position: top center;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: brightness(1);
   }
 
   .opponent-profile-card:hover .opponent-img {
     transform: scale(1.06);
+    filter: brightness(0.82);
   }
 
   .opponent-img-gradient {

@@ -1035,11 +1035,13 @@ const drillSteps = [
     height: 100%;
     object-fit: cover;
     object-position: top center;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: brightness(1);
   }
 
   .door-interactive-card:hover .door-preview-img {
     transform: scale(1.06);
+    filter: brightness(0.82);
   }
 
   .door-img-scrim {
