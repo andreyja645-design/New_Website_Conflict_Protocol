@@ -43,6 +43,7 @@ const isSituation = entry.collection === "situations";
 const counters = relatedGroups.find((g) => g.title.toLowerCase().includes("counter"))?.links || [];
 const situations = relatedGroups.find((g) => g.title.toLowerCase().includes("situation"))?.links || [];
 const isTradingCard = Boolean(image?.includes("/cards/") || isPattern || isTechnique);
+const isHeroArtLayout = isSituation;
 ---
 
 <BaseLayout
@@ -68,7 +69,7 @@ const isTradingCard = Boolean(image?.includes("/cards/") || isPattern || isTechn
     <!-- ============================================================ -->
     <!-- DOSSIER LAYOUT: 2-COLUMN GRID (NO EMPTY DEAD SPACE)           -->
     <!-- ============================================================ -->
-    <div class="dossier-layout-grid">
+    <div class:list={["dossier-layout-grid", { "hero-art-active": isHeroArtLayout }]}>
       <!-- 1. Header Area (Row 1 Left) -->
       <header class="dossier-hero-header">
         {isPattern && (
@@ -97,6 +98,43 @@ const isTradingCard = Boolean(image?.includes("/cards/") || isPattern || isTechn
         <p class="hero-lede-text">
           {entry.data.oneLiner}
         </p>
+
+        {isHeroArtLayout && image && (
+          <div class="hero-cinematic-banner">
+            <div class="corner-reticle reticle-tl"></div>
+            <div class="corner-reticle reticle-tr"></div>
+            <div class="corner-reticle reticle-bl"></div>
+            <div class="corner-reticle reticle-br"></div>
+
+            <div class="dossier-hud-top">
+              <div class="dossier-tag">
+                <span class="radar-ping-mini"></span>
+                <span>MAYA AI // WORKED COMBAT SCENARIO // VISUAL DOSSIER</span>
+              </div>
+              <span class="dossier-status">CLASSIFIED TELEMETRY</span>
+            </div>
+
+            <div class="hero-banner-art-wrap">
+              <img
+                src={image}
+                alt={entry.data.title}
+                class="hero-banner-img"
+                loading="eager"
+              />
+              <div class="scanlines-overlay"></div>
+            </div>
+
+            <div class="dossier-coach-quote hero-coach-quote">
+              <div class="quote-header">
+                <span class="quote-avatar">⚡</span>
+                <span class="quote-author">MAYA COACH ADVISORY:</span>
+              </div>
+              <p class="quote-content">
+                "{entry.data.gameHook}"
+              </p>
+            </div>
+          </div>
+        )}
 
         <!-- Tactical Intel HUD Panel -->
         <div class="tactical-intel-panel">
@@ -177,7 +215,7 @@ const isTradingCard = Boolean(image?.includes("/cards/") || isPattern || isTechn
       </header>
 
       <!-- 2. Sticky Sidebar (Row 1-2 Right) -->
-      {image && (
+      {!isHeroArtLayout && image && (
         <aside class="dossier-sidebar-col">
           <div class="maya-dossier-frame sticky-dossier">
             <div class="corner-reticle reticle-tl"></div>
@@ -329,6 +367,61 @@ const isTradingCard = Boolean(image?.includes("/cards/") || isPattern || isTechn
     row-gap: 0;
     align-items: start;
     margin-bottom: 56px;
+  }
+
+  /* Single-column Hero Art Layout (e.g. Situations with prominent art under title) */
+  .dossier-layout-grid.hero-art-active {
+    display: flex;
+    flex-direction: column;
+    max-width: 980px;
+    margin-inline: auto;
+  }
+
+  .dossier-layout-grid.hero-art-active .dossier-hero-header {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .dossier-layout-grid.hero-art-active .article-body-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-cinematic-banner {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    background: linear-gradient(135deg, rgba(20, 10, 38, 0.95) 0%, rgba(10, 5, 20, 0.98) 100%);
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.22), 0 16px 40px rgba(0, 0, 0, 0.85);
+    margin-top: 14px;
+    margin-bottom: 8px;
+  }
+
+  .hero-banner-art-wrap {
+    position: relative;
+    width: 100%;
+    max-height: 440px;
+    background: #090510;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-banner-img {
+    width: 100%;
+    height: auto;
+    max-height: 440px;
+    display: block;
+    object-fit: cover;
+  }
+
+  .hero-coach-quote {
+    padding: 12px 18px;
   }
 
   @media (max-width: 980px) {
