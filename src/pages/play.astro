@@ -143,7 +143,126 @@ const skillCards = [
     </section>
 
     <!-- ============================================================ -->
-    <!-- 2. "WHAT ACTUALLY HAPPENS" — 3 STEPS, WITH REAL SCREENSHOTS  -->
+    <!-- 2. WHAT MAKES THIS A GAME                                   -->
+    <!-- ============================================================ -->
+    <section class="play-section game-mechanics-section" id="game-mechanics">
+      <div class="game-mechanics-copy">
+        <h2>Conflict Protocol is built around the mechanics of conflict.</h2>
+        <p>
+          A normal chatbot explains what a good response might sound like. This game puts you inside the pressure,
+          lets the opponent push back, and makes your choices matter.
+        </p>
+      </div>
+
+      <div class="engine-manifesto-box">
+        <div class="corner-reticle reticle-tl"></div>
+        <div class="corner-reticle reticle-tr"></div>
+        <div class="corner-reticle reticle-bl"></div>
+        <div class="corner-reticle reticle-br"></div>
+        <div class="manifesto-left-tag">
+          <span class="manifesto-icon">⚡</span>
+          <span>THE CORE RULE</span>
+        </div>
+        <p class="manifesto-quote">
+          "A conventional chatbot wants to help you. It wants to be useful. It doesn't actually want to defeat you.
+          <strong>In Conflict Protocol, the AI is your opponent.</strong> Mechanically, its job is to bait you into overexplaining,
+          destabilize your emotional state, and break your boundary."
+        </p>
+      </div>
+
+      <div class="engine-comparison-grid">
+        <article class="compare-card compare-chatbot">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="compare-header">
+            <span class="compare-role-tag">NORMAL AI CHATBOT</span>
+            <h3 class="compare-title">The Helpful Assistant</h3>
+            <span class="compare-status-indicator status-assistant">COOPERATIVE // PASSIVE</span>
+          </div>
+
+          <ul class="compare-feature-list">
+            <li>
+              <span class="feat-bullet">✕</span>
+              <div>
+                <strong>Wants you to succeed:</strong> Politeness and cooperation are hard-coded into its objective function.
+              </div>
+            </li>
+            <li>
+              <span class="feat-bullet">✕</span>
+              <div>
+                <strong>Gives advice instead of pressure:</strong> Tells you "here's a good phrase to use," but never tests if you can speak it while panicked.
+              </div>
+            </li>
+            <li>
+              <span class="feat-bullet">✕</span>
+              <div>
+                <strong>Failure has zero stakes:</strong> Give a weak, defensive answer and it responds: <em>"That's understandable! Try this next time."</em> Nothing happened.
+              </div>
+            </li>
+            <li>
+              <span class="feat-bullet">✕</span>
+              <div>
+                <strong>Disposable chat:</strong> No memory of previous concessions. No tactical punishment for second-guessing yourself.
+              </div>
+            </li>
+          </ul>
+
+          <div class="compare-summary-bar chatbot-bar">
+            <span>Core Lesson: "Here is a better sentence."</span>
+          </div>
+        </article>
+
+        <article class="compare-card compare-protocol">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="compare-header">
+            <span class="compare-role-tag highlight-accent">CONFLICT PROTOCOL ARENA</span>
+            <h3 class="compare-title highlight-neon">The Live Adversary</h3>
+            <span class="compare-status-indicator status-adversary">OPPONENT // ACTIVE COMBAT</span>
+          </div>
+
+          <ul class="compare-feature-list">
+            <li>
+              <span class="feat-bullet highlight-check">✔</span>
+              <div>
+                <strong>Actively tries to defeat you:</strong> Baits guilt, applies urgency, and maneuvers you into defensive overexplaining (J.A.D.E.).
+              </div>
+            </li>
+            <li>
+              <span class="feat-bullet highlight-check">✔</span>
+              <div>
+                <strong>Visceral manipulation testing:</strong> Evaluates whether you took the bait, held your frame, or surrendered your ground.
+              </div>
+            </li>
+            <li>
+              <span class="feat-bullet highlight-check">✔</span>
+              <div>
+                <strong>Failure actually matters:</strong> Overexplain? <code class="delta-bad">FRAME ▼</code>. Defend? <code class="delta-bad">HEAT ▲</code>. Opponent exploits opening: <strong>BOUNDARY BROKEN</strong>.
+              </div>
+            </li>
+            <li>
+              <span class="feat-bullet highlight-check">✔</span>
+              <div>
+                <strong>Persistent combat loop:</strong> Opponents remember previous concessions and exploit them in later turns. Action ➔ Consequence ➔ Mastery.
+              </div>
+            </li>
+          </ul>
+
+          <div class="compare-summary-bar protocol-bar">
+            <span>Core Lesson: "You just took the bait. Adapt and counter."</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 3. "WHAT ACTUALLY HAPPENS" — 3 STEPS, WITH REAL SCREENSHOTS  -->
     <!-- ============================================================ -->
     <section class="play-section" id="how-it-works">
       <div class="section-title-wrap text-center">
@@ -302,132 +421,7 @@ const skillCards = [
     <!-- ============================================================ -->
     <!-- 4. THE COMBAT ENGINE // NOT A CHATBOT. AN ADVERSARY.         -->
     <!-- ============================================================ -->
-    <section class="play-section combat-engine-section" id="combat-engine">
-      <div class="section-title-wrap text-center">
-        <div class="engine-status-badge">
-          <span class="pulse-beacon-dot"></span>
-          <span>PARADIGM SHIFT // THE COMBAT ENGINE</span>
-        </div>
-        <h2 class="section-heading engine-main-heading">
-          STOP PRACTICING WITH AI THAT AGREES WITH YOU.<br />
-          <span class="neon-highlight-magenta">FIGHT CONVERSATIONS THAT DON'T.</span>
-        </h2>
-        <p class="section-subtitle engine-lead-para">
-          Conflict Protocol is not an AI chatbot that happens to talk about conflict.
-          It is a game designed around the <strong>mechanics of conflict</strong>.
-        </p>
-      </div>
-
-      <!-- Core Philosophical Contrast Banner -->
-      <div class="engine-manifesto-box">
-        <div class="corner-reticle reticle-tl"></div>
-        <div class="corner-reticle reticle-tr"></div>
-        <div class="corner-reticle reticle-bl"></div>
-        <div class="corner-reticle reticle-br"></div>
-        <div class="manifesto-left-tag">
-          <span class="manifesto-icon">⚡</span>
-          <span>THE CORE RULE</span>
-        </div>
-        <p class="manifesto-quote">
-          "A conventional chatbot wants to help you. It wants to be useful. It doesn't actually want to defeat you.
-          <strong>In Conflict Protocol, the AI is your opponent.</strong> Mechanically, its job is to bait you into overexplaining,
-          destabilize your emotional state, and break your boundary."
-        </p>
-      </div>
-
-      <!-- Compact Side-by-Side Comparison Matrix -->
-      <div class="engine-comparison-grid">
-        <!-- Card 1: Standard AI Chatbot -->
-        <article class="compare-card compare-chatbot">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <div class="compare-header">
-            <span class="compare-role-tag">NORMAL AI CHATBOT</span>
-            <h3 class="compare-title">The Helpful Assistant</h3>
-            <span class="compare-status-indicator status-assistant">COOPERATIVE // PASSIVE</span>
-          </div>
-
-          <ul class="compare-feature-list">
-            <li>
-              <span class="feat-bullet">✕</span>
-              <div>
-                <strong>Wants you to succeed:</strong> Politeness and cooperation are hard-coded into its objective function.
-              </div>
-            </li>
-            <li>
-              <span class="feat-bullet">✕</span>
-              <div>
-                <strong>Gives advice instead of pressure:</strong> Tells you "here's a good phrase to use," but never tests if you can speak it while panicked.
-              </div>
-            </li>
-            <li>
-              <span class="feat-bullet">✕</span>
-              <div>
-                <strong>Failure has zero stakes:</strong> Give a weak, defensive answer and it responds: <em>"That's understandable! Try this next time."</em> Nothing happened.
-              </div>
-            </li>
-            <li>
-              <span class="feat-bullet">✕</span>
-              <div>
-                <strong>Disposable chat:</strong> No memory of previous concessions. No tactical punishment for second-guessing yourself.
-              </div>
-            </li>
-          </ul>
-
-          <div class="compare-summary-bar chatbot-bar">
-            <span>Core Lesson: "Here is a better sentence."</span>
-          </div>
-        </article>
-
-        <!-- Card 2: Conflict Protocol Opponent -->
-        <article class="compare-card compare-protocol">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <div class="compare-header">
-            <span class="compare-role-tag highlight-accent">CONFLICT PROTOCOL ARENA</span>
-            <h3 class="compare-title highlight-neon">The Live Adversary</h3>
-            <span class="compare-status-indicator status-adversary">OPPONENT // ACTIVE COMBAT</span>
-          </div>
-
-          <ul class="compare-feature-list">
-            <li>
-              <span class="feat-bullet highlight-check">✔</span>
-              <div>
-                <strong>Actively tries to defeat you:</strong> Baits guilt, applies urgency, and maneuvers you into defensive overexplaining (J.A.D.E.).
-              </div>
-            </li>
-            <li>
-              <span class="feat-bullet highlight-check">✔</span>
-              <div>
-                <strong>Visceral manipulation testing:</strong> Evaluates whether you took the bait, held your frame, or surrendered your ground.
-              </div>
-            </li>
-            <li>
-              <span class="feat-bullet highlight-check">✔</span>
-              <div>
-                <strong>Failure actually matters:</strong> Overexplain? <code class="delta-bad">FRAME ▼</code>. Defend? <code class="delta-bad">HEAT ▲</code>. Opponent exploits opening: <strong>BOUNDARY BROKEN</strong>.
-              </div>
-            </li>
-            <li>
-              <span class="feat-bullet highlight-check">✔</span>
-              <div>
-                <strong>Persistent combat loop:</strong> Opponents remember previous concessions and exploit them in later turns. Action ➔ Consequence ➔ Mastery.
-              </div>
-            </li>
-          </ul>
-
-          <div class="compare-summary-bar protocol-bar">
-            <span>Core Lesson: "You just took the bait. Adapt and counter."</span>
-          </div>
-        </article>
-      </div>
-
+    <section class="play-section combat-engine-section" id="combat-engine" aria-label="Combat engine systems">
       <!-- Action-Consequence Fighting Game Loop Strip -->
       <div class="engine-consequence-ribbon">
         <div class="corner-reticle reticle-tl"></div>
@@ -694,6 +688,7 @@ const skillCards = [
     padding: 20px 24px 90px;
     position: relative;
     z-index: 1;
+    overflow-x: clip;
   }
 
   /* Ambient Glow Orbs */
@@ -1638,39 +1633,37 @@ const skillCards = [
   /* ============================================================ */
   /* COMBAT ENGINE // ADVERSARY VS CHATBOT STYLES                */
   /* ============================================================ */
+  .game-mechanics-section {
+    padding-top: 12px;
+  }
+
+  .game-mechanics-copy {
+    max-width: 860px;
+    margin-bottom: 38px;
+  }
+
+  .game-mechanics-copy h2 {
+    margin: 0 0 18px;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.7rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    color: #fff;
+  }
+
+  .game-mechanics-copy p {
+    max-width: 760px;
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
   .combat-engine-section {
     position: relative;
     padding-top: 10px;
     margin-bottom: 70px;
-  }
-
-  .engine-status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 16px;
-    border-radius: 9999px;
-    background: rgba(255, 45, 155, 0.12);
-    border: 1px solid rgba(255, 45, 155, 0.45);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    color: var(--magenta);
-    margin-bottom: 12px;
-  }
-
-  .engine-main-heading {
-    font-size: clamp(1.8rem, 3.4vw, 2.7rem);
-    line-height: 1.18;
-    margin-bottom: 12px;
-  }
-
-  .engine-lead-para {
-    max-width: 680px;
-    margin: 0 auto 30px;
-    font-size: 1.05rem;
-    color: var(--text-soft);
   }
 
   /* Core Philosophical Manifesto Box */
