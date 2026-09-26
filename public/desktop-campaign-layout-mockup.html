@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conflict Protocol // Desktop Campaign Layout Playground (4 Layouts)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#c084fc',
+              purpleGlow: '#a855f7',
+              cyan: '#2fb8ff',
+              magenta: '#ff2d9b',
+              amber: '#f59e0b',
+              emerald: '#10b981',
+              rose: '#f43f5e',
+            }
+          },
+          fontFamily: {
+            display: ['Orbitron', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #06030b;
+      --bg-surface: #0e071a;
+      --panel: rgba(19, 10, 36, 0.88);
+      --line: rgba(168, 85, 247, 0.28);
+      --line-strong: rgba(168, 85, 247, 0.65);
+      --accent: #c084fc;
+      --accent-glow: #a855f7;
+    }
+    body {
+      background-color: #06030b;
+      background-image:
+        radial-gradient(rgba(168, 85, 247, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 12% 8%, rgba(168, 85, 247, 0.16), transparent 34rem),
+        radial-gradient(circle at 88% 18%, rgba(255, 45, 155, 0.12), transparent 36rem),
+        radial-gradient(circle at 50% 60%, rgba(47, 184, 255, 0.08), transparent 42rem),
+        linear-gradient(180deg, #07030d 0%, #0d0618 35%, #08040f 70%, #050209 100%);
+      background-size: 32px 32px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+      background-attachment: fixed;
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+    }
+    .hud-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .cp-btn {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .cp-btn:hover {
+      box-shadow: 0 0 20px rgba(192, 132, 252, 0.4);
+      transform: translateY(-1px);
+    }
+    .glass-panel {
+      background: rgba(19, 10, 36, 0.85);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      backdrop-filter: blur(14px);
+    }
+    .scanlines {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+    }
+    /* Rail animations */
+    @keyframes pulse-rail {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    .animate-rail {
+      animation: pulse-rail 2.5s infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col">
+
+  <!-- TOP APP HEADER & MOCKUP CONTROLS -->
+  <header class="border-b border-purple-500/25 bg-[#0a0514]/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-[1580px] mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand & Mode Title -->
+      <div class="flex items-center gap-3">
+        <button onclick="playSfx('click')" class="text-xs font-mono text-purple-300 hover:text-white flex items-center gap-1.5 transition-colors">
+          <span>← PERSONAS</span>
+        </button>
+        <span class="hud-chip border border-purple-500/40 bg-purple-500/10 text-purple-300">
+          / NARCISSIST
+        </span>
+        <span class="hidden md:inline text-xs font-mono text-slate-500">|</span>
+        <span class="hidden md:inline font-mono text-[11px] text-cyan-400 tracking-wider">
+          DESKTOP LAYOUT EXPLORER
+        </span>
+      </div>
+
+      <!-- INTERACTIVE LAYOUT SELECTOR TABS -->
+      <div class="flex items-center gap-1.5 bg-black/60 p-1 rounded-xl border border-purple-500/30">
+        <button onclick="switchLayout('timeline')" id="btn-timeline" class="layout-btn px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+          1. TIMELINE RAIL
+        </button>
+        <button onclick="switchLayout('blades')" id="btn-blades" class="layout-btn px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+          2. EXPANDING BLADES
+        </button>
+        <button onclick="switchLayout('spotlight')" id="btn-spotlight" class="layout-btn px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+          3. MISSION SPOTLIGHT
+        </button>
+        <button onclick="switchLayout('bento')" id="btn-bento" class="layout-btn px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+          4. ASYMMETRIC BENTO
+        </button>
+        <span class="text-slate-600 mx-1">|</span>
+        <button onclick="switchLayout('original')" id="btn-original" class="layout-btn px-2.5 py-1.5 rounded-lg font-mono text-[11px] font-bold text-rose-300 hover:text-white hover:bg-rose-500/10 border border-rose-500/20 transition-all" title="View the current 2-column grid from your screenshot">
+          ORIGINAL (CURRENT)
+        </button>
+      </div>
+
+      <!-- Audio / Difficulty Controls -->
+      <div class="flex items-center gap-2">
+        <button onclick="toggleAudio()" id="btn-audio" class="p-1.5 rounded-lg border border-purple-500/30 bg-purple-950/40 text-purple-300 text-xs font-mono" title="Sound Effects Toggle">
+          🔊 SFX ON
+        </button>
+        <div class="flex items-center gap-1 font-mono text-[10px]">
+          <span class="px-2 py-1 rounded bg-white/5 text-slate-400">EASY</span>
+          <span class="px-2 py-1 rounded bg-purple-600 text-white font-bold">NORMAL</span>
+          <span class="px-2 py-1 rounded bg-white/5 text-slate-400">HARD</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT CANVAS -->
+  <main class="flex-1 max-w-[1580px] w-full mx-auto px-4 py-6 flex flex-col justify-start">
+
+    <!-- CHARACTER DOSSIER COMPACT HERO HEADER -->
+    <div class="glass-panel rounded-2xl p-4 md:p-5 mb-6 relative overflow-hidden border border-purple-500/40 shadow-[0_0_35px_rgba(168,85,247,0.15)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] shrink-0 bg-black">
+          <img src="/campaigns/narcissist/level-1-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80'" alt="Narcissist" class="w-full h-full object-cover object-top">
+        </div>
+        <div>
+          <div class="font-mono text-[10px] md:text-xs font-black tracking-widest text-purple-400 uppercase flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+            TARGET DOSSIER // STATUS CONTROL &amp; REALITY DISTORTION
+          </div>
+          <h1 class="text-xl md:text-3xl font-display font-black tracking-wider uppercase text-white drop-shadow-[0_0_12px_rgba(192,132,252,0.6)]">
+            THE NARCISSISTIC PARTNER
+          </h1>
+          <p class="text-xs md:text-sm text-slate-300 font-sans mt-0.5">
+            Verbal Acrobatics — devalues your wins, demands admiration, punishes independence with sudden cold silence.
+          </p>
+        </div>
+      </div>
+
+      <!-- Layout Explanation Pill -->
+      <div id="layout-explainer" class="bg-black/60 border border-purple-500/30 rounded-xl px-4 py-2.5 text-right font-mono shrink-0 hidden md:block">
+        <div class="text-[10px] text-slate-400 uppercase tracking-widest">Active Layout Paradigm:</div>
+        <div id="layout-title" class="text-sm font-bold text-cyan-300">1. TIMELINE PROGRESSION RAIL</div>
+        <div id="layout-desc" class="text-[11px] text-slate-400 max-w-sm mt-0.5">
+          5 connected act nodes showing natural campaign escalation from entry to the Climax confrontation.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- LAYOUT 1: 5-NODE NARRATIVE TIMELINE RAIL (HORIZONTAL PROGRESSION) -->
+    <!-- ============================================================== -->
+    <div id="view-timeline" class="layout-view space-y-4">
+      <div class="flex items-center justify-between px-1">
+        <div class="hud-chip border border-purple-500/40 text-purple-300 font-mono">
+          5-STAGE CAMPAIGN ESCALATION TRAJECTORY
+        </div>
+        <div class="font-mono text-xs text-slate-400">
+          STAGE PROGRESSION: <span class="text-emerald-400 font-bold">READY TO ENGAGE</span>
+        </div>
+      </div>
+
+      <!-- The Rail Container -->
+      <div class="relative pt-6 pb-2">
+        <!-- Glowing Connecting Cyber Rail Line -->
+        <div class="absolute top-[48px] left-[8%] right-[8%] h-1 bg-gradient-to-r from-purple-500/30 via-purple-500/70 to-rose-500/80 z-0 hidden lg:block">
+          <div class="absolute inset-0 bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400 opacity-60 animate-rail"></div>
+        </div>
+
+        <!-- 5 Columns Grid across Desktop -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 relative z-10">
+
+          <!-- Level 1 -->
+          <div class="glass-panel rounded-2xl overflow-hidden border border-purple-500/40 hover:border-purple-400 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all duration-300 flex flex-col justify-between group cursor-pointer relative h-[420px]">
+            <div class="absolute top-2 left-2 z-20">
+              <span class="hud-chip bg-black/80 border border-purple-400/50 text-purple-200">STAGE 01</span>
+            </div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="/campaigns/narcissist/level-1-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 opacity-75">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/40 to-transparent"></div>
+              <div class="absolute bottom-2 left-3 right-3 flex justify-between items-center text-[10px] font-mono">
+                <span class="text-purple-300 font-bold">DIRECT ENCOUNTER</span>
+                <span class="text-emerald-400">⚡ READY</span>
+              </div>
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[10px] font-mono text-purple-300 font-bold uppercase tracking-wider">SKILL: REFUSAL WITHOUT GUILT</div>
+                <h3 class="text-lg font-display font-black text-white mt-1 group-hover:text-purple-300 transition-colors uppercase">THE SUCCESS</h3>
+                <p class="text-xs text-slate-300 font-mono italic mt-1 leading-snug line-clamp-2">"You shared good news. They are 'concerned'. Doubt starves when you won't feed it."</p>
+                <div class="mt-2.5 text-[10px] font-mono text-amber-400/90 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20">
+                  TELL: Concern trolling
+                </div>
+              </div>
+              <button onclick="playSfx('engage')" class="w-full mt-3 cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-xs font-bold py-2.5 rounded-xl uppercase tracking-wider">
+                [ ENGAGE → ]
+              </button>
+            </div>
+          </div>
+
+          <!-- Level 2 -->
+          <div class="glass-panel rounded-2xl overflow-hidden border border-purple-500/40 hover:border-purple-400 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all duration-300 flex flex-col justify-between group cursor-pointer relative h-[420px]">
+            <div class="absolute top-2 left-2 z-20">
+              <span class="hud-chip bg-black/80 border border-purple-400/50 text-purple-200">STAGE 02</span>
+            </div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="/campaigns/narcissist/level-2-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 opacity-75">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/40 to-transparent"></div>
+              <div class="absolute bottom-2 left-3 right-3 flex justify-between items-center text-[10px] font-mono">
+                <span class="text-purple-300 font-bold">DIRECT ENCOUNTER</span>
+                <span class="text-emerald-400">⚡ READY</span>
+              </div>
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[10px] font-mono text-purple-300 font-bold uppercase tracking-wider">SKILL: FOGGING</div>
+                <h3 class="text-lg font-display font-black text-white mt-1 group-hover:text-purple-300 transition-colors uppercase">THE BAD GIFT</h3>
+                <p class="text-xs text-slate-300 font-mono italic mt-1 leading-snug line-clamp-2">"Your gift is 'almost' right."</p>
+                <div class="mt-2.5 text-[10px] font-mono text-amber-400/90 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20">
+                  TELL: Devaluation bait
+                </div>
+              </div>
+              <button onclick="playSfx('engage')" class="w-full mt-3 cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-xs font-bold py-2.5 rounded-xl uppercase tracking-wider">
+                [ ENGAGE → ]
+              </button>
+            </div>
+          </div>
+
+          <!-- Level 3 -->
+          <div class="glass-panel rounded-2xl overflow-hidden border border-purple-500/40 hover:border-purple-400 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all duration-300 flex flex-col justify-between group cursor-pointer relative h-[420px]">
+            <div class="absolute top-2 left-2 z-20">
+              <span class="hud-chip bg-black/80 border border-purple-400/50 text-purple-200">STAGE 03</span>
+            </div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="/campaigns/narcissist/level-3-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 opacity-75">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/40 to-transparent"></div>
+              <div class="absolute bottom-2 left-3 right-3 flex justify-between items-center text-[10px] font-mono">
+                <span class="text-purple-300 font-bold">GATHERING</span>
+                <span class="text-emerald-400">⚡ READY</span>
+              </div>
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[10px] font-mono text-purple-300 font-bold uppercase tracking-wider">SKILL: GREY ROCK</div>
+                <h3 class="text-lg font-display font-black text-white mt-1 group-hover:text-purple-300 transition-colors uppercase">PUBLIC ROAST</h3>
+                <p class="text-xs text-slate-300 font-mono italic mt-1 leading-snug line-clamp-2">"They're roasting you in public — for fun."</p>
+                <div class="mt-2.5 text-[10px] font-mono text-amber-400/90 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20">
+                  TELL: Audience bait
+                </div>
+              </div>
+              <button onclick="playSfx('engage')" class="w-full mt-3 cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-xs font-bold py-2.5 rounded-xl uppercase tracking-wider">
+                [ ENGAGE → ]
+              </button>
+            </div>
+          </div>
+
+          <!-- Level 4 -->
+          <div class="glass-panel rounded-2xl overflow-hidden border border-purple-500/40 hover:border-purple-400 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all duration-300 flex flex-col justify-between group cursor-pointer relative h-[420px]">
+            <div class="absolute top-2 left-2 z-20">
+              <span class="hud-chip bg-black/80 border border-purple-400/50 text-purple-200">STAGE 04</span>
+            </div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="/campaigns/narcissist/level-4-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 opacity-75">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/40 to-transparent"></div>
+              <div class="absolute bottom-2 left-3 right-3 flex justify-between items-center text-[10px] font-mono">
+                <span class="text-purple-300 font-bold">DIRECT ENCOUNTER</span>
+                <span class="text-emerald-400">⚡ READY</span>
+              </div>
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[10px] font-mono text-purple-300 font-bold uppercase tracking-wider">SKILL: NON-REACTION</div>
+                <h3 class="text-lg font-display font-black text-white mt-1 group-hover:text-purple-300 transition-colors uppercase">TRIANGULATION</h3>
+                <p class="text-xs text-slate-300 font-mono italic mt-1 leading-snug line-clamp-2">"An ex texted them. Casually mentioned."</p>
+                <div class="mt-2.5 text-[10px] font-mono text-amber-400/90 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20">
+                  TELL: Jealousy bait
+                </div>
+              </div>
+              <button onclick="playSfx('engage')" class="w-full mt-3 cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-xs font-bold py-2.5 rounded-xl uppercase tracking-wider">
+                [ ENGAGE → ]
+              </button>
+            </div>
+          </div>
+
+          <!-- Level 5 (THE CLIMAX / FINALE) - DISTINCT BOSS ELEVATION -->
+          <div class="glass-panel rounded-2xl overflow-hidden border-2 border-rose-500/80 shadow-[0_0_35px_rgba(244,63,94,0.3)] hover:shadow-[0_0_50px_rgba(244,63,94,0.5)] transition-all duration-300 flex flex-col justify-between group cursor-pointer relative h-[420px] bg-gradient-to-b from-[#180816] to-[#0c0512]">
+            <div class="absolute top-2 left-2 z-20 flex items-center gap-1.5">
+              <span class="hud-chip bg-rose-950/90 border border-rose-400 text-rose-300">STAGE 05</span>
+              <span class="px-1.5 py-0.5 rounded bg-rose-500 text-white font-mono text-[9px] font-black tracking-widest uppercase animate-pulse">
+                FINAL CLIMAX
+              </span>
+            </div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="/campaigns/narcissist/level-5-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 opacity-90">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#180816] via-[#180816]/50 to-transparent"></div>
+              <div class="absolute bottom-2 left-3 right-3 flex justify-between items-center text-[10px] font-mono">
+                <span class="text-rose-300 font-bold">CRITICAL THRESHOLD</span>
+                <span class="text-rose-400 font-black">BOSS ENCOUNTER</span>
+              </div>
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-wider">SKILL: BOUNDARY HOLD</div>
+                <h3 class="text-lg font-display font-black text-rose-200 mt-1 uppercase">SILENT TREATMENT</h3>
+                <p class="text-xs text-rose-200/80 font-mono italic mt-1 leading-snug line-clamp-2">"Cold shoulder. Don't apologize for nothing."</p>
+                <div class="mt-2.5 text-[10px] font-mono text-rose-300 bg-rose-500/15 px-2 py-1 rounded border border-rose-500/30">
+                  TELL: Withholding presence
+                </div>
+              </div>
+              <button onclick="playSfx('engage')" class="w-full mt-3 cp-btn bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 text-white font-mono text-xs font-black py-2.5 rounded-xl uppercase tracking-wider shadow-[0_0_20px_rgba(244,63,94,0.4)]">
+                [ CONFRONT CLIMAX ➔ ]
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- LAYOUT 2: EXPANDING CYBER BLADES (MATCHING PERSONA SELECT SCREEN) -->
+    <!-- ============================================================== -->
+    <div id="view-blades" class="layout-view space-y-4 hidden">
+      <div class="flex items-center justify-between px-1">
+        <div class="hud-chip border border-purple-500/40 text-purple-300 font-mono">
+          EXPANDING LEVEL BLADES · HOVER OR CLICK TO FOCUS
+        </div>
+        <div class="font-mono text-xs text-slate-400">
+          [ TIP: CLICK ANY BLADE TO EXPAND ]
+        </div>
+      </div>
+
+      <!-- Blades Deck Container -->
+      <div class="flex h-[560px] gap-3.5 items-stretch justify-center w-full">
+
+        <!-- Blade 1 (Default Expanded) -->
+        <div id="blade-1" onclick="focusBlade(1)" class="blade-card flex-[2.8] rounded-2xl overflow-hidden relative cursor-pointer transition-all duration-500 ease-out flex flex-col justify-between bg-gradient-to-b from-[#190d2b] to-[#0c0717] border-2 border-purple-500/60 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+          <div class="absolute inset-0 z-0">
+            <img src="/campaigns/narcissist/level-1-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-75">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/70 to-black/30"></div>
+          </div>
+          <!-- Badge -->
+          <div class="relative z-10 p-4 flex justify-between items-center">
+            <span class="hud-chip bg-black/80 border border-purple-400 text-purple-200">01 // REFUSAL WITHOUT GUILT</span>
+            <span class="font-mono text-xs text-emerald-400 font-bold">⚡ READY</span>
+          </div>
+          <!-- Content (Visible when expanded) -->
+          <div class="blade-content relative z-10 p-6 space-y-3 bg-gradient-to-t from-[#0d071a] via-[#0d071a]/95 to-transparent pt-12">
+            <div class="font-mono text-xs text-purple-400 font-bold">SCENARIO 01</div>
+            <h2 class="text-3xl font-display font-black text-white uppercase">THE SUCCESS</h2>
+            <p class="text-sm text-slate-200 font-sans max-w-xl">"You shared good news. They are 'concerned'. Doubt starves when you won't feed it."</p>
+            <div class="bg-black/70 border border-purple-500/40 rounded-xl p-3 text-xs font-mono text-amber-300">
+              OPENING TELL: Concern trolling — disguising jealousy as caring concern to plant doubt.
+            </div>
+            <button onclick="playSfx('engage')" class="cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-sm font-black px-6 py-3 rounded-xl uppercase tracking-wider">
+              [ ➔ ENGAGE ENCOUNTER ]
+            </button>
+          </div>
+          <!-- Vertical Bar (Hidden when expanded) -->
+          <div class="blade-collapsed hidden absolute inset-0 flex flex-col items-center justify-end pb-6 pt-12 px-2 pointer-events-none z-10">
+            <div class="[writing-mode:vertical-rl] rotate-180 font-display font-black text-sm tracking-wider text-slate-200 uppercase my-auto">
+              01 · THE SUCCESS
+            </div>
+          </div>
+        </div>
+
+        <!-- Blade 2 -->
+        <div id="blade-2" onclick="focusBlade(2)" class="blade-card flex-initial w-28 lg:w-36 rounded-2xl overflow-hidden relative cursor-pointer transition-all duration-500 ease-out flex flex-col justify-between bg-black/60 border border-white/15 hover:border-white/40">
+          <div class="absolute inset-0 z-0">
+            <img src="/campaigns/narcissist/level-2-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-40">
+            <div class="absolute inset-0 bg-black/70"></div>
+          </div>
+          <div class="relative z-10 p-4 flex justify-between items-center hidden">
+            <span class="hud-chip bg-black/80 border border-purple-400 text-purple-200">02 // FOGGING</span>
+            <span class="font-mono text-xs text-emerald-400 font-bold">⚡ READY</span>
+          </div>
+          <div class="blade-content hidden relative z-10 p-6 space-y-3 bg-gradient-to-t from-[#0d071a] via-[#0d071a]/95 to-transparent pt-12">
+            <div class="font-mono text-xs text-purple-400 font-bold">SCENARIO 02</div>
+            <h2 class="text-3xl font-display font-black text-white uppercase">THE BAD GIFT</h2>
+            <p class="text-sm text-slate-200 font-sans max-w-xl">"Your gift is 'almost' right."</p>
+            <div class="bg-black/70 border border-purple-500/40 rounded-xl p-3 text-xs font-mono text-amber-300">
+              OPENING TELL: Devaluation — making you chase approval by finding a subtle flaw.
+            </div>
+            <button onclick="playSfx('engage')" class="cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-sm font-black px-6 py-3 rounded-xl uppercase tracking-wider">
+              [ ➔ ENGAGE ENCOUNTER ]
+            </button>
+          </div>
+          <div class="blade-collapsed absolute inset-0 flex flex-col items-center justify-end pb-6 pt-12 px-2 pointer-events-none z-10">
+            <div class="[writing-mode:vertical-rl] rotate-180 font-display font-black text-sm tracking-wider text-slate-200 uppercase my-auto">
+              02 · THE BAD GIFT
+            </div>
+          </div>
+        </div>
+
+        <!-- Blade 3 -->
+        <div id="blade-3" onclick="focusBlade(3)" class="blade-card flex-initial w-28 lg:w-36 rounded-2xl overflow-hidden relative cursor-pointer transition-all duration-500 ease-out flex flex-col justify-between bg-black/60 border border-white/15 hover:border-white/40">
+          <div class="absolute inset-0 z-0">
+            <img src="/campaigns/narcissist/level-3-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-40">
+            <div class="absolute inset-0 bg-black/70"></div>
+          </div>
+          <div class="blade-content hidden relative z-10 p-6 space-y-3 bg-gradient-to-t from-[#0d071a] via-[#0d071a]/95 to-transparent pt-12">
+            <div class="font-mono text-xs text-purple-400 font-bold">SCENARIO 03</div>
+            <h2 class="text-3xl font-display font-black text-white uppercase">PUBLIC ROAST</h2>
+            <p class="text-sm text-slate-200 font-sans max-w-xl">"They're roasting you in public — for fun."</p>
+            <div class="bg-black/70 border border-purple-500/40 rounded-xl p-3 text-xs font-mono text-amber-300">
+              OPENING TELL: Public humiliation — using an audience to bypass your defenses.
+            </div>
+            <button onclick="playSfx('engage')" class="cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-sm font-black px-6 py-3 rounded-xl uppercase tracking-wider">
+              [ ➔ ENGAGE ENCOUNTER ]
+            </button>
+          </div>
+          <div class="blade-collapsed absolute inset-0 flex flex-col items-center justify-end pb-6 pt-12 px-2 pointer-events-none z-10">
+            <div class="[writing-mode:vertical-rl] rotate-180 font-display font-black text-sm tracking-wider text-slate-200 uppercase my-auto">
+              03 · PUBLIC ROAST
+            </div>
+          </div>
+        </div>
+
+        <!-- Blade 4 -->
+        <div id="blade-4" onclick="focusBlade(4)" class="blade-card flex-initial w-28 lg:w-36 rounded-2xl overflow-hidden relative cursor-pointer transition-all duration-500 ease-out flex flex-col justify-between bg-black/60 border border-white/15 hover:border-white/40">
+          <div class="absolute inset-0 z-0">
+            <img src="/campaigns/narcissist/level-4-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-40">
+            <div class="absolute inset-0 bg-black/70"></div>
+          </div>
+          <div class="blade-content hidden relative z-10 p-6 space-y-3 bg-gradient-to-t from-[#0d071a] via-[#0d071a]/95 to-transparent pt-12">
+            <div class="font-mono text-xs text-purple-400 font-bold">SCENARIO 04</div>
+            <h2 class="text-3xl font-display font-black text-white uppercase">TRIANGULATION</h2>
+            <p class="text-sm text-slate-200 font-sans max-w-xl">"An ex texted them. Casually mentioned."</p>
+            <div class="bg-black/70 border border-purple-500/40 rounded-xl p-3 text-xs font-mono text-amber-300">
+              OPENING TELL: Triangulation — bringing in a third party to provoke insecurity.
+            </div>
+            <button onclick="playSfx('engage')" class="cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-sm font-black px-6 py-3 rounded-xl uppercase tracking-wider">
+              [ ➔ ENGAGE ENCOUNTER ]
+            </button>
+          </div>
+          <div class="blade-collapsed absolute inset-0 flex flex-col items-center justify-end pb-6 pt-12 px-2 pointer-events-none z-10">
+            <div class="[writing-mode:vertical-rl] rotate-180 font-display font-black text-sm tracking-wider text-slate-200 uppercase my-auto">
+              04 · TRIANGULATION
+            </div>
+          </div>
+        </div>
+
+        <!-- Blade 5 (Climax) -->
+        <div id="blade-5" onclick="focusBlade(5)" class="blade-card flex-initial w-28 lg:w-36 rounded-2xl overflow-hidden relative cursor-pointer transition-all duration-500 ease-out flex flex-col justify-between bg-black/60 border border-rose-500/40 hover:border-rose-400">
+          <div class="absolute inset-0 z-0">
+            <img src="/campaigns/narcissist/level-5-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-50">
+            <div class="absolute inset-0 bg-black/70"></div>
+          </div>
+          <div class="blade-content hidden relative z-10 p-6 space-y-3 bg-gradient-to-t from-[#180816] via-[#180816]/95 to-transparent pt-12">
+            <div class="flex items-center gap-2">
+              <span class="font-mono text-xs text-rose-400 font-bold">SCENARIO 05</span>
+              <span class="px-2 py-0.5 rounded bg-rose-500 text-white font-mono text-[9px] font-black uppercase">CLIMAX</span>
+            </div>
+            <h2 class="text-3xl font-display font-black text-rose-200 uppercase">SILENT TREATMENT</h2>
+            <p class="text-sm text-slate-200 font-sans max-w-xl">"Cold shoulder. Don't apologize for nothing."</p>
+            <div class="bg-black/70 border border-rose-500/40 rounded-xl p-3 text-xs font-mono text-rose-300">
+              OPENING TELL: Silent treatment — punishing your boundaries by withholding contact.
+            </div>
+            <button onclick="playSfx('engage')" class="cp-btn bg-gradient-to-r from-rose-600 to-amber-500 text-white font-mono text-sm font-black px-6 py-3 rounded-xl uppercase tracking-wider shadow-[0_0_25px_rgba(244,63,94,0.4)]">
+              [ ➔ CONFRONT FINAL CLIMAX ]
+            </button>
+          </div>
+          <div class="blade-collapsed absolute inset-0 flex flex-col items-center justify-end pb-6 pt-12 px-2 pointer-events-none z-10">
+            <div class="[writing-mode:vertical-rl] rotate-180 font-display font-black text-sm tracking-wider text-rose-300 uppercase my-auto flex items-center gap-2">
+              <span>05 · SILENT TREATMENT</span>
+              <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- LAYOUT 3: MISSION CONTROL SPOTLIGHT (HERO CONSOLE + QUEUE) -->
+    <!-- ============================================================== -->
+    <div id="view-spotlight" class="layout-view space-y-4 hidden">
+      <div class="flex items-center justify-between px-1">
+        <div class="hud-chip border border-cyan-500/40 text-cyan-300 font-mono">
+          MISSION COMMAND CONSOLE // SELECT SCENARIO FROM QUEUE
+        </div>
+        <div class="font-mono text-xs text-slate-400">
+          HERO BRIEFING VIEW
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+
+        <!-- Left Spotlight Hero Panel (7 Cols) -->
+        <div class="lg:col-span-7 glass-panel rounded-2xl overflow-hidden border-2 border-purple-500/50 shadow-[0_0_40px_rgba(168,85,247,0.25)] flex flex-col justify-between relative min-h-[520px]">
+          <div class="absolute inset-0 z-0">
+            <img id="spot-img" src="/campaigns/narcissist/level-1-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1000&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/70 to-[#0e071a]/40"></div>
+          </div>
+
+          <!-- Top Meta -->
+          <div class="relative z-10 p-5 flex justify-between items-center border-b border-white/10 bg-black/40">
+            <div class="flex items-center gap-2">
+              <span id="spot-stage" class="hud-chip bg-purple-500/20 border border-purple-400 text-purple-200">STAGE 01 OF 05</span>
+              <span id="spot-channel" class="font-mono text-xs text-purple-300 font-bold">DIRECT ENCOUNTER</span>
+            </div>
+            <span class="font-mono text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/30">
+              ⚡ READY TO ENGAGE
+            </span>
+          </div>
+
+          <!-- Central Details -->
+          <div class="relative z-10 p-6 md:p-8 space-y-4">
+            <div class="font-mono text-xs text-cyan-400 font-bold tracking-widest uppercase">
+              ACTIVE LEVEL BRIEFING // <span id="spot-skill">REFUSAL WITHOUT GUILT</span>
+            </div>
+            <h2 id="spot-title" class="text-3xl md:text-5xl font-display font-black text-white uppercase drop-shadow-[0_0_15px_rgba(192,132,252,0.6)]">
+              THE SUCCESS
+            </h2>
+            <p id="spot-brief" class="text-sm md:text-base text-slate-200 font-mono italic leading-relaxed max-w-xl">
+              "You shared good news. They are 'concerned'. Doubt starves when you won't feed it."
+            </p>
+
+            <!-- Tactic Tell Card -->
+            <div class="bg-black/80 border border-purple-500/30 rounded-xl p-4 space-y-1">
+              <div class="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider">TACTICAL TELL ANALYSIS:</div>
+              <p id="spot-tell" class="text-xs text-slate-300 font-sans">
+                Concern trolling — disguising covert envy as parental/relational concern to plant self-doubt right when you achieve a victory.
+              </p>
+            </div>
+          </div>
+
+          <!-- Launch Deck -->
+          <div class="relative z-10 p-6 border-t border-white/10 bg-black/60 flex items-center justify-between gap-4">
+            <div>
+              <div class="text-[10px] font-mono text-slate-400">ESTIMATED TURNS: 5 - 8</div>
+              <div class="text-xs font-mono text-purple-300 font-bold">REWARD: +50 COMPOSURE RATING</div>
+            </div>
+            <button onclick="playSfx('engage')" class="cp-btn bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-500 text-white font-mono text-sm font-black px-8 py-3.5 rounded-xl uppercase tracking-wider shadow-[0_0_25px_rgba(168,85,247,0.5)]">
+              [ ENGAGE ENCOUNTER ➔ ]
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Queue Strip (5 Cols) -->
+        <div class="lg:col-span-5 flex flex-col justify-between gap-2.5">
+          <div class="text-xs font-mono text-slate-400 px-1">CAMPAIGN MISSION ROSTER:</div>
+
+          <!-- Queue Item 1 -->
+          <div onclick="selectSpotlight(1)" id="queue-1" class="queue-card glass-panel rounded-xl p-3.5 border-2 border-purple-400 bg-purple-950/30 cursor-pointer hover:bg-purple-900/20 transition-all flex items-center justify-between gap-3 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-400 flex items-center justify-center font-display font-black text-sm text-purple-300">01</span>
+              <div>
+                <div class="font-display font-black text-sm text-white uppercase">THE SUCCESS</div>
+                <div class="text-[10px] font-mono text-slate-400">REFUSAL WITHOUT GUILT</div>
+              </div>
+            </div>
+            <span class="font-mono text-xs text-emerald-400">⚡ ACTIVE</span>
+          </div>
+
+          <!-- Queue Item 2 -->
+          <div onclick="selectSpotlight(2)" id="queue-2" class="queue-card glass-panel rounded-xl p-3.5 border border-white/10 hover:border-purple-400 cursor-pointer hover:bg-purple-900/10 transition-all flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-display font-black text-sm text-slate-300">02</span>
+              <div>
+                <div class="font-display font-black text-sm text-white uppercase">THE BAD GIFT</div>
+                <div class="text-[10px] font-mono text-slate-400">FOGGING</div>
+              </div>
+            </div>
+            <span class="font-mono text-[10px] text-slate-500">READY</span>
+          </div>
+
+          <!-- Queue Item 3 -->
+          <div onclick="selectSpotlight(3)" id="queue-3" class="queue-card glass-panel rounded-xl p-3.5 border border-white/10 hover:border-purple-400 cursor-pointer hover:bg-purple-900/10 transition-all flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-display font-black text-sm text-slate-300">03</span>
+              <div>
+                <div class="font-display font-black text-sm text-white uppercase">PUBLIC ROAST</div>
+                <div class="text-[10px] font-mono text-slate-400">GREY ROCK · GATHERING</div>
+              </div>
+            </div>
+            <span class="font-mono text-[10px] text-slate-500">READY</span>
+          </div>
+
+          <!-- Queue Item 4 -->
+          <div onclick="selectSpotlight(4)" id="queue-4" class="queue-card glass-panel rounded-xl p-3.5 border border-white/10 hover:border-purple-400 cursor-pointer hover:bg-purple-900/10 transition-all flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-display font-black text-sm text-slate-300">04</span>
+              <div>
+                <div class="font-display font-black text-sm text-white uppercase">TRIANGULATION</div>
+                <div class="text-[10px] font-mono text-slate-400">NON-REACTION</div>
+              </div>
+            </div>
+            <span class="font-mono text-[10px] text-slate-500">READY</span>
+          </div>
+
+          <!-- Queue Item 5 (Climax) -->
+          <div onclick="selectSpotlight(5)" id="queue-5" class="queue-card glass-panel rounded-xl p-3.5 border border-rose-500/40 hover:border-rose-400 cursor-pointer hover:bg-rose-950/20 transition-all flex items-center justify-between gap-3 bg-rose-950/10">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-rose-500/20 border border-rose-400 flex items-center justify-center font-display font-black text-sm text-rose-300">05</span>
+              <div>
+                <div class="font-display font-black text-sm text-rose-200 uppercase flex items-center gap-1.5">
+                  <span>SILENT TREATMENT</span>
+                  <span class="px-1.5 py-0.2 rounded bg-rose-500 text-white text-[8px] font-mono">CLIMAX</span>
+                </div>
+                <div class="text-[10px] font-mono text-rose-400">BOUNDARY HOLD</div>
+              </div>
+            </div>
+            <span class="font-mono text-[10px] text-rose-400 font-bold">BOSS</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- LAYOUT 4: ASYMMETRIC BENTO DECK (2x2 GRID + CLIMAX HERO PANEL) -->
+    <!-- ============================================================== -->
+    <div id="view-bento" class="layout-view space-y-4 hidden">
+      <div class="flex items-center justify-between px-1">
+        <div class="hud-chip border border-pink-500/40 text-pink-300 font-mono">
+          ASYMMETRIC BENTO GRID // 4 ESCALATIONS + CLIMAX CENTERPIECE
+        </div>
+        <div class="font-mono text-xs text-slate-400">
+          SOLVES THE 5TH ORPHAN CARD IMBALANCE
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+
+        <!-- Left 2x2 Grid: Levels 1 to 4 (8 Cols) -->
+        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          <!-- Bento Card 1 -->
+          <div class="glass-panel rounded-2xl overflow-hidden border border-purple-500/40 p-4 flex flex-col justify-between relative group hover:border-purple-400 transition-all min-h-[250px]">
+            <div class="absolute inset-0 z-0">
+              <img src="/campaigns/narcissist/level-1-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-35 group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/80 to-[#0e071a]/40"></div>
+            </div>
+            <div class="relative z-10 flex justify-between items-center">
+              <span class="hud-chip bg-black/80 border border-purple-400/40 text-purple-200">L1 // DIRECT</span>
+              <span class="font-mono text-xs text-emerald-400">⚡ READY</span>
+            </div>
+            <div class="relative z-10 space-y-1.5 mt-auto">
+              <div class="text-[10px] font-mono text-purple-300 uppercase">REFUSAL WITHOUT GUILT</div>
+              <h3 class="text-xl font-display font-black text-white uppercase group-hover:text-purple-300 transition-colors">THE SUCCESS</h3>
+              <p class="text-xs text-slate-300 font-mono italic line-clamp-1">"You shared good news. They are 'concerned'."</p>
+              <button onclick="playSfx('engage')" class="w-full mt-2 cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-xs font-bold py-2 rounded-xl uppercase">
+                [ ENGAGE → ]
+              </button>
+            </div>
+          </div>
+
+          <!-- Bento Card 2 -->
+          <div class="glass-panel rounded-2xl overflow-hidden border border-purple-500/40 p-4 flex flex-col justify-between relative group hover:border-purple-400 transition-all min-h-[250px]">
+            <div class="absolute inset-0 z-0">
+              <img src="/campaigns/narcissist/level-2-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-35 group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/80 to-[#0e071a]/40"></div>
+            </div>
+            <div class="relative z-10 flex justify-between items-center">
+              <span class="hud-chip bg-black/80 border border-purple-400/40 text-purple-200">L2 // DIRECT</span>
+              <span class="font-mono text-xs text-emerald-400">⚡ READY</span>
+            </div>
+            <div class="relative z-10 space-y-1.5 mt-auto">
+              <div class="text-[10px] font-mono text-purple-300 uppercase">FOGGING</div>
+              <h3 class="text-xl font-display font-black text-white uppercase group-hover:text-purple-300 transition-colors">THE BAD GIFT</h3>
+              <p class="text-xs text-slate-300 font-mono italic line-clamp-1">"Your gift is 'almost' right."</p>
+              <button onclick="playSfx('engage')" class="w-full mt-2 cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-xs font-bold py-2 rounded-xl uppercase">
+                [ ENGAGE → ]
+              </button>
+            </div>
+          </div>
+
+          <!-- Bento Card 3 -->
+          <div class="glass-panel rounded-2xl overflow-hidden border border-purple-500/40 p-4 flex flex-col justify-between relative group hover:border-purple-400 transition-all min-h-[250px]">
+            <div class="absolute inset-0 z-0">
+              <img src="/campaigns/narcissist/level-3-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-35 group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/80 to-[#0e071a]/40"></div>
+            </div>
+            <div class="relative z-10 flex justify-between items-center">
+              <span class="hud-chip bg-black/80 border border-purple-400/40 text-purple-200">L3 // GATHERING</span>
+              <span class="font-mono text-xs text-emerald-400">⚡ READY</span>
+            </div>
+            <div class="relative z-10 space-y-1.5 mt-auto">
+              <div class="text-[10px] font-mono text-purple-300 uppercase">GREY ROCK</div>
+              <h3 class="text-xl font-display font-black text-white uppercase group-hover:text-purple-300 transition-colors">PUBLIC ROAST</h3>
+              <p class="text-xs text-slate-300 font-mono italic line-clamp-1">"They're roasting you in public — for fun."</p>
+              <button onclick="playSfx('engage')" class="w-full mt-2 cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-xs font-bold py-2 rounded-xl uppercase">
+                [ ENGAGE → ]
+              </button>
+            </div>
+          </div>
+
+          <!-- Bento Card 4 -->
+          <div class="glass-panel rounded-2xl overflow-hidden border border-purple-500/40 p-4 flex flex-col justify-between relative group hover:border-purple-400 transition-all min-h-[250px]">
+            <div class="absolute inset-0 z-0">
+              <img src="/campaigns/narcissist/level-4-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-35 group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0e071a] via-[#0e071a]/80 to-[#0e071a]/40"></div>
+            </div>
+            <div class="relative z-10 flex justify-between items-center">
+              <span class="hud-chip bg-black/80 border border-purple-400/40 text-purple-200">L4 // DIRECT</span>
+              <span class="font-mono text-xs text-emerald-400">⚡ READY</span>
+            </div>
+            <div class="relative z-10 space-y-1.5 mt-auto">
+              <div class="text-[10px] font-mono text-purple-300 uppercase">NON-REACTION</div>
+              <h3 class="text-xl font-display font-black text-white uppercase group-hover:text-purple-300 transition-colors">TRIANGULATION</h3>
+              <p class="text-xs text-slate-300 font-mono italic line-clamp-1">"An ex texted them. Casually mentioned."</p>
+              <button onclick="playSfx('engage')" class="w-full mt-2 cp-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white font-mono text-xs font-bold py-2 rounded-xl uppercase">
+                [ ENGAGE → ]
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Tall Panel: Level 5 Climax Showcase (4 Cols) -->
+        <div class="lg:col-span-4 glass-panel rounded-2xl overflow-hidden border-2 border-rose-500/80 shadow-[0_0_40px_rgba(244,63,94,0.35)] p-6 flex flex-col justify-between relative bg-gradient-to-b from-[#1c0818] to-[#0c0512]">
+          <div class="absolute inset-0 z-0">
+            <img src="/campaigns/narcissist/level-5-thumb.webp" onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=80'" class="w-full h-full object-cover object-top opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#180816] via-[#180816]/75 to-transparent"></div>
+          </div>
+
+          <!-- Climax Banner -->
+          <div class="relative z-10 flex justify-between items-center">
+            <span class="hud-chip bg-rose-950/90 border border-rose-400 text-rose-200">STAGE 05 // CLIMAX</span>
+            <span class="px-2 py-0.5 rounded bg-rose-500 text-white font-mono text-[9px] font-black uppercase animate-pulse">
+              BOSS ENCOUNTER
+            </span>
+          </div>
+
+          <!-- Bottom Climax Pitch -->
+          <div class="relative z-10 space-y-3 pt-24">
+            <div class="text-xs font-mono text-rose-400 font-bold uppercase tracking-wider">SKILL: BOUNDARY HOLD</div>
+            <h2 class="text-3xl font-display font-black text-rose-100 uppercase leading-tight drop-shadow-[0_0_15px_rgba(244,63,94,0.6)]">
+              SILENT TREATMENT
+            </h2>
+            <p class="text-xs text-rose-200/90 font-mono italic leading-relaxed">
+              "Cold shoulder. Don't apologize for nothing. When they withdraw presence to force an apology, holding ground breaks the cycle."
+            </p>
+            <div class="bg-black/80 border border-rose-500/40 rounded-xl p-3 text-xs font-mono text-rose-300">
+              TELL: Weaponized silence &amp; artificial freeze.
+            </div>
+            <button onclick="playSfx('engage')" class="w-full cp-btn bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 text-white font-mono text-sm font-black py-3.5 rounded-xl uppercase tracking-wider shadow-[0_0_25px_rgba(244,63,94,0.5)]">
+              [ ➔ CONFRONT CLIMAX ]
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- COMPARISON VIEW: ORIGINAL 2-COLUMN GRID (FROM USER SCREENSHOT) -->
+    <!-- ============================================================== -->
+    <div id="view-original" class="layout-view space-y-4 hidden">
+      <div class="flex items-center justify-between px-1">
+        <div class="hud-chip border border-red-500/40 text-red-300 font-mono">
+          CURRENT IMPLEMENTATION (2-COLUMN GRID — AS IN YOUR SCREENSHOT)
+        </div>
+        <div class="font-mono text-xs text-rose-400 font-bold">
+          ⚠️ NOTE THE ORPHANED 5TH CARD ON ROW 3
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-5">
+        <!-- L1 -->
+        <div class="rounded-2xl border border-purple-500/40 p-4 h-[225px] flex flex-col justify-between bg-[#090412] relative overflow-hidden">
+          <div class="relative z-10 flex justify-between text-xs font-mono">
+            <span class="text-purple-300">L1 // DIRECT ENCOUNTER</span>
+            <span class="text-purple-200 bg-purple-500/20 px-2 py-0.5 rounded">⚡ READY</span>
+          </div>
+          <div class="relative z-10 space-y-1">
+            <div class="text-[10px] font-mono text-purple-400">SCENARIO 01 • REFUSAL WITHOUT GUILT</div>
+            <h3 class="text-lg font-display font-black text-white">THE SUCCESS</h3>
+            <p class="text-xs text-zinc-300 font-mono italic">"You shared good news. They are 'concerned'. Doubt starves.."</p>
+            <div class="flex gap-2 pt-2">
+              <button class="flex-1 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-purple-300 text-black font-mono text-xs font-black uppercase">
+                ENGAGE ENCOUNTER →
+              </button>
+              <button class="px-3 rounded-xl border border-purple-500/40 text-xs">📖</button>
+            </div>
+          </div>
+        </div>
+        <!-- L2 -->
+        <div class="rounded-2xl border border-purple-500/40 p-4 h-[225px] flex flex-col justify-between bg-[#090412] relative overflow-hidden">
+          <div class="relative z-10 flex justify-between text-xs font-mono">
+            <span class="text-purple-300">L2 // DIRECT ENCOUNTER</span>
+            <span class="text-purple-200 bg-purple-500/20 px-2 py-0.5 rounded">⚡ READY</span>
+          </div>
+          <div class="relative z-10 space-y-1">
+            <div class="text-[10px] font-mono text-purple-400">SCENARIO 02 • FOGGING</div>
+            <h3 class="text-lg font-display font-black text-white">THE BAD GIFT</h3>
+            <p class="text-xs text-zinc-300 font-mono italic">"Your gift is 'almost' right."</p>
+            <div class="flex gap-2 pt-2">
+              <button class="flex-1 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-purple-300 text-black font-mono text-xs font-black uppercase">
+                ENGAGE ENCOUNTER →
+              </button>
+              <button class="px-3 rounded-xl border border-purple-500/40 text-xs">📖</button>
+            </div>
+          </div>
+        </div>
+        <!-- L3 -->
+        <div class="rounded-2xl border border-purple-500/40 p-4 h-[225px] flex flex-col justify-between bg-[#090412] relative overflow-hidden">
+          <div class="relative z-10 flex justify-between text-xs font-mono">
+            <span class="text-purple-300">L3 // GATHERING</span>
+            <span class="text-purple-200 bg-purple-500/20 px-2 py-0.5 rounded">⚡ READY</span>
+          </div>
+          <div class="relative z-10 space-y-1">
+            <div class="text-[10px] font-mono text-purple-400">SCENARIO 03 • GREY ROCK</div>
+            <h3 class="text-lg font-display font-black text-white">PUBLIC ROAST</h3>
+            <p class="text-xs text-zinc-300 font-mono italic">"They're roasting you in public — for fun."</p>
+            <div class="flex gap-2 pt-2">
+              <button class="flex-1 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-purple-300 text-black font-mono text-xs font-black uppercase">
+                ENGAGE ENCOUNTER →
+              </button>
+              <button class="px-3 rounded-xl border border-purple-500/40 text-xs">📖</button>
+            </div>
+          </div>
+        </div>
+        <!-- L4 -->
+        <div class="rounded-2xl border border-purple-500/40 p-4 h-[225px] flex flex-col justify-between bg-[#090412] relative overflow-hidden">
+          <div class="relative z-10 flex justify-between text-xs font-mono">
+            <span class="text-purple-300">L4 // DIRECT ENCOUNTER</span>
+            <span class="text-purple-200 bg-purple-500/20 px-2 py-0.5 rounded">⚡ READY</span>
+          </div>
+          <div class="relative z-10 space-y-1">
+            <div class="text-[10px] font-mono text-purple-400">SCENARIO 04 • NON-REACTION</div>
+            <h3 class="text-lg font-display font-black text-white">TRIANGULATION</h3>
+            <p class="text-xs text-zinc-300 font-mono italic">"An ex texted them. Casually mentioned."</p>
+            <div class="flex gap-2 pt-2">
+              <button class="flex-1 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-purple-300 text-black font-mono text-xs font-black uppercase">
+                ENGAGE ENCOUNTER →
+              </button>
+              <button class="px-3 rounded-xl border border-purple-500/40 text-xs">📖</button>
+            </div>
+          </div>
+        </div>
+        <!-- L5 (Orphaned single card on left) -->
+        <div class="rounded-2xl border border-rose-500/60 p-4 h-[225px] flex flex-col justify-between bg-[#090412] relative overflow-hidden">
+          <div class="relative z-10 flex justify-between text-xs font-mono">
+            <div class="flex items-center gap-1.5">
+              <span class="text-purple-300">L5 // DIRECT ENCOUNTER</span>
+              <span class="px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 text-[8px] font-bold">CLIMAX</span>
+            </div>
+            <span class="text-purple-200 bg-purple-500/20 px-2 py-0.5 rounded">⚡ READY</span>
+          </div>
+          <div class="relative z-10 space-y-1">
+            <div class="text-[10px] font-mono text-purple-400">SCENARIO 05 • BOUNDARY HOLD</div>
+            <h3 class="text-lg font-display font-black text-white">SILENT TREATMENT</h3>
+            <p class="text-xs text-zinc-300 font-mono italic">"Cold shoulder. Don't apologize for nothing."</p>
+            <div class="flex gap-2 pt-2">
+              <button class="flex-1 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-purple-300 text-black font-mono text-xs font-black uppercase">
+                ENGAGE ENCOUNTER →
+              </button>
+              <button class="px-3 rounded-xl border border-purple-500/40 text-xs">📖</button>
+            </div>
+          </div>
+        </div>
+        <!-- Empty slot showing the problem -->
+        <div class="rounded-2xl border-2 border-dashed border-red-500/30 p-6 h-[225px] flex flex-col items-center justify-center text-center font-mono text-xs text-red-400/80 bg-red-950/10">
+          <div class="text-base font-bold mb-1">⚠️ EMPTY VOID SLOT</div>
+          <div>In a 2-column grid, 5 items leave this empty gap on desktop.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-purple-500/20 py-4 bg-[#0a0514]/90 text-center font-mono text-xs text-slate-500">
+    Conflict Protocol · Desktop Campaign UX Architecture Prototype · Press keys 1-4 or 0 to switch layouts
+  </footer>
+
+  <!-- INTERACTIVE LOGIC & SFX SCRIPT -->
+  <script>
+    // Audio synthesizer
+    let audioCtx = null;
+    let sfxEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function toggleAudio() {
+      sfxEnabled = !sfxEnabled;
+      const btn = document.getElementById('btn-audio');
+      btn.innerText = sfxEnabled ? '🔊 SFX ON' : '🔇 SFX MUTED';
+      if (sfxEnabled) playSfx('click');
+    }
+
+    function playSfx(type) {
+      if (!sfxEnabled) return;
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'click') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.05);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } else if (type === 'engage') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        }
+      } catch(e) {}
+    }
+
+    // Layout Switching
+    const layoutMeta = {
+      timeline: {
+        title: "1. TIMELINE PROGRESSION RAIL",
+        desc: "5 connected act nodes showing natural campaign escalation from entry to the Climax confrontation. Zero empty slots."
+      },
+      blades: {
+        title: "2. EXPANDING CYBER BLADES",
+        desc: "Consistent with the Persona Select screen. Sleek vertical posture that expands to 3x width on hover/click with full scene art."
+      },
+      spotlight: {
+        title: "3. MISSION CONTROL SPOTLIGHT",
+        desc: "Focused hero briefing console on the left (60% width) with a quick-select chronological queue on the right (40% width)."
+      },
+      bento: {
+        title: "4. ASYMMETRIC BENTO DECK",
+        desc: "Balanced 2x2 grid for L1-L4 on the left + a towering full-height Boss panel for Level 5 Climax on the right."
+      },
+      original: {
+        title: "ORIGINAL (CURRENT 2-COLUMN GRID)",
+        desc: "The current implementation from your screenshot. Notice how L5 sits alone on the 3rd row with an empty gap."
+      }
+    };
+
+    function switchLayout(id) {
+      playSfx('click');
+
+      // Hide all views
+      document.querySelectorAll('.layout-view').forEach(el => el.classList.add('hidden'));
+
+      // Show selected
+      const target = document.getElementById('view-' + id);
+      if (target) target.classList.remove('hidden');
+
+      // Update button states
+      document.querySelectorAll('.layout-btn').forEach(btn => {
+        btn.className = 'layout-btn px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-all';
+      });
+      const activeBtn = document.getElementById('btn-' + id);
+      if (activeBtn) {
+        if (id === 'original') {
+          activeBtn.className = 'layout-btn px-2.5 py-1.5 rounded-lg font-mono text-[11px] font-bold bg-rose-600 text-white border border-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.5)] transition-all';
+        } else {
+          activeBtn.className = 'layout-btn px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)]';
+        }
+      }
+
+      // Update explainer
+      document.getElementById('layout-title').innerText = layoutMeta[id].title;
+      document.getElementById('layout-desc').innerText = layoutMeta[id].desc;
+    }
+
+    // Blade focus logic
+    function focusBlade(index) {
+      playSfx('click');
+      for (let i = 1; i <= 5; i++) {
+        const blade = document.getElementById('blade-' + i);
+        const content = blade.querySelector('.blade-content');
+        const collapsed = blade.querySelector('.blade-collapsed');
+
+        if (i === index) {
+          blade.className = 'blade-card flex-[2.8] rounded-2xl overflow-hidden relative cursor-pointer transition-all duration-500 ease-out flex flex-col justify-between bg-gradient-to-b from-[#190d2b] to-[#0c0717] border-2 border-purple-500/60 shadow-[0_0_30px_rgba(168,85,247,0.3)]';
+          content.classList.remove('hidden');
+          collapsed.classList.add('hidden');
+        } else {
+          blade.className = 'blade-card flex-initial w-28 lg:w-36 rounded-2xl overflow-hidden relative cursor-pointer transition-all duration-500 ease-out flex flex-col justify-between bg-black/60 border border-white/15 hover:border-white/40';
+          content.classList.add('hidden');
+          collapsed.classList.remove('hidden');
+        }
+      }
+    }
+
+    // Spotlight select data
+    const spotlightData = {
+      1: {
+        stage: "STAGE 01 OF 05",
+        channel: "DIRECT ENCOUNTER",
+        skill: "REFUSAL WITHOUT GUILT",
+        title: "THE SUCCESS",
+        brief: "\"You shared good news. They are 'concerned'. Doubt starves when you won't feed it.\"",
+        tell: "Concern trolling — disguising covert envy as parental/relational concern to plant self-doubt right when you achieve a victory.",
+        img: "/campaigns/narcissist/level-1-thumb.webp"
+      },
+      2: {
+        stage: "STAGE 02 OF 05",
+        channel: "DIRECT ENCOUNTER",
+        skill: "FOGGING",
+        title: "THE BAD GIFT",
+        brief: "\"Your gift is 'almost' right.\"",
+        tell: "Devaluation — finding an artificial flaw in a thoughtful gesture so you stay on the defensive chasing their elusive approval.",
+        img: "/campaigns/narcissist/level-2-thumb.webp"
+      },
+      3: {
+        stage: "STAGE 03 OF 05",
+        channel: "GATHERING",
+        skill: "GREY ROCK",
+        title: "PUBLIC ROAST",
+        brief: "\"They're roasting you in public — for fun.\"",
+        tell: "Audience weaponization — using friends as a shield to disguise cruel devaluation as 'just joking'.",
+        img: "/campaigns/narcissist/level-3-thumb.webp"
+      },
+      4: {
+        stage: "STAGE 04 OF 05",
+        channel: "DIRECT ENCOUNTER",
+        skill: "NON-REACTION",
+        title: "TRIANGULATION",
+        brief: "\"An ex texted them. Casually mentioned.\"",
+        tell: "Triangulation — baiting you into an invisible competition with an absent third party to keep you scrambling for validation.",
+        img: "/campaigns/narcissist/level-4-thumb.webp"
+      },
+      5: {
+        stage: "STAGE 05 // FINAL CLIMAX",
+        channel: "CRITICAL THRESHOLD",
+        skill: "BOUNDARY HOLD",
+        title: "SILENT TREATMENT",
+        brief: "\"Cold shoulder. Don't apologize for nothing.\"",
+        tell: "Weaponized withdrawal — sudden icy detachment designed to provoke anxiety until you surrender and apologize for their misconduct.",
+        img: "/campaigns/narcissist/level-5-thumb.webp"
+      }
+    };
+
+    function selectSpotlight(idx) {
+      playSfx('click');
+      const d = spotlightData[idx];
+      document.getElementById('spot-stage').innerText = d.stage;
+      document.getElementById('spot-channel').innerText = d.channel;
+      document.getElementById('spot-skill').innerText = d.skill;
+      document.getElementById('spot-title').innerText = d.title;
+      document.getElementById('spot-brief').innerText = d.brief;
+      document.getElementById('spot-tell').innerText = d.tell;
+      document.getElementById('spot-img').src = d.img;
+
+      // Update queue card highlight
+      for (let i = 1; i <= 5; i++) {
+        const q = document.getElementById('queue-' + i);
+        if (i === idx) {
+          q.className = 'queue-card glass-panel rounded-xl p-3.5 border-2 border-purple-400 bg-purple-950/30 cursor-pointer hover:bg-purple-900/20 transition-all flex items-center justify-between gap-3 shadow-[0_0_15px_rgba(168,85,247,0.2)]';
+        } else {
+          q.className = 'queue-card glass-panel rounded-xl p-3.5 border border-white/10 hover:border-purple-400 cursor-pointer hover:bg-purple-900/10 transition-all flex items-center justify-between gap-3';
+        }
+      }
+    }
+
+    // Hotkey listener
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '1') switchLayout('timeline');
+      if (e.key === '2') switchLayout('blades');
+      if (e.key === '3') switchLayout('spotlight');
+      if (e.key === '4') switchLayout('bento');
+      if (e.key === '0') switchLayout('original');
+    });
+  </script>
+</body>
+</html>
