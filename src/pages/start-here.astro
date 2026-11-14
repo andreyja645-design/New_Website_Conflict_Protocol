@@ -87,9 +87,10 @@ import GameCTA from "../components/GameCTA.astro";
               class="dossier-img"
             />
             <div class="scanlines-overlay"></div>
-            <div class="dossier-image-badge">
-              <span>FIG 1.0: THE ADRENALINE FREEZE</span>
-            </div>
+          </div>
+
+          <div class="dossier-image-badge">
+            <span>FIG 1.0: THE ADRENALINE FREEZE</span>
           </div>
 
           <div class="dossier-coach-quote">
@@ -697,18 +698,18 @@ import GameCTA from "../components/GameCTA.astro";
   }
 
   .dossier-image-badge {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: rgba(10, 5, 20, 0.85);
-    border: 1px solid var(--line);
-    padding: 3px 8px;
-    border-radius: 4px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: rgba(9, 5, 16, 0.92);
+    border-top: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: 6px;
     font-family: var(--font-mono);
-    font-size: 9px;
-    color: #fff;
+    font-size: 9.5px;
+    color: var(--text-soft);
     letter-spacing: 0.1em;
-    backdrop-filter: blur(8px);
   }
 
   .dossier-coach-quote {

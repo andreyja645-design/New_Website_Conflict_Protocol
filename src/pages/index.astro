@@ -1,11 +1,40 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ContentCard from "../components/ContentCard.astro";
+import { pickExisting, toCardLink } from "../lib/contentLinks";
+
+const [patterns, techniques, situations] = await Promise.all([
+  getCollection("patterns"),
+  getCollection("techniques"),
+  getCollection("situations")
+]);
+
+const featuredSituations = pickExisting(
+  ["boss-keeps-expanding-the-ask", "you-end-up-apologizing", "after-everything-ive-done"],
+  situations
+).map((entry) => toCardLink(entry, "Situation"));
 
 const resetLine = "I need a second to answer that clearly.";
 const guide = [
-  { href: "/situations/", title: "Situations", description: "Find a worked conversation and a line you can use." },
-  { href: "/patterns/", title: "Pressure patterns", description: "Recognize guilt trips, shifting goalposts, and other tactics." },
-  { href: "/techniques/", title: "Response techniques", description: "Learn ways to pause, respond, or set a limit." }
+  {
+    href: "/situations/",
+    title: "Situations",
+    count: `${situations.length} worked conversations`,
+    description: "Find a worked conversation and a line you can use."
+  },
+  {
+    href: "/patterns/",
+    title: "Pressure patterns",
+    count: `${patterns.length} pressure patterns`,
+    description: "Recognize guilt trips, shifting goalposts, and other tactics."
+  },
+  {
+    href: "/techniques/",
+    title: "Response techniques",
+    count: `${techniques.length} response techniques`,
+    description: "Learn ways to pause, respond, or set a limit."
+  }
 ];
 ---
 
@@ -59,7 +88,7 @@ const guide = [
             <blockquote>“{resetLine}”</blockquote>
           </div>
           <div class="home-copy-action">
-            <button type="button" class="home-copy-button" data-copy-script={resetLine} hidden>Copy script</button>
+            <button type="button" class="home-copy-button" data-copy-script={resetLine}>Copy script</button>
             <span class="home-copy-status" role="status"></span>
           </div>
         </div>
@@ -108,16 +137,26 @@ const guide = [
     <section class="home-section-block" aria-labelledby="guide-heading">
       <h2 class="section-main-heading" id="guide-heading">Explore the field guide</h2>
       <ul class="home-guide-links">
-        {guide.map(({ href, title, description }) => (
+        {guide.map(({ href, title, count, description }) => (
           <li>
             <a href={href}>
+              <span class="guide-count-pill">{count}</span>
               <strong>{title}</strong>
               <span>{description}</span>
             </a>
           </li>
         ))}
       </ul>
-      <a class="home-example-link" href="/situations/you-froze-in-a-meeting/">Read the meeting example →</a>
+
+      <div class="featured-situations-block">
+        <div class="featured-situations-header">
+          <h3 class="featured-situations-title">Featured situations</h3>
+          <a class="home-example-link" href="/situations/">Browse all {situations.length} situations →</a>
+        </div>
+        <div class="card-grid">
+          {featuredSituations.map((card) => <ContentCard card={card} />)}
+        </div>
+      </div>
     </section>
 
     <section class="home-final-cta">
@@ -139,8 +178,8 @@ const guide = [
           <a class="hero-btn-primary" href="/play/#how-it-works">
             <span>See a sample turn →</span>
           </a>
-          <a class="hero-btn-secondary" href="http://localhost:8080" target="_blank" style="padding: 14px 24px;">
-            <span>[ ⚔️ LAUNCH COMBAT ARENA ]</span>
+          <a class="hero-btn-secondary" href="/style-quiz/" style="padding: 14px 24px;">
+            <span>[ 🧭 TAKE THE 2-MIN STYLE QUIZ ]</span>
           </a>
         </div>
       </div>
@@ -501,13 +540,25 @@ const guide = [
 
   .home-copy-button {
     min-height: 44px;
-    padding: 8px 12px;
-    border: 1px solid var(--line-strong);
+    padding: 8px 14px;
+    border: 1px solid rgba(16, 185, 129, 0.45);
     border-radius: 8px;
-    background: var(--panel-elevated);
-    color: var(--text);
-    font: 600 0.9rem var(--font-body);
+    background: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+    font: 700 0.9rem var(--font-body);
     cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .home-copy-button:hover {
+    background: rgba(16, 185, 129, 0.28);
+    border-color: var(--emerald, #10b981);
+    transform: translateY(-1px);
+  }
+
+  .home-copy-button.is-copied {
+    background: var(--emerald, #10b981);
+    color: #06030b;
   }
 
   .home-copy-status {
@@ -522,7 +573,7 @@ const guide = [
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
     gap: 12px;
-    margin: 20px 0 16px;
+    margin: 20px 0 36px;
     padding: 0;
     list-style: none;
   }
@@ -542,8 +593,49 @@ const guide = [
   .home-guide-links a:hover,
   .home-guide-links a:focus-visible { border-color: var(--accent); }
 
-  .home-guide-links span { color: var(--text-soft); line-height: 1.5; }
-  .home-example-link { color: var(--accent); font-weight: 600; }
+  .guide-count-pill {
+    align-self: flex-start;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    background: rgba(168, 85, 247, 0.12);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .home-guide-links strong {
+    color: #fff;
+    font-size: 1.08rem;
+  }
+
+  .home-guide-links a > span:last-child { color: var(--text-soft); line-height: 1.5; }
+  .home-example-link { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .home-example-link:hover { text-decoration: underline; }
+
+  .featured-situations-block {
+    margin-top: 12px;
+  }
+
+  .featured-situations-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px 16px;
+    margin-bottom: 18px;
+  }
+
+  .featured-situations-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+    color: #fff;
+    letter-spacing: 0.03em;
+  }
 
   @media (max-width: 460px) {
     .home-quick-script { grid-template-columns: 1fr; }
@@ -598,7 +690,6 @@ const guide = [
 
   if (copyButton && copyStatus && navigator.clipboard) {
     let resetTimer: number | undefined;
-    copyButton.hidden = false;
     copyButton.addEventListener("click", async () => {
       const script = copyButton.dataset.copyScript;
       if (!script) return;
@@ -608,6 +699,7 @@ const guide = [
       try {
         await navigator.clipboard.writeText(script);
         copyButton.textContent = "Copied";
+        copyButton.classList.add("is-copied");
         copyStatus.textContent = "Script copied to clipboard.";
       } catch {
         copyButton.textContent = "Copy failed";
@@ -615,6 +707,7 @@ const guide = [
       }
       resetTimer = window.setTimeout(() => {
         copyButton.textContent = "Copy script";
+        copyButton.classList.remove("is-copied");
         copyStatus.textContent = "";
       }, 2200);
     });

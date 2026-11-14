@@ -19,7 +19,7 @@ const opponentCards = [
     slug: "scope-creep",
     role: "EXPLOITATION & SHAMING",
     line: "Owns your calendar, your credit, and your confidence — every push framed as loyalty, every refusal treated as a career threat.",
-    image: "/assets/play/character-boss.webp",
+    image: "/assets/personas/toxic-boss.webp",
     patternLink: "/patterns/scope-creep/",
     patternLabel: "Learn the Scope Creep pattern ➔"
   },
@@ -28,7 +28,7 @@ const opponentCards = [
     slug: "gaslighting",
     role: "COVERT GASLIGHTING",
     line: "Kyra — your closest friend, slowly making you the unreliable one. Every distortion wrapped in \"I'm telling you this because I actually care.\"",
-    image: "/assets/play/character-gaslighter.webp",
+    image: "/assets/personas/gaslighter.webp",
     patternLink: "/patterns/gaslighting/",
     patternLabel: "Learn the Gaslighting pattern ➔"
   },
@@ -37,7 +37,7 @@ const opponentCards = [
     slug: "guilt-trip",
     role: "EMOTIONAL BLACKMAIL",
     line: "They gave up everything for you — and they'll remind you of it forever. The sigh, the comparison, the childhood sacrifice surfaced at exactly the wrong moment.",
-    image: "/assets/play/character-parent.webp",
+    image: "/assets/personas/guilt-tripping-parent.webp",
     patternLink: "/patterns/guilt-trip/",
     patternLabel: "Learn the Guilt Trip pattern ➔"
   },
@@ -46,7 +46,7 @@ const opponentCards = [
     slug: "silent-treatment",
     role: "DEVALUATION & GRANDIOSITY",
     line: "Every win you share becomes a threat. Every gift is almost right. Every silence is a punishment.",
-    image: "/assets/play/character-narcissist.webp",
+    image: "/assets/personas/narcissistic-partner.webp",
     patternLink: "/patterns/silent-treatment/",
     patternLabel: "Learn the Silent Treatment pattern ➔"
   }
@@ -127,7 +127,7 @@ const skillCards = [
         <div class="benefit-hero-image-wrap">
           <img
             src="/assets/play/maya-and-cat.webp"
-            alt="Maya and her cat in a neon-lit city, on a Conflict Protocol coming-soon poster"
+            alt="Maya and her cat in a neon-lit city"
             width="1024"
             height="1535"
             loading="eager"
@@ -168,7 +168,7 @@ const skillCards = [
             <a class="screenshot-hud-frame" href="/assets/play/step-1-crop.png" target="_blank" rel="noopener noreferrer" aria-label="Open step 1 screenshot in a new tab">
               <img
                 src="/assets/play/step-1-crop.png"
-                alt=""
+                alt="In-game opponent dismisses the player's concern and turns criticism back on them"
                 class="screenshot-img"
                 loading="lazy"
               />
@@ -194,7 +194,7 @@ const skillCards = [
             <a class="screenshot-hud-frame" href="/assets/play/step-2-crop.png" target="_blank" rel="noopener noreferrer" aria-label="Open step 2 screenshot in a new tab">
               <img
                 src="/assets/play/step-2-crop.png"
-                alt=""
+                alt="In-game reply composer flagging a threat to end the friendship as escalating"
                 class="screenshot-img"
                 loading="lazy"
               />
@@ -220,7 +220,7 @@ const skillCards = [
             <a class="screenshot-hud-frame" href="/assets/play/step-3-crop.png" target="_blank" rel="noopener noreferrer" aria-label="Open step 3 screenshot in a new tab">
               <img
                 src="/assets/play/step-3-crop.png"
-                alt=""
+                alt="In-game turn evaluation showing the neutral rating and missed loyalty test feedback"
                 class="screenshot-img"
                 loading="lazy"
               />
@@ -529,7 +529,7 @@ const skillCards = [
             <div class="corner-reticle reticle-br"></div>
 
             <div class="opponent-portrait-wrap">
-              <img src={opp.image} alt={opp.name} class="opponent-img" loading="lazy" />
+              <img src={opp.image} alt={opp.name} width="900" height="675" class="opponent-img" loading="lazy" />
               <div class="opponent-img-gradient"></div>
               <span class="opponent-role-tag">{opp.role}</span>
             </div>
@@ -1244,7 +1244,8 @@ const skillCards = [
 
   .opponent-portrait-wrap {
     position: relative;
-    height: 340px;
+    aspect-ratio: 4 / 3;
+    height: auto;
     background: #0d0716;
     overflow: hidden;
   }

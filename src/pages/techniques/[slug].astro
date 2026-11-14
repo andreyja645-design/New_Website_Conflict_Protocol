@@ -9,13 +9,22 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const patterns = await getCollection("patterns");
+const [patterns, situations] = await Promise.all([
+  getCollection("patterns"),
+  getCollection("situations")
+]);
 const counters = pickExisting(entry.data.countersPatterns, patterns).map((item) => toCardLink(item, "Pattern"));
+const relatedSituations = situations
+  .filter((s) => s.data.techniques.includes(entry.data.slug))
+  .map((item) => toCardLink(item, "Situation"));
 ---
 
 <ContentPage
   entry={entry}
   section="Technique"
   description={`${entry.data.job} Risk: ${entry.data.risk}`}
-  relatedGroups={[{ title: "Patterns this counters", links: counters }]}
+  relatedGroups={[
+    { title: "Patterns this counters", links: counters },
+    { title: "Situations where this helps", links: relatedSituations }
+  ]}
 />

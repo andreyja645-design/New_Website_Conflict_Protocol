@@ -3,9 +3,39 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContentCard from "../../components/ContentCard.astro";
 import GuideIndex from "../../components/GuideIndex.astro";
+import CatalogFilterBar from "../../components/CatalogFilterBar.astro";
 import { toCardLink } from "../../lib/contentLinks";
 
-const cards = (await getCollection("patterns")).map((entry) => toCardLink(entry, "Pattern"));
+const categoryBySlug: Record<string, string> = {
+  "gaslighting": "blame",
+  "darvo": "blame",
+  "minimizing": "blame",
+  "moving-goalposts": "blame",
+  "guilt-trip": "guilt",
+  "martyrdom": "guilt",
+  "empathy-trap": "guilt",
+  "loyalty-test": "guilt",
+  "silent-treatment": "guilt",
+  "scope-creep": "pressure",
+  "credit-theft": "pressure",
+  "public-shaming": "pressure",
+  "triangulation": "pressure",
+  "comparison": "pressure"
+};
+
+const entries = await getCollection("patterns");
+const cards = entries.map((entry) => toCardLink(entry, "Pattern"));
+const items = entries.map((entry, idx) => ({
+  card: cards[idx],
+  category: categoryBySlug[entry.data.slug] ?? "pressure"
+}));
+
+const filters = [
+  { id: "all", label: "All", count: items.length },
+  { id: "blame", label: "Blame & Reality Twisting", count: items.filter((i) => i.category === "blame").length },
+  { id: "guilt", label: "Guilt & Obligation", count: items.filter((i) => i.category === "guilt").length },
+  { id: "pressure", label: "Work & Social Pressure", count: items.filter((i) => i.category === "pressure").length }
+];
 ---
 
 <BaseLayout title="Patterns" description="Name the conversational pressure pattern before it runs the room." canonical="/patterns/">
@@ -17,8 +47,14 @@ const cards = (await getCollection("patterns")).map((entry) => toCardLink(entry,
 
     <GuideIndex cards={cards} label="Browse patterns by name" />
 
-    <div class="card-grid patterns-card-grid">
-      {cards.map((card) => <ContentCard card={card} />)}
+    <CatalogFilterBar filters={filters} gridId="patterns-card-grid" />
+
+    <div class="card-grid patterns-card-grid" id="patterns-card-grid">
+      {items.map(({ card, category }) => (
+        <div class="filterable-card-wrap" data-category={category}>
+          <ContentCard card={card} />
+        </div>
+      ))}
     </div>
   </section>
 </BaseLayout>

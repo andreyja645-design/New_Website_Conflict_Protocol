@@ -16,10 +16,20 @@ const isTradingCard = Boolean(
 <article class:list={["content-card", { "is-trading-card": isTradingCard }]}>
 
   <a href={card.href} class="content-card-link">
-    {card.image && (
+    {card.image ? (
       <div class:list={["card-img-wrap", { "trading-art-wrap": isTradingCard }]}>
         <img src={card.image} alt="" loading="lazy" class="card-img" />
       </div>
+    ) : (
+      isTradingCard && (
+        <div class="card-img-wrap trading-art-wrap card-fallback-art" aria-hidden="true">
+          <div class="fallback-neon-frame">
+            <img src="/assets/cp-logo.webp" alt="" width="56" height="56" loading="lazy" class="fallback-logo" />
+            <span class="fallback-eyebrow">{card.eyebrow.toUpperCase()} MOVE</span>
+            <strong class="fallback-title">{card.title}</strong>
+          </div>
+        </div>
+      )
     )}
     <div class="card-body-content">
       <h2 class="card-heading">{card.title}</h2>
@@ -134,6 +144,54 @@ const isTradingCard = Boolean(
   .trading-art-wrap .card-img {
     object-fit: contain;
     object-position: center;
+  }
+
+  .card-fallback-art {
+    display: flex;
+    padding: 18px;
+    background:
+      radial-gradient(circle at 50% 28%, rgba(168, 85, 247, 0.24), transparent 65%),
+      linear-gradient(160deg, #160a2a 0%, #090510 100%);
+  }
+
+  .fallback-neon-frame {
+    width: 100%;
+    height: 100%;
+    border: 1.5px solid rgba(168, 85, 247, 0.5);
+    border-radius: 12px;
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    text-align: center;
+    background: rgba(12, 6, 24, 0.72);
+    box-shadow: inset 0 0 28px rgba(168, 85, 247, 0.16);
+  }
+
+  .fallback-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(47, 184, 255, 0.45);
+    box-shadow: 0 0 18px rgba(168, 85, 247, 0.35);
+  }
+
+  .fallback-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--accent-cool, #2fb8ff);
+  }
+
+  .fallback-title {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    line-height: 1.2;
+    color: #fff;
+    text-transform: uppercase;
   }
 
 </style>

@@ -69,7 +69,7 @@ const isHeroArtLayout = isSituation;
     <!-- ============================================================ -->
     <!-- DOSSIER LAYOUT: 2-COLUMN GRID (NO EMPTY DEAD SPACE)           -->
     <!-- ============================================================ -->
-    <div class:list={["dossier-layout-grid", { "hero-art-active": isHeroArtLayout }]}>
+    <div class:list={["dossier-layout-grid", { "hero-art-active": isHeroArtLayout, "no-sidebar-media": !isHeroArtLayout && !image }]}>
       <!-- 1. Header Area (Row 1 Left) -->
       <header class="dossier-hero-header">
         {isPattern && (
@@ -169,6 +169,18 @@ const isHeroArtLayout = isSituation;
                     <p class="trap-desc">{entry.data.risk}</p>
                   </div>
                 )}
+              </div>
+            )}
+
+            {!isHeroArtLayout && !image && entry.data.gameHook && (
+              <div class="dossier-coach-quote inline-coach-quote">
+                <div class="quote-header">
+                  <span class="quote-avatar">⚡</span>
+                  <span class="quote-author">MAYA COACH ADVISORY:</span>
+                </div>
+                <p class="quote-content">
+                  "{entry.data.gameHook}"
+                </p>
               </div>
             )}
           </div>
@@ -369,6 +381,20 @@ const isHeroArtLayout = isSituation;
   }
 
   /* Single-column Hero Art Layout (e.g. Situations with prominent art under title) */
+  .dossier-layout-grid.no-sidebar-media {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "header"
+      "body";
+    max-width: 860px;
+    margin-inline: auto;
+  }
+
+  .inline-coach-quote {
+    border-radius: 10px;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+  }
+
   .dossier-layout-grid.hero-art-active {
     display: flex;
     flex-direction: column;

@@ -3,9 +3,37 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContentCard from "../../components/ContentCard.astro";
 import GuideIndex from "../../components/GuideIndex.astro";
+import CatalogFilterBar from "../../components/CatalogFilterBar.astro";
 import { toCardLink } from "../../lib/contentLinks";
 
-const cards = (await getCollection("techniques")).map((entry) => toCardLink(entry, "Technique"));
+const categoryBySlug: Record<string, string> = {
+  "boundary": "boundary",
+  "broken-record": "boundary",
+  "consequence-setting": "boundary",
+  "i-statement": "boundary",
+  "grey-rock": "deflect",
+  "fogging": "deflect",
+  "validation": "deflect",
+  "labeling": "deflect",
+  "aikido": "deflect",
+  "reframe": "frame",
+  "mirroring": "frame",
+  "tactic-naming": "frame"
+};
+
+const entries = await getCollection("techniques");
+const cards = entries.map((entry) => toCardLink(entry, "Technique"));
+const items = entries.map((entry, idx) => ({
+  card: cards[idx],
+  category: categoryBySlug[entry.data.slug] ?? "boundary"
+}));
+
+const filters = [
+  { id: "all", label: "All", count: items.length },
+  { id: "boundary", label: "Hold the Line", count: items.filter((i) => i.category === "boundary").length },
+  { id: "deflect", label: "De-escalate & Deflect", count: items.filter((i) => i.category === "deflect").length },
+  { id: "frame", label: "Shift the Frame", count: items.filter((i) => i.category === "frame").length }
+];
 ---
 
 <BaseLayout title="Techniques" description="Short moves for staying steady when pressure wants a paragraph." canonical="/techniques/">
@@ -17,8 +45,14 @@ const cards = (await getCollection("techniques")).map((entry) => toCardLink(entr
 
     <GuideIndex cards={cards} label="Browse techniques by name" />
 
-    <div class="card-grid techniques-card-grid">
-      {cards.map((card) => <ContentCard card={card} />)}
+    <CatalogFilterBar filters={filters} gridId="techniques-card-grid" />
+
+    <div class="card-grid techniques-card-grid" id="techniques-card-grid">
+      {items.map(({ card, category }) => (
+        <div class="filterable-card-wrap" data-category={category}>
+          <ContentCard card={card} />
+        </div>
+      ))}
     </div>
   </section>
 </BaseLayout>

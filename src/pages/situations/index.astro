@@ -3,9 +3,33 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContentCard from "../../components/ContentCard.astro";
 import GuideIndex from "../../components/GuideIndex.astro";
+import CatalogFilterBar from "../../components/CatalogFilterBar.astro";
 import { toCardLink } from "../../lib/contentLinks";
 
-const cards = (await getCollection("situations")).map((entry) => toCardLink(entry, "Situation"));
+const categoryBySlug: Record<string, string> = {
+  "boss-keeps-expanding-the-ask": "work",
+  "you-froze-in-a-meeting": "work",
+  "after-everything-ive-done": "family",
+  "saying-no-without-jade": "family",
+  "silent-treatment-until-you-cave": "family",
+  "you-end-up-apologizing": "social",
+  "youre-too-sensitive": "social",
+  "joke-at-your-expense": "social"
+};
+
+const entries = await getCollection("situations");
+const cards = entries.map((entry) => toCardLink(entry, "Situation"));
+const items = entries.map((entry, idx) => ({
+  card: cards[idx],
+  category: categoryBySlug[entry.data.slug] ?? "social"
+}));
+
+const filters = [
+  { id: "all", label: "All", count: items.length },
+  { id: "work", label: "Work & Meetings", count: items.filter((i) => i.category === "work").length },
+  { id: "family", label: "Family & Guilt", count: items.filter((i) => i.category === "family").length },
+  { id: "social", label: "Partner & Social", count: items.filter((i) => i.category === "social").length }
+];
 ---
 
 <BaseLayout title="Situations" description="Scene-level scripts for the exact kind of conversation that usually eats your evening." canonical="/situations/">
@@ -17,8 +41,14 @@ const cards = (await getCollection("situations")).map((entry) => toCardLink(entr
 
     <GuideIndex cards={cards} label="Find your situation" kind="situations" />
 
-    <div class="card-grid situations-card-grid">
-      {cards.map((card) => <ContentCard card={card} />)}
+    <CatalogFilterBar filters={filters} gridId="situations-card-grid" />
+
+    <div class="card-grid situations-card-grid" id="situations-card-grid">
+      {items.map(({ card, category }) => (
+        <div class="filterable-card-wrap" data-category={category}>
+          <ContentCard card={card} />
+        </div>
+      ))}
     </div>
   </section>
 </BaseLayout>

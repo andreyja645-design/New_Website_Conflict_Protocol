@@ -35,11 +35,10 @@ const schemas = [
 ].filter(Boolean);
 
 const navItems = [
-  { href: "/play/", label: "Play" },
   { href: "/start-here/", label: "Start here" },
+  { href: "/situations/", label: "Situations" },
   { href: "/patterns/", label: "Patterns" },
   { href: "/techniques/", label: "Techniques" },
-  { href: "/situations/", label: "Situations" },
   { href: "/styles/", label: "Styles" },
   { href: "/about/", label: "About" }
 ];
@@ -104,7 +103,11 @@ const isActivePath = (href: string) =>
               </a>
             ))
           }
-          <a class="practice-link" href="/play/">
+          <a
+            class:list={["practice-link", { "is-active": isActivePath("/play/") }]}
+            href="/play/"
+            aria-current={isActivePath("/play/") ? "page" : undefined}
+          >
             <span class="practice-link-glow"></span>
             <span>Play free ➔</span>
           </a>

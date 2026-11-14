@@ -11,9 +11,20 @@ const isOpponent =
   lowerLabel.includes("she says") ||
   lowerLabel.includes("boss says") ||
   lowerLabel.includes("incoming");
-const badgeType = isOpponent ? "opponent" : "counter";
-const tagText = isOpponent ? `OPPONENT MOVE // ${label.toUpperCase()}` : `COUNTER-MOVE // ${label.toUpperCase()}`;
-const icon = isOpponent ? "🎯" : "⚡";
+const isTrap =
+  !isOpponent &&
+  (lowerLabel.includes("feeds it") ||
+    lowerLabel.includes("trap") ||
+    lowerLabel.includes("avoid") ||
+    lowerLabel.includes("do not say") ||
+    lowerLabel.includes("don't say"));
+const badgeType = isOpponent ? "opponent" : isTrap ? "trap" : "counter";
+const tagText = isOpponent
+  ? `OPPONENT MOVE // ${label.toUpperCase()}`
+  : isTrap
+    ? `TRAP // ${label.toUpperCase()}`
+    : `COUNTER-MOVE // ${label.toUpperCase()}`;
+const icon = isOpponent ? "🎯" : isTrap ? "⚠️" : "⚡";
 ---
 
 <figure class:list={["script-block-hud", `theme-${badgeType}`]}>
@@ -27,7 +38,7 @@ const icon = isOpponent ? "🎯" : "⚡";
       <span class="script-tag-icon">{icon}</span>
       <span class="script-tag-text">{tagText}</span>
     </div>
-    {!isOpponent && (
+    {!isOpponent && !isTrap && (
       <button type="button" class="script-copy-btn" title="Copy script to clipboard" aria-label="Copy script">
         <span class="copy-icon">📋</span>
         <span class="copy-label">COPY</span>
@@ -87,6 +98,33 @@ const icon = isOpponent ? "🎯" : "⚡";
   }
   .theme-opponent .script-hud-quote {
     color: #fdf2f8;
+  }
+
+  /* Theme: Trap (Self-Sabotaging Response to Avoid) */
+  .theme-trap {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.09) 0%, rgba(24, 14, 12, 0.95) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.42);
+    border-left: 4px solid #f59e0b;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(245, 158, 11, 0.12);
+  }
+  .theme-trap:hover {
+    border-color: rgba(245, 158, 11, 0.72);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(245, 158, 11, 0.25);
+  }
+  .theme-trap .corner-reticle {
+    border-color: #f59e0b;
+  }
+  .theme-trap .reticle-tl { top: 5px; left: 5px; border-top: 1.5px solid #f59e0b; border-left: 1.5px solid #f59e0b; }
+  .theme-trap .reticle-tr { top: 5px; right: 5px; border-top: 1.5px solid #f59e0b; border-right: 1.5px solid #f59e0b; }
+  .theme-trap .reticle-bl { bottom: 5px; left: 5px; border-bottom: 1.5px solid #f59e0b; border-left: 1.5px solid #f59e0b; }
+  .theme-trap .reticle-br { bottom: 5px; right: 5px; border-bottom: 1.5px solid #f59e0b; border-right: 1.5px solid #f59e0b; }
+  .theme-trap .script-hud-tag {
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.4);
+    background: rgba(245, 158, 11, 0.12);
+  }
+  .theme-trap .script-hud-quote {
+    color: #fde68a;
   }
 
   /* Theme: Counter-Move (Player Response) */
