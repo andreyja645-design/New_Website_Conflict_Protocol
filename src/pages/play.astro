@@ -88,7 +88,7 @@ const skillCards = [
   title="Play Free | Conflict Protocol"
   description="Conflict Protocol is a game for practicing composure, recognition, and boundaries under pressure."
   canonical="/play/"
-  image="/assets/play/maya-hero.webp"
+  image="/assets/play/maya-and-cat.webp"
   bodyClass="play-page"
 >
   <div class="play-page-shell">
@@ -119,17 +119,17 @@ const skillCards = [
               PLAY FREE SOON
             </a>
           )}
-          <a class="benefit-secondary-action" href="#techniques">SEE WHAT YOU TRAIN</a>
+          <a class="benefit-secondary-action" href="#how-it-works">SEE HOW A TURN WORKS</a>
         </div>
       </div>
 
       <figure class="benefit-hero-visual">
         <div class="benefit-hero-image-wrap">
           <img
-            src="/assets/play/maya-hero.webp"
-            alt="Maya, the tactical coach inside Conflict Protocol"
+            src="/assets/play/maya-and-cat.webp"
+            alt="Maya and her cat in a neon-lit city, on a Conflict Protocol coming-soon poster"
             width="1024"
-            height="1536"
+            height="1535"
             loading="eager"
             fetchpriority="high"
             decoding="async"
@@ -142,15 +142,100 @@ const skillCards = [
       </figure>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- 2. WHAT MAKES THIS A GAME                                   -->
-    <!-- ============================================================ -->
+    <section class="play-section" id="how-it-works">
+      <div class="section-title-wrap text-center">
+        <h2 class="section-heading">How a turn works</h2>
+        <p class="section-subtitle">
+          You face an AI opponent that pushes back and adapts as you respond. The game then shows how your reply affected the turn.
+        </p>
+      </div>
+
+      <div class="three-steps-vertical-flow">
+        <!-- Step 1 -->
+        <article class="step-card">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="step-meta-side">
+            <span class="step-number-tag">STEP 01</span>
+            <h3 class="step-title">They apply pressure</h3>
+            <p class="step-desc">The opponent might shift blame, question your tone, or try to make you feel guilty.</p>
+          </div>
+
+          <figure class="step-screen-side">
+            <a class="screenshot-hud-frame" href="/assets/play/step-1-crop.png" target="_blank" rel="noopener noreferrer" aria-label="Open step 1 screenshot in a new tab">
+              <img
+                src="/assets/play/step-1-crop.png"
+                alt=""
+                class="screenshot-img"
+                loading="lazy"
+              />
+            </a>
+            <figcaption class="step-caption">The friend dismisses the player’s concern and turns the criticism back on them.</figcaption>
+          </figure>
+        </article>
+
+        <!-- Step 2 -->
+        <article class="step-card step-card-reverse">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="step-meta-side">
+            <span class="step-number-tag">STEP 02</span>
+            <h3 class="step-title">You write your reply</h3>
+            <p class="step-desc">Use your own words to decide what to address and where to set a limit.</p>
+          </div>
+
+          <figure class="step-screen-side">
+            <a class="screenshot-hud-frame" href="/assets/play/step-2-crop.png" target="_blank" rel="noopener noreferrer" aria-label="Open step 2 screenshot in a new tab">
+              <img
+                src="/assets/play/step-2-crop.png"
+                alt=""
+                class="screenshot-img"
+                loading="lazy"
+              />
+            </a>
+            <figcaption class="step-caption">The game flags a reply that threatens to end the friendship as escalating.</figcaption>
+          </figure>
+        </article>
+
+        <!-- Step 3 -->
+        <article class="step-card">
+          <div class="corner-reticle reticle-tl"></div>
+          <div class="corner-reticle reticle-tr"></div>
+          <div class="corner-reticle reticle-bl"></div>
+          <div class="corner-reticle reticle-br"></div>
+
+          <div class="step-meta-side">
+            <span class="step-number-tag">STEP 03</span>
+            <h3 class="step-title">You see what changed</h3>
+            <p class="step-desc">The game shows the tactic it detected and how your reply affected the conversation.</p>
+          </div>
+
+          <figure class="step-screen-side">
+            <a class="screenshot-hud-frame" href="/assets/play/step-3-crop.png" target="_blank" rel="noopener noreferrer" aria-label="Open step 3 screenshot in a new tab">
+              <img
+                src="/assets/play/step-3-crop.png"
+                alt=""
+                class="screenshot-img"
+                loading="lazy"
+              />
+            </a>
+            <figcaption class="step-caption">This turn was rated neutral. The feedback points out that the reply missed the loyalty test.</figcaption>
+          </figure>
+        </article>
+      </div>
+    </section>
+
     <section class="play-section game-mechanics-section" id="game-mechanics">
       <div class="game-mechanics-copy">
-        <h2>Conflict Protocol is built around the mechanics of conflict.</h2>
+        <h2>How the opponent responds</h2>
         <p>
-          A normal chatbot explains what a good response might sound like. This game puts you inside the pressure,
-          lets the opponent push back, and makes your choices matter.
+          The AI opponent adjusts its tactics in response to what you say. This comparison shows how that affects a conversation.
         </p>
       </div>
 
@@ -261,128 +346,11 @@ const skillCards = [
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- 3. "WHAT ACTUALLY HAPPENS" — 3 STEPS, WITH REAL SCREENSHOTS  -->
-    <!-- ============================================================ -->
-    <section class="play-section" id="how-it-works">
-      <div class="section-title-wrap text-center">
-        <span class="section-kicker">STEP-BY-STEP BREAKDOWN</span>
-        <h2 class="section-heading">WHAT ACTUALLY HAPPENS</h2>
-        <p class="section-subtitle">
-          Nobody understands the game from a generic description. Here is how an encounter unfolds under live fire:
-        </p>
-      </div>
-
-      <div class="three-steps-vertical-flow">
-        <!-- Step 1 -->
-        <article class="step-card">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <div class="step-meta-side">
-            <span class="step-number-tag">STEP 01</span>
-            <h3 class="step-title">They open with a real manipulation move</h3>
-            <p class="step-desc">
-              The opponent drops an authentic high-pressure line — shifting blame, tone-policing, or baiting guilt.
-              Not a canned robotic template, but a dynamic scene designed to test your biological freeze reflex.
-            </p>
-            <div class="step-status-chip chip-threat">
-              <span>▲ THREAT ATTACK DETECTED</span>
-            </div>
-          </div>
-
-          <div class="step-screen-side">
-            <div class="screenshot-hud-frame">
-              <img
-                src="/assets/play/step-1-crop.png"
-                alt="Opponent opens with a real manipulation move"
-                class="screenshot-img"
-                loading="lazy"
-              />
-              <div class="screenshot-scanlines"></div>
-              <span class="screenshot-badge">LIVE TURN 01 // OPPONENT ATTACK</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Step 2 -->
-        <article class="step-card step-card-reverse">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <div class="step-meta-side">
-            <span class="step-number-tag">STEP 02</span>
-            <h3 class="step-title">You type your own reply — not multiple choice</h3>
-            <p class="step-desc">
-              No multiple-choice training wheels. You type your actual response into the composer box under real-time pressure,
-              exactly as you would in a high-stakes email, Slack message, or boardroom face-to-face confrontation.
-            </p>
-            <div class="step-status-chip chip-typing">
-              <span>⚡ LIVE COMPOSER INPUT</span>
-            </div>
-          </div>
-
-          <div class="step-screen-side">
-            <div class="screenshot-hud-frame">
-              <img
-                src="/assets/play/step-2-crop.png"
-                alt="Player typing their own reply in the composer"
-                class="screenshot-img"
-                loading="lazy"
-              />
-              <div class="screenshot-scanlines"></div>
-              <span class="screenshot-badge">FREE-FORM INPUT // NO CANNED ANSWERS</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Step 3 -->
-        <article class="step-card">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <div class="step-meta-side">
-            <span class="step-number-tag">STEP 03</span>
-            <h3 class="step-title">You get scored on what it actually did to them</h3>
-            <p class="step-desc">
-              Instant psychological telemetry. Did you hold your frame? Did you slip into defensive J.A.D.E.?
-              Composure deltas, opponent heat changes, and landed counter-technique chips show what your words actually accomplished.
-            </p>
-            <div class="step-status-chip chip-score">
-              <span>✔ TELEMETRY & TACTICAL GRADE</span>
-            </div>
-          </div>
-
-          <div class="step-screen-side">
-            <div class="screenshot-hud-frame">
-              <img
-                src="/assets/play/step-3-crop.png"
-                alt="Move analysis scoring the turn"
-                class="screenshot-img"
-                loading="lazy"
-              />
-              <div class="screenshot-scanlines"></div>
-              <span class="screenshot-badge">TURN EVALUATION // HEAT & COMPOSURE DELTAS</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- 3. THE TRAILER — ONE, NOT SEVEN                              -->
-    <!-- ============================================================ -->
     <section class="play-section" id="trailer">
       <div class="section-title-wrap text-center">
         <span class="section-kicker">TACTICAL RECONNAISSANCE</span>
-        <h2 class="section-heading">SEE IT IN ACTION</h2>
-        <p class="section-subtitle">Click to watch a 10-second combat sequence under live pressure:</p>
+        <h2 class="section-heading">WATCH THE TEASER</h2>
+        <p class="section-subtitle">A 10-second introduction to Conflict Protocol.</p>
       </div>
 
       <div class="trailer-player-container">
@@ -396,24 +364,29 @@ const skillCards = [
             <span class="pulse-beacon-dot"></span>
             <span>TRANSMISSION // GAMEPLAY TEASER</span>
           </div>
-          <span class="trailer-status-tag">1080P // TACTICAL AUDIO ACTIVE</span>
+          <span class="trailer-status-tag">10-SECOND TEASER</span>
         </div>
 
         <div class="video-media-wrapper">
           <video
             controls
             playsinline
-            preload="metadata"
+            preload="none"
             class="trailer-video-element"
             poster="/assets/play/step-1-move.webp"
           >
             <source src="/assets/play/trailer.mp4" type="video/mp4" />
+            <track kind="subtitles" src="/assets/play/teaser-text.vtt" srclang="en" label="English on-screen text" />
             Your browser does not support the video tag.
           </video>
         </div>
 
         <div class="trailer-hud-footer">
-          <span>Simulation renders entirely client-side. Zero lag, zero installation.</span>
+          <details>
+            <summary>Read the teaser description</summary>
+            <p>A glowing shield floats above a rain-soaked city. The text reads “Conflict is a game… until it happens to you.” As the camera moves forward, the shield gets closer.</p>
+            <p>In the game, an opponent opens with a pressure tactic. You type your own reply, then see the effect it had on the conversation.</p>
+          </details>
         </div>
       </div>
     </section>
@@ -852,7 +825,7 @@ const skillCards = [
   }
 
   .benefit-hero-image-wrap {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 2 / 3;
     overflow: hidden;
     border: 1px solid rgba(237, 63, 152, 0.55);
     border-radius: 16px;
@@ -863,8 +836,7 @@ const skillCards = [
   .benefit-hero-image-wrap img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center 28%;
+    object-fit: contain;
   }
 
   .benefit-hero-visual figcaption {
@@ -890,13 +862,14 @@ const skillCards = [
     .play-benefit-hero {
       min-height: auto;
       grid-template-columns: 1fr;
-      gap: 46px;
-      padding-top: 54px;
+      gap: 28px;
+      padding: 32px 0;
+      margin-bottom: 44px;
     }
 
     .benefit-hero-visual {
-      width: min(100%, 620px);
-      margin-inline: 0;
+      width: min(100%, 300px);
+      margin-inline: auto;
     }
   }
 
@@ -1128,36 +1101,19 @@ const skillCards = [
     color: var(--text-soft);
   }
 
-  .step-status-chip {
-    align-self: flex-start;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    margin-top: 6px;
+  #how-it-works {
+    scroll-margin-top: 88px;
   }
 
-  .chip-threat {
-    background: rgba(244, 63, 94, 0.18);
-    border: 1px solid var(--danger);
-    color: #fca5a5;
+  .step-screen-side { margin: 0; }
+
+  .step-caption {
+    margin-top: 10px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 
-  .chip-typing {
-    background: rgba(47, 184, 255, 0.18);
-    border: 1px solid var(--accent-cool);
-    color: #bae6fd;
-  }
-
-  .chip-score {
-    background: rgba(16, 185, 129, 0.18);
-    border: 1px solid var(--emerald);
-    color: #6ee7b7;
-  }
-
-  /* Screenshot Frame */
   .screenshot-hud-frame {
     position: relative;
     border-radius: 14px;
@@ -1165,7 +1121,8 @@ const skillCards = [
     background: #090510;
     border: 1.5px solid var(--line-strong);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 25px rgba(168, 85, 247, 0.15);
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 48 / 29;
+    cursor: zoom-in;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1174,39 +1131,10 @@ const skillCards = [
   .screenshot-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;
     display: block;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .screenshot-hud-frame:hover .screenshot-img {
-    transform: scale(1.05);
-  }
-
-  .screenshot-scanlines {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
-    background-size: 100% 3px;
-    opacity: 0.18;
-    pointer-events: none;
-  }
-
-  .screenshot-badge {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: rgba(10, 5, 20, 0.85);
-    border: 1px solid var(--line);
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: #fff;
-    letter-spacing: 0.1em;
-    backdrop-filter: blur(8px);
-  }
 
   /* ============================================================ */
   /* 3. THE TRAILER PLAYER                                        */
@@ -1268,11 +1196,16 @@ const skillCards = [
   }
 
   .trailer-hud-footer {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    color: var(--muted);
-    text-align: center;
-    padding-top: 4px;
+    max-width: 65ch;
+    padding-top: 8px;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  .trailer-hud-footer summary {
+    width: fit-content;
+    color: var(--accent);
+    cursor: pointer;
   }
 
   /* ============================================================ */

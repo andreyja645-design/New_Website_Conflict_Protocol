@@ -27,14 +27,14 @@ const jsonLd = [
     { name: entry.data.title, path }
   ])
 ];
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const articleSections = headings.filter((heading) => heading.depth === 2);
 const ctaType = entry.collection.slice(0, -1) as "pattern" | "technique" | "situation";
 const firstLine =
   entry.collection === "situations" && "firstLine" in entry.data ? entry.data.firstLine : undefined;
+
 const firstLineLabel =
-  entry.collection === "situations" && "firstLineLabel" in entry.data
-    ? entry.data.firstLineLabel || "Say this first"
-    : "Say this first";
+  entry.collection === "situations" ? entry.data.firstLineLabel : undefined;
 
 const isPattern = entry.collection === "patterns";
 const isTechnique = entry.collection === "techniques";
@@ -56,7 +56,7 @@ const isHeroArtLayout = isSituation;
 >
   <div class="shell article-shell">
     <!-- Top HUD Status Strip -->
-    <div class="hud-status-strip">
+    <div class="hud-status-strip" aria-hidden="true">
       <div class="hud-status-left">
         <span class="hud-radar-beacon"></span>
         <span class="hud-mono-tag">MAYA AI // TACTICAL DOSSIER // {section.toUpperCase()} ARCHIVE</span>
@@ -84,12 +84,7 @@ const isHeroArtLayout = isSituation;
             <span>ACTIVE COUNTER-MEASURE MOVE</span>
           </div>
         )}
-        {isSituation && (
-          <div class="tactical-badge badge-emerald">
-            <span class="badge-icon">🎯</span>
-            <span>WORKED COMBAT SCENARIO</span>
-          </div>
-        )}
+        {isSituation && <a class="back-to-situations" href="/situations/">← All situations</a>}
 
         <h1 class="hero-main-title">
           {entry.data.title}
@@ -98,6 +93,86 @@ const isHeroArtLayout = isSituation;
         <p class="hero-lede-text">
           {entry.data.oneLiner}
         </p>
+
+        {isSituation && firstLine && (
+          <div class="first-response-subcard">
+            <p class="first-response-pill">{firstLineLabel || "Try saying this"}</p>
+            <blockquote class="first-response-quote">“{firstLine}”</blockquote>
+            <div class="first-response-actions">
+              <button type="button" class="dossier-copy-btn" data-script={firstLine}>
+                <span class="copy-txt">Copy script</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {isSituation && articleSections.length > 0 && (
+          <nav class="scenario-jumps" aria-label="On this page">
+            <span>On this page</span>
+            <ul>
+              {articleSections.map(({ slug, text }) => (
+                <li><a href={`#${slug}`}>{slug === "the-script" ? "Full script" : text}</a></li>
+              ))}
+            </ul>
+          </nav>
+        )}
+
+        {!isSituation && (
+          <div class="tactical-intel-panel">
+            <div class="corner-reticle reticle-tl"></div>
+            <div class="corner-reticle reticle-tr"></div>
+            <div class="corner-reticle reticle-bl"></div>
+            <div class="corner-reticle reticle-br"></div>
+
+            {isPattern && (
+              <div class="intel-block-content">
+                {counters.length > 0 && (
+                  <div class="intel-section">
+                    <div class="intel-header-row">
+                      <span class="intel-label">🛡️ RECOMMENDED COUNTERS</span>
+                      <span class="intel-mono-meta">NEUTRALIZE TACTIC</span>
+                    </div>
+                    <div class="intel-chips-wrap">
+                      {counters.map((c) => (
+                        <a href={c.href} class="counter-chip">
+                          <span class="chip-shield">🛡️</span>
+                          <span class="chip-name">{c.title}</span>
+                          <span class="chip-arrow">➔</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div class="intel-trap-row">
+                  <span class="trap-badge">⚠️ COMBAT TRAP</span>
+                  <p class="trap-desc">
+                    <strong>Do not J.A.D.E.</strong> (Justify, Argue, Defend, Explain). Overexplaining concedes FRAME to this pattern.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {isTechnique && "job" in entry.data && (
+              <div class="intel-block-content">
+                <div class="intel-section">
+                  <div class="intel-header-row">
+                    <span class="intel-label">🎯 MISSION DIRECTIVE</span>
+                    <span class="intel-mono-meta">CORE EFFECT</span>
+                  </div>
+                  <p class="intel-text-lead">{entry.data.job}</p>
+                </div>
+
+                {"risk" in entry.data && entry.data.risk && (
+                  <div class="intel-trap-row trap-warning">
+                    <span class="trap-badge warning-badge">⚠️ OPERATIONAL RISK</span>
+                    <p class="trap-desc">{entry.data.risk}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {isHeroArtLayout && image && (
           <div class="hero-cinematic-banner">
@@ -136,82 +211,6 @@ const isHeroArtLayout = isSituation;
           </div>
         )}
 
-        <!-- Tactical Intel HUD Panel -->
-        <div class="tactical-intel-panel">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          {isPattern && (
-            <div class="intel-block-content">
-              {counters.length > 0 && (
-                <div class="intel-section">
-                  <div class="intel-header-row">
-                    <span class="intel-label">🛡️ RECOMMENDED COUNTERS</span>
-                    <span class="intel-mono-meta">NEUTRALIZE TACTIC</span>
-                  </div>
-                  <div class="intel-chips-wrap">
-                    {counters.map((c) => (
-                      <a href={c.href} class="counter-chip">
-                        <span class="chip-shield">🛡️</span>
-                        <span class="chip-name">{c.title}</span>
-                        <span class="chip-arrow">➔</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div class="intel-trap-row">
-                <span class="trap-badge">⚠️ COMBAT TRAP</span>
-                <p class="trap-desc">
-                  <strong>Do not J.A.D.E.</strong> (Justify, Argue, Defend, Explain). Overexplaining concedes FRAME to this pattern.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {isTechnique && "job" in entry.data && (
-            <div class="intel-block-content">
-              <div class="intel-section">
-                <div class="intel-header-row">
-                  <span class="intel-label">🎯 MISSION DIRECTIVE</span>
-                  <span class="intel-mono-meta">CORE EFFECT</span>
-                </div>
-                <p class="intel-text-lead">{entry.data.job}</p>
-              </div>
-
-              {"risk" in entry.data && entry.data.risk && (
-                <div class="intel-trap-row trap-warning">
-                  <span class="trap-badge warning-badge">⚠️ OPERATIONAL RISK</span>
-                  <p class="trap-desc">{entry.data.risk}</p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {isSituation && firstLine && (
-            <div class="intel-block-content">
-              <div class="first-response-subcard">
-                <div class="first-response-head">
-                  <span class="first-response-pill">⚡ USE THIS SCRIPT FIRST</span>
-                  <span class="first-response-label">{firstLineLabel}</span>
-                </div>
-                <div class="first-response-quote">
-                  "{firstLine}"
-                </div>
-                <div class="first-response-actions">
-                  <button type="button" class="dossier-copy-btn" data-script={firstLine}>
-                    <span class="copy-icon">📋</span>
-                    <span class="copy-txt">COPY SCRIPT</span>
-                  </button>
-                  <a href="#the-script" class="jump-script-anchor">Jump to Full Script ➔</a>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
       </header>
 
       <!-- 2. Sticky Sidebar (Row 1-2 Right) -->
@@ -404,7 +403,6 @@ const isHeroArtLayout = isSituation;
   .hero-banner-art-wrap {
     position: relative;
     width: 100%;
-    max-height: 440px;
     background: #090510;
     display: flex;
     align-items: center;
@@ -415,9 +413,7 @@ const isHeroArtLayout = isSituation;
   .hero-banner-img {
     width: 100%;
     height: auto;
-    max-height: 440px;
     display: block;
-    object-fit: cover;
   }
 
   .hero-coach-quote {
@@ -624,34 +620,39 @@ const isHeroArtLayout = isSituation;
   }
 
   /* First Response Subcard */
+  .situations-page .hud-status-strip {
+    display: none;
+  }
+
+  .back-to-situations {
+    align-self: flex-start;
+    color: var(--accent);
+    font-size: 0.9rem;
+  }
+
   .first-response-subcard {
+    max-width: 720px;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--emerald);
+    border-radius: 12px;
+    background: var(--bg-surface);
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  .first-response-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
   .first-response-pill {
+    margin: 0;
     font-family: var(--font-mono);
-    font-size: 10.5px;
-    font-weight: 800;
-    color: var(--emerald, #10b981);
-    letter-spacing: 0.12em;
-  }
-
-  .first-response-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #6ee7b7;
   }
 
   .first-response-quote {
-    font-size: 1.25rem;
+    margin: 0;
+    font-size: clamp(1.1rem, 3vw, 1.25rem);
     font-weight: 600;
     color: #fff;
     font-style: italic;
@@ -660,6 +661,8 @@ const isHeroArtLayout = isSituation;
 
   .first-response-actions {
     display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
     justify-content: space-between;
     align-items: center;
     padding-top: 8px;
@@ -673,12 +676,12 @@ const isHeroArtLayout = isSituation;
     background: rgba(16, 185, 129, 0.15);
     border: 1px solid rgba(16, 185, 129, 0.4);
     border-radius: 6px;
-    padding: 5px 12px;
+    min-height: 44px;
+    padding: 8px 14px;
     color: var(--emerald, #10b981);
-    font-family: var(--font-mono);
-    font-size: 10px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
     cursor: pointer;
     transition: all 0.2s ease;
   }
@@ -687,17 +690,6 @@ const isHeroArtLayout = isSituation;
     background: rgba(16, 185, 129, 0.3);
     border-color: var(--emerald, #10b981);
     transform: translateY(-1px);
-  }
-
-  .jump-script-anchor {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent);
-    text-decoration: none;
-  }
-  .jump-script-anchor:hover {
-    text-decoration: underline;
   }
 
   /* ============================================================ */
@@ -835,6 +827,29 @@ const isHeroArtLayout = isSituation;
 
   .article-body {
     max-width: 100%;
+  }
+
+  .scenario-jumps {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .scenario-jumps > span { color: var(--muted); font-weight: 600; }
+
+  .scenario-jumps ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 16px;
+    margin: 2px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scenario-jumps a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--accent);
   }
 
   .article-body :global(h2) {

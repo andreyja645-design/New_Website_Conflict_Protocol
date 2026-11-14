@@ -1,79 +1,17 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ContentCard from "../components/ContentCard.astro";
-import { toCardLink } from "../lib/contentLinks";
 
-const [patterns, techniques, situations] = await Promise.all([
-  getCollection("patterns"),
-  getCollection("techniques"),
-  getCollection("situations")
-]);
-
-const featuredEntries = [
-  patterns.find((entry) => entry.data.slug === "gaslighting"),
-  techniques.find((entry) => entry.data.slug === "grey-rock"),
-  situations.find((entry) => entry.data.slug === "you-froze-in-a-meeting")
-].filter(Boolean);
-
-const featured = [
-  toCardLink(featuredEntries[0], "Pattern"),
-  toCardLink(featuredEntries[1], "Technique"),
-  toCardLink(featuredEntries[2], "Situation")
-];
-
-const doors = [
-  {
-    href: "/situations/",
-    doorNum: "01",
-    badge: "8 WORKED SCENES",
-    title: "I need words now",
-    lead: "Worked conversation scripts",
-    text: "Go straight to realistic dialogue scenes and lift a line verbatim.",
-    image: "/assets/practice-simulator-rehearsal.webp"
-  },
-  {
-    href: "/start-here/",
-    doorNum: "02",
-    badge: "ORIENTATION MANUAL",
-    title: "I froze and need a reset",
-    lead: "Autonomic recovery",
-    text: "Recover the moment, buy 5 seconds, and make the next sentence smaller.",
-    image: "/assets/pages/start-here-hero.webp"
-  },
-  {
-    href: "/patterns/",
-    doorNum: "03",
-    badge: "14 PRESSURE PROFILES",
-    title: "I want the pressure move named",
-    lead: "Tactical pattern diagnostics",
-    text: "Spot the manipulation machine before it turns into a character trial.",
-    image: "/assets/pages/patterns-techniques-hero.webp"
-  }
-];
-
-const drillSteps = [
-  {
-    step: "01",
-    label: "DIAGNOSE",
-    text: "Name the move without becoming the debate."
-  },
-  {
-    step: "02",
-    label: "BUFFER",
-    text: "Borrow one plain sentence while your brain comes back online."
-  },
-  {
-    step: "03",
-    label: "HOLD FRAME",
-    text: "Repeat the boundary until the room stops steering you."
-  }
+const resetLine = "I need a second to answer that clearly.";
+const guide = [
+  { href: "/situations/", title: "Situations", description: "Find a worked conversation and a line you can use." },
+  { href: "/patterns/", title: "Pressure patterns", description: "Recognize guilt trips, shifting goalposts, and other tactics." },
+  { href: "/techniques/", title: "Response techniques", description: "Learn ways to pause, respond, or set a limit." }
 ];
 ---
 
 <BaseLayout
   title="Words ready before the room tilts | Conflict Protocol"
-  description="A dark tactical field guide for spotting conversational pressure and having psychological counter-measures ready."
+  description="A field guide for difficult conversations, with pressure patterns, response techniques, and scripts you can copy."
   canonical="/"
   image="/assets/home-hero-scripts-patterns-practice.webp"
   bodyClass="home-page"
@@ -89,24 +27,13 @@ const drillSteps = [
     <section class="home-hero-grid">
       <!-- Left: Copy & Primary CTAs -->
       <div class="hero-left-content">
-        <div class="hero-status-pill">
-          <span class="radar-beacon-dot"></span>
-          <span>MAYA AI // FIELD MANUAL v2.4 // READY</span>
-        </div>
-
         <h1 class="hero-title">
-          WORDS READY BEFORE<br />
-          <span class="hero-title-highlight">THE ROOM TILTS.</span>
+          Words ready before{" "}
+          <span class="hero-title-highlight">the room tilts.</span>
         </h1>
 
         <p class="hero-lede">
-          You always think of the right answer three hours later.
-          <strong>Conflict Protocol</strong> puts it in your mouth while the conversation is still happening.
-        </p>
-
-        <p class="hero-subtext">
-          Stop freezing, fawning, or writing paragraphs of self-defense.
-          Spot the manipulation pattern, deploy the counter-measure, and hold your frame under pressure.
+          Find words for difficult conversations. Recognize the pressure, borrow a line, and practice holding your ground.
         </p>
 
         <div class="hero-cta-cluster">
@@ -122,32 +49,21 @@ const drillSteps = [
             <span class="btn-icon">🛡️</span>
             <span class="btn-text-group">
               <span class="btn-title">I FROZE & NEED A RESET</span>
-              <span class="btn-subtitle">Emergency 5-second buffer ➔</span>
+              <span class="btn-subtitle">A line to ask for more time ➔</span>
             </span>
           </a>
         </div>
-
-        <div class="hero-metric-strip">
-          <div class="metric-item">
-            <span class="metric-val">14</span>
-            <span class="metric-lbl">Pressure Moves</span>
+        <div class="home-quick-script">
+          <div>
+            <p>When someone pushes for an answer</p>
+            <blockquote>“{resetLine}”</blockquote>
           </div>
-          <div class="metric-sep">/</div>
-          <div class="metric-item">
-            <span class="metric-val">12</span>
-            <span class="metric-lbl">Counter-Tactics</span>
-          </div>
-          <div class="metric-sep">/</div>
-          <div class="metric-item">
-            <span class="metric-val">8</span>
-            <span class="metric-lbl">Worked Scenes</span>
-          </div>
-          <div class="metric-sep">/</div>
-          <div class="metric-item">
-            <span class="metric-val" style="color: var(--emerald);">0</span>
-            <span class="metric-lbl">JADE Traps</span>
+          <div class="home-copy-action">
+            <button type="button" class="home-copy-button" data-copy-script={resetLine} hidden>Copy script</button>
+            <span class="home-copy-status" role="status"></span>
           </div>
         </div>
+        <a class="hero-quiz-link" href="/style-quiz/">Take the 12-question style quiz →</a>
       </div>
 
       <!-- Right: Perfectly Framed Hero Artwork (No Cropping!) -->
@@ -189,324 +105,21 @@ const drillSteps = [
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- TACTICAL MARQUEE / TICKER                                    -->
-    <!-- ============================================================ -->
-    <div class="tactical-ticker-bar">
-      <div class="ticker-content-track">
-        <span>⚡ PRESSURE PATTERNS</span>
-        <span class="ticker-dot">•</span>
-        <span>🛡️ DEFENSIVE COUNTER-MOVES</span>
-        <span class="ticker-dot">•</span>
-        <span>📋 WORKED COMBAT SCENES</span>
-        <span class="ticker-dot">•</span>
-        <span>🎯 REAL-TIME FRAME CONTROL</span>
-        <span class="ticker-dot">•</span>
-        <span>❌ ZERO DEFENSIVE J.A.D.E.</span>
-        <span class="ticker-dot">•</span>
-        <span>⚡ PRESSURE PATTERNS</span>
-        <span class="ticker-dot">•</span>
-        <span>🛡️ DEFENSIVE COUNTER-MOVES</span>
-        <span class="ticker-dot">•</span>
-        <span>📋 WORKED COMBAT SCENES</span>
-        <span class="ticker-dot">•</span>
-        <span>🎯 REAL-TIME FRAME CONTROL</span>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 2: PICK THE DOOR (ALIGNED 3-CARD PORTAL)            -->
-    <!-- ============================================================ -->
-    <section class="home-section-block">
-      <div class="section-title-wrap">
-        <span class="section-kicker">SECTION 01 // ENTRY MATRIX</span>
-        <h2 class="section-main-heading">PICK THE DOOR THAT MATCHES THE MESS</h2>
-        <p class="section-sub-heading">
-          Fourteen pressure patterns, twelve counter-moves, and eight worked scenes.
-          Start wherever your brain is currently on fire:
-        </p>
-      </div>
-
-      <div class="doors-three-grid">
-        {doors.map((door) => (
-          <a class="door-interactive-card" href={door.href}>
-            <div class="corner-reticle reticle-tl"></div>
-            <div class="corner-reticle reticle-tr"></div>
-            <div class="corner-reticle reticle-bl"></div>
-            <div class="corner-reticle reticle-br"></div>
-
-            <div class="door-img-window">
-              <img src={door.image} alt={door.title} class="door-preview-img" loading="lazy" />
-              <div class="door-img-scrim"></div>
-              <span class="door-index-badge">{door.doorNum}</span>
-              <span class="door-category-badge">{door.badge}</span>
-            </div>
-
-            <div class="door-card-body">
-              <span class="door-card-lead">{door.lead}</span>
-              <h3 class="door-card-title">{door.title}</h3>
-              <p class="door-card-text">{door.text}</p>
-              <div class="door-card-footer">
-                <span>Enter Portal</span>
-                <span class="door-card-arrow">➔</span>
-              </div>
-            </div>
-          </a>
+    <section class="home-section-block" aria-labelledby="guide-heading">
+      <h2 class="section-main-heading" id="guide-heading">Explore the field guide</h2>
+      <ul class="home-guide-links">
+        {guide.map(({ href, title, description }) => (
+          <li>
+            <a href={href}>
+              <strong>{title}</strong>
+              <span>{description}</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
+      <a class="home-example-link" href="/situations/you-froze-in-a-meeting/">Read the meeting example →</a>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- SECTION 3: TACTICAL BENTO GRID (THE SHAPE OF THE ANSWER)     -->
-    <!-- ============================================================ -->
-    <section class="home-section-block">
-      <div class="section-title-wrap">
-        <span class="section-kicker">SECTION 02 // PSYCHOLOGICAL MECHANICS</span>
-        <h2 class="section-main-heading">THE PRESSURE HAS A SHAPE. SO DOES THE ANSWER.</h2>
-        <p class="section-sub-heading">
-          Interpersonal manipulation relies on predictable psychological triggers. When you decode the pattern, the panic disappears.
-        </p>
-      </div>
-
-      <div class="tactical-bento-grid">
-        <!-- Bento Card 1: Find the Move (Wide 7 cols) -->
-        <article class="bento-tile bento-span-7">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <div class="bento-tile-inner-split">
-            <div class="bento-text-side">
-              <span class="bento-pill pill-purple">TACTICAL DIAGNOSTIC</span>
-              <h3 class="bento-title">Find the Move.</h3>
-              <p class="bento-para">
-                Gaslighting, guilt-trips, public shaming, DARVO, moving goalposts:
-                the first win is naming the pressure without letting it turn into a debate about who you are.
-              </p>
-              <a href="/patterns/" class="bento-link">Explore the 14 Patterns ➔</a>
-            </div>
-            <div class="bento-img-side">
-              <img
-                src="/assets/grey-rock-card.webp"
-                alt="Grey Rock card"
-                class="bento-clean-img"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </article>
-
-        <!-- Bento Card 2: Borrow the Line (5 cols) -->
-        <article class="bento-tile bento-span-5 bento-card-highlight">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <span class="bento-pill pill-cyan">VERBATIM REPERTOIRE</span>
-          <h3 class="bento-title">Borrow the Line.</h3>
-          <p class="bento-para">
-            Every page is built around real, spoken words. Not high-minded advice you have to translate while your nervous system is on fire.
-          </p>
-          <div class="bento-script-callout">
-            "I understand. That doesn't work for me."
-          </div>
-          <a href="/techniques/" class="bento-link">Browse Counter-Techniques ➔</a>
-        </article>
-
-        <!-- Bento Card 3: Grey Rock Principle (4 cols) -->
-        <article class="bento-tile bento-span-4">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <span class="bento-pill pill-emerald">FRAME RETENTION</span>
-          <h3 class="bento-title">Stay Boring.</h3>
-          <p class="bento-para">
-            When bait gets loud, emotional supply is fuel. Grey Rock delivers flat, dull facts with zero adjectives and zero defensive hooks.
-          </p>
-        </article>
-
-        <!-- Bento Card 4: Buy One Second (4 cols) -->
-        <article class="bento-tile bento-span-4">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <span class="bento-pill pill-amber">THE 5-SECOND BUFFER</span>
-          <h3 class="bento-title">Buy One Second.</h3>
-          <p class="bento-para">
-            "I need a second to answer that clearly."
-            Five words that instantly take back control of the conversation tempo.
-          </p>
-        </article>
-
-        <!-- Bento Card 5: Visual Deck Preview (4 cols) -->
-        <article class="bento-tile bento-span-4 bento-img-tile">
-          <div class="corner-reticle reticle-tl"></div>
-          <div class="corner-reticle reticle-tr"></div>
-          <div class="corner-reticle reticle-bl"></div>
-          <div class="corner-reticle reticle-br"></div>
-
-          <img
-            src="/assets/drills-response-cards.webp"
-            alt="Response cards arranged for conversation practice"
-            class="bento-full-img"
-            loading="lazy"
-          />
-          <div class="bento-img-caption">
-            <span>FIELD MANUAL RESPONSE DECK</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 2.5: THE PARADIGM SHIFT (COMBAT ENGINE BREAKTHROUGH) -->
-    <!-- ============================================================ -->
-    <section class="home-section-block paradigm-shift-block">
-      <div class="corner-reticle reticle-tl"></div>
-      <div class="corner-reticle reticle-tr"></div>
-      <div class="corner-reticle reticle-bl"></div>
-      <div class="corner-reticle reticle-br"></div>
-
-      <div class="section-title-wrap">
-        <div class="paradigm-status-pill">
-          <span class="radar-beacon-dot"></span>
-          <span>PARADIGM SHIFT // THE COMBAT ENGINE</span>
-        </div>
-        <h2 class="section-main-heading paradigm-heading">
-          STOP PRACTICING WITH AI THAT AGREES WITH YOU.<br />
-          <span class="paradigm-neon-sub">FIGHT CONVERSATIONS THAT DON'T.</span>
-        </h2>
-        <p class="section-sub-heading">
-          Conflict Protocol is not an AI chatbot that happens to talk about conflict.
-          It is a game designed around the <strong>mechanics of conflict</strong>.
-        </p>
-      </div>
-
-      <div class="paradigm-three-cards">
-        <!-- Card 1 -->
-        <article class="paradigm-card">
-          <div class="paradigm-card-header">
-            <span class="paradigm-step-num">01</span>
-            <span class="paradigm-pill pill-magenta">ADVERSARY, NOT ASSISTANT</span>
-          </div>
-          <h3 class="paradigm-card-title">The Opponent's Job is to Beat You</h3>
-          <p class="paradigm-card-para">
-            A standard chatbot wants to be helpful, polite, and cooperative. Conflict Protocol flips that relationship:
-            your opponent actively baits your guilt, tests your hesitation, and maneuvers you into defensive overexplaining.
-          </p>
-          <div class="paradigm-card-foot">
-            <span>The prompt isn't "roleplay with me" — it's live pressure.</span>
-          </div>
-        </article>
-
-        <!-- Card 2 -->
-        <article class="paradigm-card paradigm-card-highlight">
-          <div class="paradigm-card-header">
-            <span class="paradigm-step-num">02</span>
-            <span class="paradigm-pill pill-cyan">PSYCHOLOGY AS MECHANICS</span>
-          </div>
-          <h3 class="paradigm-card-title">Heat, Frame, and Rupture</h3>
-          <p class="paradigm-card-para">
-            Psychology isn't an abstract opinion—it's telemetry you can see and manipulate.
-            <strong>FRAME</strong> measures reality control. <strong>HEAT</strong> tracks emotional destabilization.
-            <strong>COMPOSURE</strong> measures biological stamina to stay in the room.
-          </p>
-          <div class="paradigm-card-foot">
-            <span>Social pressure translated into visible, trainable stats.</span>
-          </div>
-        </article>
-
-        <!-- Card 3 -->
-        <article class="paradigm-card">
-          <div class="paradigm-card-header">
-            <span class="paradigm-step-num">03</span>
-            <span class="paradigm-pill pill-amber">FIGHTING GAME LOOP</span>
-          </div>
-          <h3 class="paradigm-card-title">Failure Actually Matters</h3>
-          <p class="paradigm-card-para">
-            In a normal chatbot: give a bad answer and it says <em>"Try this next time!"</em> Nothing happened.
-            In Conflict Protocol: overexplain ➔ <code class="delta-inline">FRAME −12</code> ➔ opponent exploits vulnerability ➔ <strong>BOUNDARY BROKEN</strong>.
-          </p>
-          <div class="paradigm-card-foot">
-            <span>Action ➔ Consequence ➔ Understanding ➔ Adaptation.</span>
-          </div>
-        </article>
-      </div>
-
-      <div class="paradigm-bottom-strip">
-        <div class="paradigm-strip-lead">
-          <span class="strip-sparkle">⚔️</span>
-          <span>Your AI opponent doesn't want you to win. Train to hold your ground when someone pushes back.</span>
-        </div>
-        <a class="hero-btn-primary paradigm-cta-btn" href="/play/">
-          <span>[ ⚔️ EXPLORE THE COMBAT ARENA ➔ ]</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 4: MEETING FREEZE DRILL (CLEAN 2-COL DRILL STACK)    -->
-    <!-- ============================================================ -->
-    <section class="home-section-block">
-      <div class="meeting-drill-grid">
-        <!-- Left: Briefing -->
-        <div class="drill-briefing-col">
-          <span class="section-kicker">SECTION 03 // LIVE FIELD DRILL</span>
-          <h2 class="drill-main-heading">
-            WHEN THE ROOM TURNS, KEEP ONE SENTENCE IN YOUR HAND.
-          </h2>
-          <p class="drill-briefing-para">
-            This system is engineered for the ten seconds where social pressure takes the steering wheel.
-            Read the move, choose the counter-tactic, then speak the smallest true thing.
-          </p>
-          <a class="drill-cta-btn" href="/situations/you-froze-in-a-meeting/">
-            <span>[ ⚔️ PRACTICE THE MEETING FREEZE ➔ ]</span>
-          </a>
-        </div>
-
-        <!-- Right: 3-Step Tactical Stack -->
-        <div class="drill-steps-col">
-          {drillSteps.map((step) => (
-            <div class="drill-step-card">
-              <div class="corner-reticle reticle-tl"></div>
-              <div class="corner-reticle reticle-br"></div>
-              <div class="drill-step-index">{step.step}</div>
-              <div class="drill-step-body">
-                <span class="drill-step-label">{step.label}</span>
-                <p class="drill-step-text">{step.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 5: START WITH ONE LIVE EXAMPLE (FEATURED CARDS)       -->
-    <!-- ============================================================ -->
-    <section class="home-section-block">
-      <div class="section-title-wrap">
-        <span class="section-kicker">SECTION 04 // FEATURED DOSSIERS</span>
-        <h2 class="section-main-heading">START WITH ONE LIVE EXAMPLE</h2>
-        <p class="section-sub-heading">Three core entry portals: the pattern, the technique, and the worked situation.</p>
-      </div>
-
-      <div class="featured-showcase-grid">
-        {featured.map((card) => (
-          <ContentCard card={card} />
-        ))}
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 6: HIGH-VOLTAGE BOTTOM CTA                           -->
-    <!-- ============================================================ -->
     <section class="home-final-cta">
       <div class="corner-reticle reticle-tl"></div>
       <div class="corner-reticle reticle-tr"></div>
@@ -514,22 +127,17 @@ const drillSteps = [
       <div class="corner-reticle reticle-br"></div>
 
       <div class="final-cta-inner">
-        <div class="final-cta-badge">
-          <span class="radar-beacon-dot"></span>
-          <span>NEURAL SIMULATION READY</span>
-        </div>
-
         <h2 class="final-cta-title">
-          PRACTICE LIVE, THEN CARRY THE LINE BACK INTO THE REAL CONVERSATION.
+          See how the game works
         </h2>
 
         <p class="final-cta-desc">
-          You always think of the right answer three hours later. We are fixing that.
+          See how an opponent applies pressure, how you reply, and what the game tells you about your response.
         </p>
 
         <div class="final-cta-btn-cluster">
-          <a class="hero-btn-primary" href="/start-here/" style="padding: 14px 28px;">
-            <span>[ 🛡️ START ORIENTATION MANUAL ➔ ]</span>
+          <a class="hero-btn-primary" href="/play/#how-it-works">
+            <span>See a sample turn →</span>
           </a>
           <a class="hero-btn-secondary" href="http://localhost:8080" target="_blank" style="padding: 14px 24px;">
             <span>[ ⚔️ LAUNCH COMBAT ARENA ]</span>
@@ -613,53 +221,16 @@ const drillSteps = [
     gap: 18px;
   }
 
-  .hero-status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    align-self: flex-start;
-    padding: 5px 14px;
-    border-radius: 9999px;
-    background: rgba(168, 85, 247, 0.12);
-    border: 1px solid rgba(168, 85, 247, 0.35);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--accent);
-  }
-
-  .radar-beacon-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    position: relative;
-  }
-  .radar-beacon-dot::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 50%;
-    border: 1.5px solid var(--accent);
-    animation: beacon-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
-  }
-
-  @keyframes beacon-ping {
-    75%, 100% {
-      transform: scale(2.4);
-      opacity: 0;
-    }
-  }
-
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+    margin: 0;
+    max-width: 16ch;
+    font-size: clamp(2rem, 4vw, 3.65rem);
     font-weight: 900;
     line-height: 1.08;
     letter-spacing: 0.03em;
     color: #fff;
-    text-transform: uppercase;
+    text-wrap: balance;
   }
 
   .hero-title-highlight {
@@ -670,19 +241,17 @@ const drillSteps = [
   }
 
   .hero-lede {
-    font-size: 1.2rem;
+    margin: 0;
+    max-width: 48ch;
+    font-size: 1.08rem;
     line-height: 1.65;
     color: var(--text-soft);
   }
 
-  .hero-subtext {
-    font-size: 0.98rem;
-    line-height: 1.65;
-    color: var(--muted);
-  }
-
-  .hero-subtext strong {
-    color: #fff;
+  .hero-quiz-link {
+    align-self: flex-start;
+    color: var(--accent);
+    font-weight: 600;
   }
 
   .hero-cta-cluster {
@@ -691,6 +260,14 @@ const drillSteps = [
     align-items: stretch;
     gap: 16px;
     margin-top: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .homepage-shell { padding-inline: 18px; }
+    .home-hero-grid { padding-top: 8px; }
+    .hero-title { font-size: clamp(1.9rem, 8vw, 2.65rem); }
+    .hero-left-content { gap: 14px; }
+    .hero-cta-cluster { display: grid; gap: 10px; }
   }
 
   .hero-btn-primary {
@@ -755,42 +332,6 @@ const drillSteps = [
     font-size: 9.5px;
     color: rgba(255, 255, 255, 0.75);
     letter-spacing: 0.04em;
-  }
-
-  .hero-metric-strip {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 14px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .metric-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .metric-val {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 900;
-    color: var(--accent);
-    text-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
-  }
-
-  .metric-lbl {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .metric-sep {
-    color: rgba(255, 255, 255, 0.15);
-    font-family: var(--font-mono);
   }
 
   /* Hero Hologram Right Col */
@@ -914,42 +455,6 @@ const drillSteps = [
   }
 
   /* ============================================================ */
-  /* TICKER / MARQUEE BAR                                         */
-  /* ============================================================ */
-  .tactical-ticker-bar {
-    position: relative;
-    overflow: hidden;
-    padding: 10px 0;
-    background: rgba(16, 8, 30, 0.7);
-    border-top: 1px solid rgba(168, 85, 247, 0.3);
-    border-bottom: 1px solid rgba(168, 85, 247, 0.3);
-    margin-bottom: 70px;
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.12);
-  }
-
-  .ticker-content-track {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    white-space: nowrap;
-    animation: ticker-scroll 32s linear infinite;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    color: #e9d5ff;
-  }
-
-  @keyframes ticker-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  .ticker-dot {
-    color: var(--accent);
-  }
-
-  /* ============================================================ */
   /* SECTION HEADINGS                                             */
   /* ============================================================ */
   .home-section-block {
@@ -958,17 +463,6 @@ const drillSteps = [
 
   .section-title-wrap {
     margin-bottom: 30px;
-  }
-
-  .section-kicker {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    font-weight: 800;
-    letter-spacing: 0.18em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 6px;
   }
 
   .section-main-heading {
@@ -980,446 +474,81 @@ const drillSteps = [
     text-transform: uppercase;
   }
 
-  .section-sub-heading {
-    font-size: 1.02rem;
-    color: var(--muted);
-    margin-top: 6px;
-    max-width: 780px;
-    line-height: 1.6;
-  }
-
-  /* ============================================================ */
-  /* SECTION 2: THE THREE DOORS (ALIGNED 3-CARD GRID)             */
-  /* ============================================================ */
-  .doors-three-grid {
+  .home-quick-script {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  @media (max-width: 900px) {
-    .doors-three-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .door-interactive-card {
-    position: relative;
-    background: rgba(19, 10, 36, 0.85);
-    border: 1.5px solid var(--line);
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-  }
-
-  .door-interactive-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent);
-    box-shadow: var(--shadow-glow);
-  }
-
-  .door-img-window {
-    position: relative;
-    height: 180px;
-    background: #090510;
-    overflow: hidden;
-  }
-
-  .door-preview-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    transition: transform 0.4s ease;
-  }
-
-  .door-interactive-card:hover .door-preview-img {
-    transform: scale(1.06);
-  }
-
-  .door-img-scrim {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(19, 10, 36, 0.95) 0%, rgba(19, 10, 36, 0.2) 60%, transparent 100%);
-  }
-
-  .door-index-badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 900;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.65);
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .door-category-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 800;
-    color: var(--accent);
-    background: rgba(10, 5, 20, 0.85);
-    padding: 3px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--line);
-    letter-spacing: 0.1em;
-  }
-
-  .door-card-body {
-    padding: 20px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-  }
-
-  .door-card-lead {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--accent);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .door-card-title {
-    font-family: var(--font-display);
-    font-size: 1.3rem;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    color: #fff;
-  }
-
-  .door-card-text {
-    font-size: 0.92rem;
-    line-height: 1.55;
-    color: var(--muted);
-    flex: 1;
-  }
-
-  .door-card-footer {
-    display: flex;
-    justify-content: space-between;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 12px;
-    margin-top: 6px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    color: #fff;
-  }
-
-  .door-card-arrow {
-    color: var(--accent);
-    transition: transform 0.2s;
-  }
-
-  .door-interactive-card:hover .door-card-arrow {
-    transform: translateX(4px);
-  }
-
-  /* ============================================================ */
-  /* SECTION 3: TACTICAL BENTO GRID                               */
-  /* ============================================================ */
-  .tactical-bento-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 20px;
-  }
-
-  @media (max-width: 900px) {
-    .tactical-bento-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .bento-tile {
-    position: relative;
-    background: rgba(19, 10, 36, 0.8);
+    gap: 8px 16px;
+    padding: 12px 16px;
     border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: all 0.25s;
-  }
-
-  .bento-tile:hover {
-    border-color: var(--line-strong);
-    box-shadow: var(--shadow-glow);
-  }
-
-  .bento-span-7 { grid-column: span 7; }
-  .bento-span-5 { grid-column: span 5; }
-  .bento-span-4 { grid-column: span 4; }
-
-  @media (max-width: 900px) {
-    .bento-span-7, .bento-span-5, .bento-span-4 {
-      grid-column: span 1;
-    }
-  }
-
-  .bento-tile-inner-split {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 20px;
-    align-items: center;
-    height: 100%;
-  }
-
-  @media (max-width: 640px) {
-    .bento-tile-inner-split {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .bento-text-side {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .bento-img-side {
-    height: 180px;
+    border-left: 3px solid var(--accent);
     border-radius: 10px;
-    overflow: hidden;
-    background: #090510;
-    border: 1px solid var(--line);
+    background: var(--bg-surface);
   }
 
-  .bento-clean-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-  }
-
-  .bento-card-highlight {
-    background: linear-gradient(135deg, rgba(35, 18, 62, 0.9) 0%, rgba(19, 10, 36, 0.95) 100%);
-    border-color: rgba(47, 184, 255, 0.35);
-  }
-
-  .bento-pill {
-    align-self: flex-start;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    padding: 3px 8px;
-    border-radius: 4px;
-    text-transform: uppercase;
-  }
-
-  .pill-purple { background: rgba(168, 85, 247, 0.2); border: 1px solid var(--accent); color: #e9d5ff; }
-  .pill-cyan { background: rgba(47, 184, 255, 0.2); border: 1px solid var(--accent-cool); color: #bae6fd; }
-  .pill-emerald { background: rgba(16, 185, 129, 0.2); border: 1px solid var(--emerald); color: #a7f3d0; }
-  .pill-amber { background: rgba(245, 158, 11, 0.2); border: 1px solid var(--warning); color: #fde68a; }
-
-  .bento-title {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    color: #fff;
-  }
-
-  .bento-para {
-    font-size: 0.92rem;
-    line-height: 1.6;
+  .home-quick-script p {
+    margin: 0 0 4px;
     color: var(--muted);
+    font-size: 0.9rem;
   }
 
-  .bento-script-callout {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #fff;
-    padding: 10px 14px;
-    background: rgba(0, 0, 0, 0.4);
-    border-left: 3px solid var(--accent-cool);
-    border-radius: 0 8px 8px 0;
+  .home-quick-script blockquote {
+    margin: 0;
+    line-height: 1.5;
   }
 
-  .bento-link {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent);
-    text-decoration: none;
-    margin-top: 4px;
-  }
+  .home-copy-action { position: relative; }
 
-  .bento-link:hover {
-    color: #fff;
-    text-shadow: 0 0 8px var(--accent);
-  }
-
-  .bento-img-tile {
-    padding: 0;
-    overflow: hidden;
-    height: 200px;
-  }
-
-  .bento-full-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .bento-img-caption {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: rgba(10, 5, 20, 0.85);
-    border: 1px solid var(--line);
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: #fff;
-    letter-spacing: 0.1em;
-  }
-
-  /* ============================================================ */
-  /* SECTION 4: MEETING FREEZE DRILL                              */
-  /* ============================================================ */
-  .meeting-drill-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-    background: linear-gradient(135deg, rgba(28, 14, 52, 0.85) 0%, rgba(14, 7, 28, 0.95) 100%);
-    border: 1px solid var(--line-strong);
-    border-radius: 18px;
-    padding: 36px 32px;
-    box-shadow: var(--shadow-glow), 0 10px 30px rgba(0, 0, 0, 0.8);
-  }
-
-  @media (max-width: 860px) {
-    .meeting-drill-grid {
-      grid-template-columns: 1fr;
-      padding: 24px;
-    }
-  }
-
-  .drill-briefing-col {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .drill-main-heading {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.5vw, 2.1rem);
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    color: #fff;
-    line-height: 1.15;
-  }
-
-  .drill-briefing-para {
-    font-size: 0.98rem;
-    line-height: 1.6;
-    color: var(--text-soft);
-  }
-
-  .drill-cta-btn {
-    align-self: flex-start;
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    background: var(--panel);
+  .home-copy-button {
+    min-height: 44px;
+    padding: 8px 12px;
     border: 1px solid var(--line-strong);
     border-radius: 8px;
-    color: #fff;
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    transition: all 0.2s;
-    margin-top: 6px;
+    background: var(--panel-elevated);
+    color: var(--text);
+    font: 600 0.9rem var(--font-body);
+    cursor: pointer;
   }
 
-  .drill-cta-btn:hover {
-    background: var(--accent-glow);
-    box-shadow: 0 0 16px rgba(168, 85, 247, 0.6);
-    transform: translateY(-2px);
+  .home-copy-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
 
-  .drill-steps-col {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .drill-step-card {
-    position: relative;
-    background: rgba(10, 5, 20, 0.7);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .drill-step-index {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 900;
-    color: var(--accent);
-  }
-
-  .drill-step-body {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .drill-step-label {
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    font-weight: 800;
-    color: var(--emerald);
-    letter-spacing: 0.1em;
-  }
-
-  .drill-step-text {
-    font-size: 0.92rem;
-    color: #fff;
-    line-height: 1.4;
-    margin: 0;
-  }
-
-  /* ============================================================ */
-  /* SECTION 5: FEATURED SHOWCASE GRID                            */
-  /* ============================================================ */
-  .featured-showcase-grid {
+  .home-guide-links {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: 12px;
+    margin: 20px 0 16px;
+    padding: 0;
+    list-style: none;
   }
 
-  /* ============================================================ */
-  /* SECTION 6: HIGH-VOLTAGE BOTTOM CTA                           */
-  /* ============================================================ */
+  .home-guide-links a {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    height: 100%;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg-surface);
+    text-decoration: none;
+  }
+
+  .home-guide-links a:hover,
+  .home-guide-links a:focus-visible { border-color: var(--accent); }
+
+  .home-guide-links span { color: var(--text-soft); line-height: 1.5; }
+  .home-example-link { color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 460px) {
+    .home-quick-script { grid-template-columns: 1fr; }
+  }
+
   .home-final-cta {
     position: relative;
     background: linear-gradient(135deg, rgba(22, 11, 42, 0.9) 0%, rgba(12, 6, 24, 0.95) 100%);
@@ -1437,21 +566,6 @@ const drillSteps = [
     flex-direction: column;
     align-items: center;
     gap: 16px;
-  }
-
-  .final-cta-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 12px;
-    border-radius: 9999px;
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid var(--emerald);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 800;
-    color: #6ee7b7;
-    letter-spacing: 0.12em;
   }
 
   .final-cta-title {
@@ -1476,184 +590,33 @@ const drillSteps = [
     gap: 16px;
     margin-top: 10px;
   }
-
-  /* ============================================================ */
-  /* PARADIGM SHIFT BLOCK // ADVERSARY ENGINE                   */
-  /* ============================================================ */
-  .paradigm-shift-block {
-    position: relative;
-    background: linear-gradient(145deg, rgba(26, 12, 48, 0.92) 0%, rgba(12, 6, 24, 0.96) 100%);
-    border: 1.5px solid rgba(168, 85, 247, 0.35);
-    border-radius: 20px;
-    padding: 44px 36px 36px;
-    margin: 50px 0 60px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 35px rgba(168, 85, 247, 0.12);
-  }
-
-  .paradigm-status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 14px;
-    border-radius: 9999px;
-    background: rgba(255, 45, 155, 0.12);
-    border: 1px solid rgba(255, 45, 155, 0.4);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    color: var(--magenta);
-    margin-bottom: 12px;
-  }
-
-  .paradigm-heading {
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
-    line-height: 1.18;
-  }
-
-  .paradigm-neon-sub {
-    color: var(--magenta);
-    text-shadow: 0 0 25px rgba(255, 45, 155, 0.4);
-  }
-
-  .paradigm-three-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin: 32px 0 28px;
-  }
-
-  @media (max-width: 900px) {
-    .paradigm-three-cards {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .paradigm-card {
-    background: rgba(14, 7, 28, 0.85);
-    border: 1px solid rgba(168, 85, 247, 0.22);
-    border-radius: 14px;
-    padding: 24px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-  }
-
-  .paradigm-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(168, 85, 247, 0.55);
-  }
-
-  .paradigm-card-highlight {
-    border-color: rgba(47, 184, 255, 0.35);
-    background: linear-gradient(150deg, rgba(16, 12, 36, 0.9) 0%, rgba(10, 8, 24, 0.95) 100%);
-  }
-
-  .paradigm-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-
-  .paradigm-step-num {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--muted);
-  }
-
-  .paradigm-pill {
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    padding: 3px 8px;
-    border-radius: 4px;
-  }
-
-  .pill-magenta {
-    background: rgba(255, 45, 155, 0.15);
-    color: #ff7ebb;
-    border: 1px solid rgba(255, 45, 155, 0.4);
-  }
-
-  .pill-cyan {
-    background: rgba(47, 184, 255, 0.15);
-    color: var(--accent-cool);
-    border: 1px solid rgba(47, 184, 255, 0.4);
-  }
-
-  .pill-amber {
-    background: rgba(245, 158, 11, 0.15);
-    color: var(--warning);
-    border: 1px solid rgba(245, 158, 11, 0.4);
-  }
-
-  .paradigm-card-title {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #fff;
-    margin: 0 0 10px;
-    line-height: 1.3;
-  }
-
-  .paradigm-card-para {
-    font-size: 0.9rem;
-    line-height: 1.55;
-    color: var(--text-soft);
-    margin: 0 0 16px;
-  }
-
-  .delta-inline {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    color: var(--danger);
-    background: rgba(244, 63, 94, 0.12);
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-weight: 700;
-  }
-
-  .paradigm-card-foot {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--muted);
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    padding-top: 10px;
-    letter-spacing: 0.02em;
-  }
-
-  .paradigm-bottom-strip {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-    background: rgba(10, 5, 20, 0.7);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    border-radius: 12px;
-    padding: 14px 20px;
-  }
-
-  .paradigm-strip-lead {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-soft);
-  }
-
-  .strip-sparkle {
-    font-size: 16px;
-  }
-
-  .paradigm-cta-btn {
-    padding: 10px 22px;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-  }
 </style>
+
+<script>
+  const copyButton = document.querySelector<HTMLButtonElement>(".home-copy-button");
+  const copyStatus = document.querySelector<HTMLElement>(".home-copy-status");
+
+  if (copyButton && copyStatus && navigator.clipboard) {
+    let resetTimer: number | undefined;
+    copyButton.hidden = false;
+    copyButton.addEventListener("click", async () => {
+      const script = copyButton.dataset.copyScript;
+      if (!script) return;
+
+      window.clearTimeout(resetTimer);
+      copyStatus.textContent = "";
+      try {
+        await navigator.clipboard.writeText(script);
+        copyButton.textContent = "Copied";
+        copyStatus.textContent = "Script copied to clipboard.";
+      } catch {
+        copyButton.textContent = "Copy failed";
+        copyStatus.textContent = "Copy failed. Select the sentence to copy it manually.";
+      }
+      resetTimer = window.setTimeout(() => {
+        copyButton.textContent = "Copy script";
+        copyStatus.textContent = "";
+      }, 2200);
+    });
+  }
+</script>

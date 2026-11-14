@@ -72,9 +72,6 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     <div class="archetype-grid" id="archetypeGrid">
       {COMMUNICATION_STYLES.map((style) => (
         <article class="archetype-card" data-category={style.category}>
-          <!-- Entire card clickable overlay -->
-          <a href={`/styles/${style.id}/`} class="card-clickable-overlay" aria-label={`View full dossier for ${style.label}`}></a>
-
           <!-- Corner Reticles -->
           <div class="corner-reticle reticle-tl"></div>
           <div class="corner-reticle reticle-tr"></div>
@@ -109,14 +106,14 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
             </div>
           </div>
 
-          <!-- Card Body: Just Label, 1-sentence Tagline, and "SEE DETAILS ➔" Button -->
+          <!-- Style summary and profile link -->
           <div class="archetype-body">
             <h2 class="archetype-name">{style.label}</h2>
             <p class="archetype-tagline">“{style.tagline}”</p>
 
             <div class="card-action-wrap">
-              <a href={`/styles/${style.id}/`} class="see-details-btn">
-                <span>SEE DETAILS</span>
+              <a href={`/styles/${style.id}/`} class="see-details-btn" aria-label={`Read about ${style.label}`}>
+                <span>Read about this style</span>
                 <span class="btn-arrow">➔</span>
               </a>
             </div>
@@ -456,17 +453,15 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     cursor: pointer;
   }
 
+  .archetype-card:focus-within {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
   .archetype-card:hover {
     transform: translateY(-4px);
     border-color: rgba(168, 85, 247, 0.6);
     box-shadow: 0 0 30px rgba(168, 85, 247, 0.35), 0 20px 40px rgba(0, 0, 0, 0.8);
-  }
-
-  .card-clickable-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    border-radius: 16px;
   }
 
   /* Corner Reticles */
@@ -600,7 +595,6 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     flex-direction: column;
     gap: 12px;
     flex: 1;
-    position: relative;
     z-index: 3;
   }
 
@@ -647,8 +641,14 @@ const neutralCount = COMMUNICATION_STYLES.filter((s) => s.category === "neutral"
     letter-spacing: 0.08em;
     text-decoration: none;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
+  }
+
+  .see-details-btn::after {
+    position: absolute;
+    inset: 0;
     z-index: 4;
+    border-radius: 16px;
+    content: "";
   }
 
   .archetype-card:hover .see-details-btn {

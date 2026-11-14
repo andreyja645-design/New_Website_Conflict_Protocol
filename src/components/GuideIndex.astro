@@ -1,0 +1,67 @@
+---
+import type { CardLink } from "../lib/contentLinks";
+
+type Props = {
+  cards: CardLink[];
+  label: string;
+  kind?: "situations";
+};
+
+const { cards, label, kind } = Astro.props;
+const situationLabels: Record<string, string> = {
+  "boss-keeps-expanding-the-ask": "My boss keeps adding work",
+  "after-everything-ive-done": "My parent guilt-trips me",
+  "you-froze-in-a-meeting": "I froze in a meeting",
+  "you-end-up-apologizing": "I bring up a problem and end up apologizing",
+  "joke-at-your-expense": "Someone jokes at my expense",
+  "silent-treatment-until-you-cave": "Someone goes silent until I give in",
+  "youre-too-sensitive": "Someone says I’m too sensitive",
+  "saying-no-without-jade": "I need to say no without overexplaining"
+};
+const entries = kind === "situations"
+  ? cards.map((card) => ({
+      ...card,
+      title: situationLabels[card.href.split("/").filter(Boolean).at(-1) ?? ""] ?? card.title
+    }))
+  : [...cards].sort((a, b) => a.title.localeCompare(b.title));
+---
+
+<nav class="guide-index" aria-label={label}>
+  <h2>{label}</h2>
+  <ul>
+    {entries.map(({ href, title }) => <li><a href={href}>{title}</a></li>)}
+  </ul>
+</nav>
+
+<style>
+  .guide-index {
+    margin-bottom: 32px;
+    padding: clamp(16px, 3vw, 24px);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-surface);
+  }
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 1.125rem;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 4px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--text-soft);
+    line-height: 1.4;
+    text-decoration-color: var(--accent);
+  }
+</style>

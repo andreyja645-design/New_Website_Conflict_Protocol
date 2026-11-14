@@ -256,7 +256,8 @@ const questions = [
             <p data-result-counter></p>
           </div>
 
-          <p class="secondary-read">Secondary signal: <strong data-secondary-style></strong></p>
+          <p class="result-evidence" data-result-evidence></p>
+          <p class="secondary-read" data-secondary-read hidden>Also showed up: <strong data-secondary-style></strong></p>
 
           <div class="result-actions">
             <a class="primary-action" data-result-link href="/styles/unmovable/">OPEN FULL DOSSIER <span>→</span></a>
@@ -269,7 +270,7 @@ const questions = [
           <div class="answer-review-header">
             <p class="console-label">RESPONSE ANALYSIS // ALL 12 DECISIONS</p>
             <h3>YOUR ANSWERS, CLASSIFIED</h3>
-            <p>Open any question to see your selected response and the combat move it represents.</p>
+            <p>Answers marked “Shaped your result” contributed to your primary style. Open a question to see your answer and the move it represents.</p>
           </div>
           <div class="answer-review-list" data-answer-review-list></div>
         </div>
@@ -278,7 +279,7 @@ const questions = [
 
     <aside class="method-note">
       <strong>HOW THE READ WORKS</strong>
-      <p>A recurring pressure trap can outweigh isolated good moves. A balanced spread of constructive choices reads as Improviser, while sparse engagement reads as Minimalist.</p>
+      <p>This quiz reflects the choices you make in these 12 scenarios. It uses patterns from the game to suggest a response to practice.</p>
     </aside>
   </div>
 
@@ -381,6 +382,7 @@ const questions = [
 
     renderSteps();
     promptNode.focus({ preventScroll: true });
+    questionPanel?.scrollIntoView({ behavior: "instant", block: "start" });
   }
 
   function rankScores(scores: Record<string, number>) {
@@ -416,11 +418,13 @@ const questions = [
       resultId = "improviser";
     }
 
-    const secondary = rankScores(scores).find((entry) => entry.id !== resultId) || { id: "minimalist", score: 0 };
-    return { resultId, secondaryId: secondary.id };
+    const balancedResult = resultId === "improviser" && spreadIsBalanced;
+    const supportingStyles = balancedResult ? ["improviser", ...constructiveIds] : [resultId];
+    const secondary = overallRanking.find(({ id, score }) => id !== resultId && score > 0);
+    return { resultId, secondary, balancedResult, supportingStyles };
   }
 
-  function renderAnswerReview() {
+  function renderAnswerReview(supportingStyles: string[]) {
     const list = document.querySelector<HTMLElement>("[data-answer-review-list]");
     if (!list) return;
 
@@ -432,7 +436,12 @@ const questions = [
         <details class="answer-review-item">
           <summary>
             <span class="review-number">${String(questionIndex + 1).padStart(2, "0")}</span>
-            <span class="review-question">${question.prompt}</span>
+            <span class="review-question">
+              ${question.prompt}
+              ${option && supportingStyles.includes(option.primary)
+                ? '<span class="review-evidence">Shaped your result</span>'
+                : ""}
+            </span>
             <span class="review-marker" aria-hidden="true">+</span>
           </summary>
           <div class="review-detail">
@@ -450,9 +459,8 @@ const questions = [
   }
 
   function showResult() {
-    const { resultId, secondaryId } = calculateResult();
+    const { resultId, secondary, balancedResult, supportingStyles } = calculateResult();
     const result = quizResults[resultId];
-    const secondary = quizResults[secondaryId];
     if (!result || !questionPanel || !resultPanel) return;
 
     questionPanel.hidden = true;
@@ -465,6 +473,8 @@ const questions = [
     const tagline = document.querySelector<HTMLElement>("[data-result-tagline]");
     const detail = document.querySelector<HTMLElement>("[data-result-detail]");
     const counter = document.querySelector<HTMLElement>("[data-result-counter]");
+    const evidence = document.querySelector<HTMLElement>("[data-result-evidence]");
+    const secondaryRead = document.querySelector<HTMLElement>("[data-secondary-read]");
     const secondaryStyle = document.querySelector<HTMLElement>("[data-secondary-style]");
     const resultLink = document.querySelector<HTMLAnchorElement>("[data-result-link]");
 
@@ -474,9 +484,24 @@ const questions = [
     if (tagline) tagline.textContent = result.tagline;
     if (detail) detail.textContent = result.detail;
     if (counter) counter.textContent = result.counterMeasure;
-    if (secondaryStyle) secondaryStyle.textContent = secondary?.label || "No clear secondary pattern";
+    const supportingAnswers = answers.filter((answer, index) =>
+      answer !== null && supportingStyles.includes(quizQuestions[index].options[answer].primary)
+    ).length;
+
+    if (evidence) {
+      evidence.textContent = balancedResult
+        ? `You used several constructive approaches across ${supportingAnswers} of ${quizQuestions.length} answers. That variety shaped your Improviser result.`
+        : `${supportingAnswers} of your ${quizQuestions.length} answers matched this style.`;
+    }
+    if (secondaryRead && secondaryStyle) {
+      const match = secondary && quizResults[secondary.id];
+      secondaryRead.hidden = !match;
+      secondaryStyle.textContent = match
+        ? `${match.label} (${secondary.score} ${secondary.score === 1 ? "answer" : "answers"})`
+        : "";
+    }
     if (resultLink) resultLink.href = `/styles/${result.id}/`;
-    renderAnswerReview();
+    renderAnswerReview(supportingStyles);
 
     resultPanel.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   }
@@ -492,7 +517,8 @@ const questions = [
     event.preventDefault();
     if (answers[currentQuestion] === null) {
       if (answerError) answerError.hidden = false;
-      answerGrid?.querySelector<HTMLInputElement>("input")?.focus();
+      answerGrid?.querySelector<HTMLInputElement>("input")?.focus({ preventScroll: true });
+      questionPanel?.scrollIntoView({ behavior: "instant", block: "start" });
       return;
     }
     if (currentQuestion === quizQuestions.length - 1) showResult();
@@ -600,7 +626,7 @@ const questions = [
 
   .quiz-console {
     position: relative;
-    overflow: hidden;
+    overflow: clip;
     min-height: 520px;
     border: 1px solid var(--line-strong);
     border-radius: 16px;
@@ -740,6 +766,12 @@ const questions = [
   }
 
   .secondary-action:disabled { opacity: 0.34; cursor: not-allowed; }
+
+  .question-panel,
+  .result-panel,
+  .answer-review {
+    scroll-margin-top: 88px;
+  }
 
   .question-panel {
     display: flex;
@@ -960,6 +992,19 @@ const questions = [
   .result-readout p,
   .next-move p { margin: 0; color: var(--text-soft); line-height: 1.6; }
 
+  .result-evidence {
+    margin: 0 0 8px;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  .review-evidence {
+    display: block;
+    margin-top: 6px;
+    color: var(--accent);
+    font: 600 0.82rem/1.4 var(--font-body);
+  }
+
   .secondary-read {
     margin: 26px 0 0;
     color: var(--muted);
@@ -1000,7 +1045,19 @@ const questions = [
     .question-panel { min-height: 600px; padding: 28px 24px 30px; }
     .answer-grid { grid-template-columns: 1fr; }
     .answer-option { min-height: 74px; }
-    .question-status { grid-template-columns: 1fr; gap: 16px; }
+    .question-status { grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+    .question-panel legend { font: 750 clamp(1.3rem, 5vw, 1.75rem)/1.28 var(--font-body); }
+    .question-context { margin-bottom: 18px; }
+    .question-actions {
+      position: sticky;
+      z-index: 2;
+      bottom: 0;
+      margin-top: 16px;
+      padding: 12px 0 max(12px, env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line);
+      background: var(--bg-surface);
+    }
+    .answer-option { scroll-margin-bottom: 84px; }
     .result-panel { grid-template-columns: 1fr; }
     .result-visual { min-height: 0; aspect-ratio: 4 / 3; border-right: 0; border-bottom: 1px solid var(--line-strong); }
     .result-visual img { object-position: center 18%; }
